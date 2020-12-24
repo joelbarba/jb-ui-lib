@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-3">
+    <h2>jbDnD - Example 2</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbDnD" (jbClick)="router.navigate(['/jbDnD'])"></jb-btn>
+    <jb-btn jbText="Ex.1" (jbClick)="router.navigate(['/jbDnD/example1'])"></jb-btn>
+    <jb-btn jbText="Ex.2" (jbClick)="router.navigate(['/jbDnD/example2'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Ex.3" (jbClick)="router.navigate(['/jbDnD/example3'])"></jb-btn>
+    <jb-btn jbText="Ex.4" (jbClick)="router.navigate(['/jbDnD/example4'])"></jb-btn>
+    <jb-btn jbText="Ex.5" (jbClick)="router.navigate(['/jbDnD/example5'])"></jb-btn>
+    <jb-btn jbText="Ex.6" (jbClick)="router.navigate(['/jbDnD/example6'])"></jb-btn>
+  </div>
+</div>
+<hr/>
+<h4>Drop to a list to add</h4>
+<p>Drag elements from the left and drop them into the list on the right to be added</p>
+
+<div class="row">
+  <div class="col-3">
+    <div class="board">
+      <h4 class="padB30">Draggable elements</h4>
+      <div [jbDraggable]="obj1" [style.width]="relativeWidth ? '100%' : undefined">{{obj1.name}}</div>
+      <div [jbDraggable]="obj2">{{obj2.name}}</div>
+      <div [jbDraggable]="obj3">{{obj3.name}}</div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="board">
+      <div [jbDropContainer]="container1" (jbDrop)="addItem($event)">
+        <h4 class="padB30">List 1</h4>
+        <div *ngFor="let item of container1.list" class="list-item-row">
+          <jb-btn jbType="delete-icon" (jbClick)="container1.list.removeById(item.id)"></jb-btn>
+          <span class="marL20 list-item" >{{item.id}}. {{item.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="board">
+      <div [jbDropContainer]="container2" (jbDrop)="addItem($event)">
+        <h4 class="padB30">List 2</h4>
+        <div *ngFor="let item of container2.list" class="list-item-row">
+          <jb-btn jbType="delete-icon" (jbClick)="container2.list.removeById(item.id)"></jb-btn>
+          <span class="marL20 list-item" >{{item.id}}. {{item.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <jb-switch jbLabel="jbDraggable width" jbLabelPos="left" jbOffText="200px (fixed)" jbOnText="100% (relative)"
+               [(ngModel)]="relativeWidth">
+    </jb-switch>
+    <div class="marT15">
+      <jb-switch jbLabel="jbDnD.setShadowSize" jbLabelPos="left" [(ngModel)]="jbDnD.setShadowSize"></jb-switch>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12"><hr></div>
+
+  <div class="col-8">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-12"><hr></div>
+  <div class="col-12">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre>{{ctrlCode}}</pre>
+    </div>
+  </div>
+
+</div>

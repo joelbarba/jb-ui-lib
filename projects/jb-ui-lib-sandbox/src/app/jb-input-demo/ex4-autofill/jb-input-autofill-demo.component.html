@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-6">
+    <h2>jb-input - Autofill</h2>
+  </div>
+  <div class="col-6 text-right">
+    <jb-btn jbText="jbInput" (jbClick)="router.navigate(['/jb-input'])"></jb-btn>
+    <jb-btn jbText="Validators"      (jbClick)="router.navigate(['/jb-input/validators'])"></jb-btn>
+    <jb-btn jbText="Async Validator" (jbClick)="router.navigate(['/jb-input/async-validator'])"></jb-btn>
+    <jb-btn jbText="Controls"        (jbClick)="router.navigate(['/jb-input/controls'])"></jb-btn>
+    <jb-btn jbText="Autofill"        (jbClick)="router.navigate(['/jb-input/autofill'])" jbDisabled="true"></jb-btn>
+  </div>
+</div>
+<hr>
+How to detect when the jb-input is automatically filled by the browser, using output <b>(jbOnAutofill)</b>.
+
+<!--Autofill Detection Example-->
+<div class="whiteBg row">
+  <div class="col-12">
+    <h5>Autofill Detection Example</h5>
+    The "Username" field reacts to automatic browser filling.
+  </div>
+
+  <div class="col-6">
+    <div class="marT20">
+      <div class="code-box pad15">
+        <pre>{{example}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <form>
+      <jb-input [(ngModel)]="user" [jbRequired]="true" name="user" jbLabel="Username"
+                (jbOnAutofill)="doSomething()">
+      </jb-input>
+
+      <jb-input [(ngModel)]="pass" name="pass" jbRequired="true" jbLabel="Password" jbType="password">
+      </jb-input>
+
+      <div [hidden]="!isAutofilled" class="padV10" (click)="isAutofilled=''">{{isAutofilled}}</div>
+      <button type="submit" [routerLink]="'/jb-input'">Click to Submit and trigger browser password save</button>
+    </form>
+  </div>
+
+</div>
+

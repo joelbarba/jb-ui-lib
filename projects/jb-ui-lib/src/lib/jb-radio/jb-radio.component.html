@@ -1,0 +1,15 @@
+<div class="radio"
+     [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+     [container]="(jbTooltipBody ? 'body' : '')">
+  <label>
+    <input type="radio"
+           [value]="jbValue"
+           [name]="jbRadioGroup"
+           [ngModel]="jbModel"
+           (ngModelChange)="onChange($event)"
+           [disabled]="jbDisabled"
+           [required]="jbRequired">
+    <span class="radio-box icon-checkmark3"></span>
+    <span class="radio-text" [class.has-text]="!!jbLabel">{{jbLabelTrans$ | async}}</span>
+  </label>
+</div>

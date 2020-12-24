@@ -1,0 +1,6 @@
+<div class="jb-status-badge" [ngClass]="jbStatusCss[jbCurrentStatus]"
+     [class.jb-status-badge-circle]="jbCircle"
+     [ngStyle]="{'background-color': jbCurrentColor}"
+     [ngbTooltip]="jbCurrentLabel$ | async" [disableTooltip]="!jbCircle">
+  <span class="jb-status-badge-text">{{jbCurrentLabel$ | async}}</span>
+</div>

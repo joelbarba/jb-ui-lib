@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-3">
+    <h2>jbDnD - Example 5</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbDnD" (jbClick)="router.navigate(['/jbDnD'])"></jb-btn>
+    <jb-btn jbText="Ex.1" (jbClick)="router.navigate(['/jbDnD/example1'])"></jb-btn>
+    <jb-btn jbText="Ex.2" (jbClick)="router.navigate(['/jbDnD/example2'])"></jb-btn>
+    <jb-btn jbText="Ex.3" (jbClick)="router.navigate(['/jbDnD/example3'])"></jb-btn>
+    <jb-btn jbText="Ex.4" (jbClick)="router.navigate(['/jbDnD/example4'])"></jb-btn>
+    <jb-btn jbText="Ex.5" (jbClick)="router.navigate(['/jbDnD/example5'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Ex.6" (jbClick)="router.navigate(['/jbDnD/example6'])"></jb-btn>
+  </div>
+</div>
+<hr/>
+<h4>Reorderable List</h4>
+<p>Using drag and drop to reorder rows on an array list</p>
+<p>There is placeholder with height: 0 after every element in the list. When dragging, the active placeholder
+grows its height, representing a valid spot (position on the list) where to drop.
+<br>To allow dropping into the first position too, there's an extra placeholder before the list too.
+When the dragging starts, the dragged element gets hidden, and also its placeholder.
+</p>
+<hr>
+
+<div class="row"
+     [class.use-height-animation]="heightAnimation"
+     [class.use-drop-animation]="dropAnimation">
+  <div class="col-3">
+    <h6>myList</h6>
+
+    <div id="list-cont" jbDropContainer (jbDrop)="reorderList($event)">
+
+      <!--Unique first placeholder to drop at position 0-->
+      <div id="pos-0" class="placeholder-0" [jbDropPlaceholder]="{ pos: -1 }" jbDropContainerId="list-cont">
+        <span class="marL20">{{'myList[' + jbDnD.jbDraggable?.pos + ']'}}</span>
+        <span class="marL30">{{jbDnD.jbDraggable?.id + '. ' + jbDnD.jbDraggable?.name}}</span>
+      </div>
+
+      <div *ngFor="let item of myList">
+
+        <!--Row Item-->
+        <div class="list-draggable" [jbDraggable]="item" [class.is-dropping]="item.id === isDroppingId">
+          <span class="icon-more2 marR5"></span>
+          <span>{{'myList[' + item.pos + ']'}}</span>
+          <span class="item-name marL30">{{item.id + '. ' + item.name}}</span>
+        </div>
+
+        <!--Placeholder below every item (except the dragging one)-->
+        <div [id]="'pos-' + item.id" *ngIf="jbDnD.jbDraggable?.id !== item.id"
+             [jbDropPlaceholder]="item" jbDropContainerId="list-cont"
+             [ngClass]="'placeholder-' + item.id">
+          <span class="marL20">{{'myList[' + jbDnD.jbDraggable?.pos + ']'}}</span>
+          <span class="marL30">{{jbDnD.jbDraggable?.id + '. ' + jbDnD.jbDraggable?.name}}</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-2 text-left padR0 padT30">
+    <div><jb-switch jbLabel="Height Animations" [(ngModel)]="heightAnimation" jbLabelPos="left"></jb-switch></div>
+    <div><jb-switch jbLabel="Drop Animations" [(ngModel)]="dropAnimation" jbLabelPos="left"></jb-switch></div>
+    <div class="padT15">ActivePlaceholder = {{jbDnD.activePlaceholder?.id}}</div>
+    <div class="">Dragging Item = {{jbDnD.jbDraggable?.id + '. ' + jbDnD.jbDraggable?.name}}</div>
+    <div class="marT40">
+      <jb-btn jbType="save" jbText="Reset Array myList[]" (jbClick)="resetArray()"></jb-btn>
+    </div>
+  </div>
+
+
+  <div class="col-7">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-5">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre style="font-size: 12px;">{{ctrlCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-7">
+    <h5>Scss:</h5>
+    <div class="row padR15">
+      <div class="col-6 code-box"><pre style="font-size: 12px;">{{scssCode1}}</pre></div>
+      <div class="col-6 code-box"><pre style="font-size: 12px;">{{scssCode2}}</pre></div>
+    </div>
+
+  </div>
+</div>

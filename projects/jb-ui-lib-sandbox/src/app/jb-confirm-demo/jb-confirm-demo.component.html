@@ -1,0 +1,57 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+<p>It returns a promise that is rejected on "Cancel", or resolved in case of "Yes" / "No". The resolve returns a string with "yes" or "no".
+<br>In case that "text" is not enough, the parameter "htmlContent" can be used to display a customized message. It is displayed after text.
+</p>
+
+<h5 class="mt-4">API:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<div class="col-12">
+  <jb-btn (jbClick)="openPopUp3()" jbText="Sanitize html"></jb-btn>
+  <jb-btn (jbClick)="openPopUp4()" jbText="Unsafe html (bypass)"></jb-btn>
+</div>
+
+<!--<div class="whiteBg">-->
+  <!--<div class="row">-->
+    <!--<div class="col-5 marB15">-->
+
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-8 code-box"> <pre>{{example1}}</pre> </div>
+    <div class="col-4">
+      <jb-btn (jbClick)="openPopUp1()" jbText="Open Confirm Modal"></jb-btn>
+      Result = {{result}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8 code-box"> <pre>{{example2}}</pre> </div>
+    <div class="col-4">
+      <jb-btn (jbClick)="openPopUp2()" jbText="Open Confirm Modal"></jb-btn>
+      Result = {{result}}
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>CSS Styling</h4>
+    <p>Specific styles can be applied on that modal using <span class="bold">.modal-confirmation</span> class</p>
+    <pre>{{ cssStyles }}</pre>
+  </div>
+</div>
+

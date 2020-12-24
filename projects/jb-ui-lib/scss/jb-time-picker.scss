@@ -1,0 +1,155 @@
+/*
+ Copyright 2005 - 2019 Blueface Ltd.
+ All Rights Reserved.
+
+ All information contained herein is, and remains the property of Blueface Ltd.
+ and its suppliers, if any.  The intellectual and technical concepts contained
+ herein are proprietary to Blueface Ltd. And its suppliers and may be covered by Irish,
+ European and Foreign Patents, patents in process, and are protected by trade secret or
+ copyright law. Dissemination of this information or reproduction of this material
+ is strictly forbidden unless prior written permission is obtained from Blueface Ltd.
+ */
+
+jb-time-picker {
+
+  // Fixed input
+  .display-input {
+    cursor: pointer !important;
+    font-size: 14px;
+  }
+
+  .input-group-append {
+    button.primary {
+      color: $white;
+      background: $primary_color;
+      font-size: 14px;
+
+      &:hover {
+        background: darken($primary_color, 3%);
+      }
+    }
+  }
+
+  .dropdown-toggle:after {
+    content: none;
+  }
+
+  // Expandable box
+  .dropdown .dropdown-menu {
+    width: 365px;
+    padding: 10px 25px;
+
+    .card {
+      background-color: $lighter-gray;
+      border-color: $light-gray;
+    }
+
+    .temp-placeholder {
+      width: 200px;
+      height: 20px;
+    }
+
+    // Time area
+    .time-wrapper {
+      margin: -12px -15px 0;
+      padding-bottom: 5px;
+      padding-left: 0px;
+      padding-right: 0px;
+
+      //Timezone
+      .timezone-dropdown {
+        .jb-dropdown-container {
+          margin-bottom: 5px;
+        }
+      }
+
+      // Time picker
+      .timepicker-row {
+        padding: 0 4px;
+
+        .arrows {
+          border-radius: 4px;
+          margin: 10px 5px;
+
+          .arrows-right, .arrows-left {
+            .jb-btn {
+              height: 35px;
+              width: 30px;
+              border-radius: 0;
+              display: block;
+              background: $primary_color;
+
+              > .btn-icon-section {
+                font-size: 8px;
+                padding-right: 10px;
+              }
+
+              &:hover {
+                background: darken($primary_color, 4%);
+              }
+              &:first-child {
+                margin-bottom: 2px;
+              }
+            }
+          }
+        }
+
+        .time-area {
+          width: calc(100% - 80px);
+
+          .tmiddle {
+            color: #777;
+          }
+
+          .jb-scrollable, .tmiddle{
+            padding: 20px 0;
+            position: relative;
+
+            .t-other{
+              position: absolute;
+              font-size:12px;
+              line-height: 20px;
+              margin: 0;
+              color: #777;
+              width: 100%;
+            }
+
+            .t-before{
+              @extend .t-other;
+              bottom:0;
+            }
+            .t-after{
+              @extend .t-other;
+              top:0;
+            }
+            h2 {
+              font-size: 40px;
+              margin: 0;
+              line-height: 50px;
+            }
+          }
+
+          .jb-scrollable:hover{
+            @include box-shadow(inset 0px 0px 8px rgba($primary_color,0.75));
+            @include border-radius(4px);
+          }
+        }
+
+
+      }
+    }
+  }
+
+}
+
+.uib-timepicker {
+  td {
+    &.uib-separator {
+      padding: 0 5px;
+    }
+    a, a:hover {
+      background: no-repeat;
+      box-shadow: none !important;
+    }
+  }
+}

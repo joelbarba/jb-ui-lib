@@ -1,0 +1,187 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+
+<!--Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customized Checkbox:</h5>
+      <div class="padB25">
+        <jb-checkbox [(ngModel)]="myValue"
+                     [class.block]="compConf.isClassBlock"
+                     [class.flat]="compConf.isClassFlat"
+                     [class.revert]="compConf.isClassRevert"
+                     [class.pad-input]="compConf.isClassPadInput"
+                     [class.pad-btn]="compConf.isClassPadBtn"
+                     [class.pad-form]="compConf.isClassPadForm"
+                     [class.bg]="isBg || compConf.isClassBlock"
+                     [jbLabel]="compConf.jbLabel"
+                     [jbDisabled]="compConf.isDisabled"
+                     [jbTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                     [jbTooltipPos]="(compConf.tooltipPos || 'top')"
+                     [jbTooltipBody]="compConf.tooltipBody">
+        </jb-checkbox>
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <jb-checkbox class="col-3" jbLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-9" jbLabel="jbLabel" [(ngModel)]="compConf.jbLabel" (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row marT10">
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" jbLabel="Has Tooltip"></jb-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <jb-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+        </div>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          <jb-dropdown jbLabel="jbTooltipPos"
+                       [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                       [jbList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       jbRender="text" jbSelect="id">
+          </jb-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          <jb-dropdown jbLabel="jbTooltipBody"
+                       [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()"
+                       [jbList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]"
+                       jbRender="text" jbSelect="id">
+          </jb-dropdown>
+        </div>
+      </div>
+
+      <!--Classes-->
+      <div class="row padT10">
+        <div class="col-12"><hr></div>
+        <div class="col-12 padB15">CSS classes:</div>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassBlock"    (ngModelChange)="upComp()" jbLabel="block" jbTooltip="Applies display: block;"></jb-checkbox>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassFlat"     (ngModelChange)="upComp()" jbLabel="flat" jbTooltip="Applies max-height: 20px, so the line breaks won't enlarge it and will overflow"></jb-checkbox>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassRevert"   (ngModelChange)="upComp()" jbLabel="revert" jbTooltip="Reverts the color when checked (background white, check primary)"></jb-checkbox>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassPadBtn"   (ngModelChange)="upComp()" jbLabel="pad-btn" jbTooltip="To vertically align when next to a button"></jb-checkbox>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassPadInput" (ngModelChange)="upComp()" jbLabel="pad-input" jbTooltip="To vertically align when next to an input with no label"></jb-checkbox>
+        <jb-checkbox class="col-2" [(ngModel)]="compConf.isClassPadForm"  (ngModelChange)="upComp()" jbLabel="pad-form" jbTooltip="To vertically align when next to an input with label"></jb-checkbox>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="whiteBg row">
+  <div class="col-2 dashed-border">
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue"></jb-checkbox>
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue"></jb-checkbox>
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue" jbLabel="Test label"></jb-checkbox>
+  </div>
+  <div class="col-2 dashed-border">
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue" jbLabel="User Name with a very long text that will certainly break the line"> </jb-checkbox>
+  </div>
+  <div class="col-2 dashed-border">
+    <jb-checkbox [class.bg]="isBg" class="block" [ngModel]="myValue" jbLabel="User Name with a very long text that will certainly break the line with block"> </jb-checkbox>
+  </div>
+  <div class="col-3 dashed-border">
+    <jb-checkbox [class.bg]="isBg" class="block" [ngModel]="myValue" jbLabel="With block class"></jb-checkbox>
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue" jbLabel="Inline 1"></jb-checkbox>
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue" jbLabel="Inline 2"></jb-checkbox>
+    <jb-checkbox [class.bg]="isBg" [ngModel]="myValue" jbLabel="Inline 3"></jb-checkbox>
+  </div>
+  <div class="col-2 offset-1">
+    <jb-switch jbLabel="Show background" [(ngModel)]="isBg"></jb-switch>
+  </div>
+</div>
+<div class="whiteBg row">
+  <jb-input class="col-2" [ngModel]="textValue" jbIcon="icon-search"></jb-input>
+  <jb-checkbox class="col-2 pad-input" [class.bg]="isBg" [ngModel]="myValue" jbLabel='class="pad-input"'></jb-checkbox>
+
+  <jb-dropdown class="col-2" [ngModel]="textValue" [jbList]="[{id: 1}]" jbLabel="Selector"></jb-dropdown>
+  <jb-checkbox class="col-2 pad-form" [class.bg]="isBg" [ngModel]="myValue" jbLabel='class="pad-form"'></jb-checkbox>
+
+  <div class="col-2">
+    <jb-label class="block" jbText="Select Option"></jb-label>
+    <jb-checkbox class="pad-input" [class.bg]="isBg" [ngModel]="myValue" jbLabel="pad-input"></jb-checkbox>
+    <jb-checkbox class="pad-input" [class.bg]="isBg" [ngModel]="myValue" jbLabel="pad-input"></jb-checkbox>
+  </div>
+  <div class="col-2 padH0">
+    <pre>{{instance2}}</pre>
+  </div>
+  <div class="col-12 pad5"></div>
+
+  <jb-btn class="col-2 full-width" jbType="save" jbText="Click Me"></jb-btn>
+  <jb-checkbox class="col-2 pad-btn" [class.bg]="isBg" [ngModel]="myValue" jbLabel='class="pad-btn"'></jb-checkbox>
+</div>
+
+
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-7">
+    <p>We have changed the structure to improve the look and feel as:</p>
+    <pre>{{ jbHtmlStructure }}</pre>
+  </div>
+  <div class="col-5">
+    <p>The <a href="https://getbootstrap.com/docs/4.0/components/forms/#checkboxes-and-radios">original structure for checkbox inputs in Bootstrap</a>
+      was:
+    </p>
+    <pre>{{ bootstrapHtmlStructure }}</pre>
+  </div>
+</div>
+<p>The idea of the restructuring is to hide the {{inputCheckboxHtml}} element and mock it with the "span.check-box".
+  This allows us to apply a better styling on the check box, with borders and shadows, keeping the same the behaviour of the input
+</p>
+
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>By default checkboxes are inline elements (displayed one next to another). You can easily turn then to block
+      elements by applying class "<span class="bold">block</span>":
+    </p>
+  </div>
+  <div class="col-6">
+    <pre class="marT10">{{ blockExample }}</pre>
+  </div>
+  <div class="col-6">
+    <jb-checkbox jbLabel="Inline check 1"></jb-checkbox>
+    <jb-checkbox jbLabel="Inline check 2"></jb-checkbox>
+    <jb-checkbox jbLabel="Inline check 3"></jb-checkbox>
+    <jb-checkbox class="block" jbLabel="Block check 4"></jb-checkbox>
+    <jb-checkbox class="block" jbLabel="Block check 5"></jb-checkbox>
+    <jb-checkbox class="block" jbLabel="Block check 6"></jb-checkbox>
+  </div>
+</div>
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The following SASS variables can be overridden to provide customized coloring:
+    </p>
+    <pre class="padL30">{{ cssReset }}</pre>
+  </div>
+</div>
+

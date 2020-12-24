@@ -1,0 +1,35 @@
+$progress-bar-bg: $primary_color !default;
+$progress-bar-color: $white !default;
+$progress-bar-used-label: $secondary_color !default;
+$progress-bar-left-label: $primary_color !default;
+$progress-bar-per-outside: $primary_color !default;
+
+jb-progress-bar .jb-progress-bar {
+
+  .progress {
+    height: 1.2rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    color: $progress-bar-color;
+    .progress-bar {
+      text-align: right;
+      padding-right: 0.5rem;
+      background-color: $progress-bar-bg;
+    }
+  }
+
+  .used-label { color: $progress-bar-used-label; }
+  .left-label { color: $progress-bar-left-label; }
+
+  .percentage-outside {
+    span {
+      margin-left: calc(100% + 0.5rem);
+      color: $progress-bar-per-outside;
+    }
+  }
+
+  .progress-sub-label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+}

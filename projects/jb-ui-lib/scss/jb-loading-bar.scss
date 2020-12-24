@@ -1,0 +1,158 @@
+$locker-bg: rgba($white, 0.8) !default;   // Background color when blocking
+$bar-bg: $quaternary_color !default;    // Header loading bar
+$bar-color: $primary_color !default;
+
+$spinner-color: rgba($primary_color, 0.7) !default; // Round spinner
+$spinner-size: 60 !default;
+$menu-size: 35 !default;
+
+$ani-time: 8 !default; // Animation time for JB loading spinner
+
+
+
+jb-loading-bar {
+
+  // Animation inspired by the Material Indeterminate bar:
+  // https://material.angular.io/components/progress-bar/overview
+  .jb-loading-bar {
+    position: fixed;
+    left: 0;
+    top: 70px;
+    height: 4px;
+    z-index: 9100;
+    &.bar-bg {
+      right: 0;
+      background: $bar-bg;
+    }
+
+    &.bar-1, &.bar-2 {
+      background: linear-gradient(to left, transparent 0%, $bar-color 15%, $bar-color 85%, transparent 100%);
+      width: calc(65vw);
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: cubic-bezier(0.25, 0.74, 0.79, 0.32);
+      animation-name: loading-bar-ani-trans;
+      @keyframes loading-bar-ani-trans {
+        0%    { transform: translateX(calc(0px - 65vw)); }
+        100%  { transform: translateX(calc(120vw)); }
+      }
+
+      transform-origin: left;
+      //animation-play-state: paused;
+    }
+  }
+}
+
+// Element to block the whole background while loading
+.jb-loading-bg-blocker {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  z-index: 9200;
+  background: $locker-bg;
+  transition-property: opacity;
+  transition-duration: 150ms;
+  opacity: 0;
+  &.show-ani { opacity: 0.5; }
+}
+
+
+// ---------------------------------------------------------------
+// Circular spinner running in the middle of the screen
+.c-spinner {
+  position: fixed;
+  width: calc(#{$spinner-size}px + 2px);
+  height: calc(#{$spinner-size}px + 2px);
+  left: calc(50% - calc(#{$spinner-size}px / 2) + #{$menu-size}px);
+  top: calc(50% - calc(#{$spinner-size}px / 2));
+  border: 7px solid transparent;
+  animation-name: jbSpinAround;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: linear;
+}
+.c-spinner-inner {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: #{$spinner-size}px;
+  height: #{$spinner-size}px;
+  border: 5px solid $spinner-color;
+}
+.c-spinner, .c-spinner-inner {
+  border-radius: 100%;
+  z-index: 9300;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+// Emulate spinAround animation
+@keyframes jbSpinAround {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+
+
+
+// ---------------------------------------------------------------
+.jb-spinner {
+  z-index: 9300;
+  position: fixed;
+  left: calc(50% - 25px);
+  top: calc(50% - 25px);
+}
+
+.jb-spinner-box {
+  z-index: 9300;
+  position: absolute;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  top: 0; left: 0;
+
+  //will-change: transform;   // https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
+  animation-duration: $ani-time + s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-name: jb-spinner-box-trans;
+  //animation-play-state: paused;
+
+  // Delay 1/4 every box to sync the movements
+  $ani-time-2: - ($ani-time / 4);
+  $ani-time-3: - (($ani-time / 4) * 2);
+  $ani-time-4: - (($ani-time / 4) * 3);
+  &.box2 { animation-delay: $ani-time-2 + s; }
+  &.box3 { animation-delay: $ani-time-3 + s; }
+  &.box4 { animation-delay: $ani-time-4 + s; }
+
+  &.box1 { background: $primary_color !important; }
+  &.box2 { background: $secondary_color !important; }
+  &.box3 { background: $tertiary_color !important; }
+  &.box4 { background: $quaternary_color !important; }
+}
+
+@keyframes jb-spinner-box-trans {
+  0% { transform: translate(0, 0); }
+  6.25% { transform: translate(-25px, -25px); }
+  12.50% { transform: translate(25px, -25px);  }
+  18.75% { transform: translate(25px, 0px);    }
+  25.00% { transform: translate(25px, 0px);    }
+  31.25% { transform: translate(50px, -25px);  }
+  37.50% { transform: translate(50px, 25px);   }
+  43.75% { transform: translate(25px, 25px);   }
+  50.00% { transform: translate(25px, 25px);   }
+  56.25% { transform: translate(50px, 50px);   }
+  62.50% { transform: translate(0px, 50px);    }
+  68.75% { transform: translate(0px, 25px);    }
+  75.00% { transform: translate(0px, 25px);    }
+  81.25% { transform: translate(-25px, 50px);  }
+  87.50% { transform: translate(-25px, 0px);   }
+  93.75% { transform: translate(0, 0);         }
+  100% { transform: translate(0, 0);         }
+}
+
+// Decenter the spinner to match the same wrong position of the old spinner
+.jb-spinner {
+  left: calc(50% - 32px);
+  top: calc(50% - 11px);
+}

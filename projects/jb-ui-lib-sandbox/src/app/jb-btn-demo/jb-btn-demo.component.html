@@ -1,0 +1,392 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+<p>
+If the property "jbText" is defined, it generates a button with both text and icon. If not, just an icon button (small version)
+<br/>You can set the color of the button using "jbType". It accepts "primary", "secondary", ... (all defined brand colors)
+<br/>You can also use "jbType" to set a predefined button (color + icon), like "add", "save",
+
+</p>
+<p>There are some predefined types and icons to be used</p>
+
+<h5 class="mt-4">Parameters (all optional):</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--<jb-btn (jbClick)="customBtnFunc()"></jb-btn>-->
+<!--<jb-btn (jbClick)="customBtnFunc()" jbText="Test 1" jbIcon=""></jb-btn>-->
+<!--<jb-btn (jbClick)="customBtnFunc()" jbIcon="icon-plus"></jb-btn>-->
+<!--<jb-btn (jbClick)="customBtnFunc()" jbIcon="icon-plus" jbText="Test 2"></jb-btn>-->
+<!--<jb-btn class="toggle" [(jbToggle)]="isExp"></jb-btn>-->
+
+
+<div class="row" *ngIf="true">
+  <div class="col-7">
+    <jb-btn class="block squash"
+            (jbClick)="asyncClick()"
+            [jbAsyncPromise]="blockPr"
+            jbText="Async Click 1"
+            jbIcon="icon-arrow-right3"
+    ></jb-btn>
+    <jb-btn class="block" (jbClick)="asyncClick()" jbText="Async Click 2"></jb-btn>
+    <jb-btn class="block" (jbClick)="asyncClick()" jbText="Async Click 3"></jb-btn>
+    <jb-btn class="block" (jbClick)="asyncClick()" jbText="Async Click 4 (me)"></jb-btn>
+    <jb-btn class="block" (jbClick)="asyncClick()" jbText="Async Click 5"></jb-btn>
+  </div>
+  <div class="col-5">
+    <jb-btn jbType="save" (jbClick)="asyncClick()" [jbAsyncPromise]="blockPr"></jb-btn>
+    <jb-btn jbType="save" jbText="This is a nice button"></jb-btn> perfectly aligned with text.
+  </div>
+</div>
+
+<!--<jb-btn jbText="Click to async resolve"-->
+<!--        (jbClick)="growl.success('cliiick')">-->
+<!--</jb-btn>-->
+
+<!--<jb-btn jbType="search"></jb-btn>-->
+
+<!--<jb-btn (jbClick)="myFunc($event)"-->
+<!--        jbText="view.common.yes"-->
+<!--        [jbDisabled]="true"-->
+<!--        jbIconPos="left"-->
+<!--        jbIcon="icon-arrow-left6"-->
+<!--        jbDisabledTip="This button is disabled because X">-->
+<!--</jb-btn>-->
+
+
+<!--Button Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Button Customization:</h5>
+      <div>
+        <jb-btn (jbClick)="customBtnFunc()"
+                [class.full-width]="btnConf.hasFullWidth"
+                [class.squash]="btnConf.hasSquash"
+                [class.ellipsis]="btnConf.hasEllipsis"
+                [class.primary]="btnConf.cssPrimary"
+                [class.secondary]="btnConf.cssSecondary"
+                [class.tertiary]="btnConf.cssTertiary"
+                [class.quaternary]="btnConf.cssQuaternary"
+                [class.extra]="btnConf.cssExtra"
+                [class.warning]="btnConf.cssWarning"
+                [jbIconPos]="btnConf.iconPos"
+                [jbText]="(btnConf.hasText ? btnConf.btnText : null)"
+                [jbType]="(btnConf.hasType ? btnConf.btnType : null)"
+                [jbIcon]="(btnConf.hasIcon ? btnConf.btnIcon : null)"
+                [jbDisabled]="btnConf.isDisabled"
+                [jbTooltip]="(btnConf.hasTooltip ? btnConf.btnTooltip : null)"
+                [jbTooltipPos]="(btnConf.btnTooltipPos || 'top')"
+                [jbTooltipBody]="btnConf.btnTooltipBody"
+                [jbToggle]="btnConf.hasToggle ? btnConf.toggleValue : null"
+                (jbToggleChange)="btnConf.toggleValue = $event"
+                [jbDisabledTip]="btnConf.btnDisabledTip">
+        </jb-btn>
+        <span *ngIf="btnConf.hasToggle"> toggleValue = {{ btnConf.toggleValue }} </span>
+      </div>
+      <div class="padT10">{{res}}</div>
+      <div class="padT15">
+        <div class="code-box pad15">
+          <pre>{{customBtnCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <div class="row">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="btnConf.hasText" (ngModelChange)="upBtn()" jbLabel="jbText"></jb-checkbox> </div>
+        <div class="col-10" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="btnConf.btnText" (ngModelChange)="upBtn()" [jbDisabled]="!btnConf.hasText"></jb-input> </div>
+      </div>
+
+      <div class="row">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="btnConf.hasType" (ngModelChange)="upBtn()" jbLabel="jbType"></jb-checkbox> </div>
+        <div class="col-5" *ngIf="btnConf.hasType">
+          <jb-dropdown [(ngModel)]="btnConf.btnType" (ngModelChange)="upBtn()" [jbList]="btnTypes" jbRender="text" jbSelect="id" [jbRequired]="true"> </jb-dropdown>
+        </div>
+        <div class="col-5 padT5">
+          <jb-checkbox [(ngModel)]="btnConf.hasToggle" (ngModelChange)="upBtn()" jbLabel="[(jbToggle)]"></jb-checkbox>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT15"> <jb-checkbox [(ngModel)]="btnConf.hasIcon" (ngModelChange)="upBtn()" jbLabel="jbIcon"></jb-checkbox> </div>
+        <div class="col-5">
+          <jb-dropdown jbLabel="jbIcon" class="full-width"
+                       [(ngModel)]="btnConf.btnIcon" (ngModelChange)="upBtn()"
+                       [jbList]="btnIcons" jbRender="icon" jbSelect="icon" [jbRequired]="false" [jbDisabled]="!btnConf.hasIcon">
+          </jb-dropdown>
+        </div>
+        <div class="col-5">
+          <jb-dropdown jbLabel="Icon Position" [(ngModel)]="btnConf.iconPos" (ngModelChange)="upBtn()" [jbRequired]="true"
+                       [jbList]="[{id:'right'},{id:'left'},{id:'none'}]" jbRender="id" jbSelect="id">
+          </jb-dropdown>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="btnConf.isDisabled" (ngModelChange)="upBtn()" jbLabel="jbDisabled"></jb-checkbox> </div>
+        <div class="col-10">
+          <jb-input class="flat" [(ngModel)]="btnConf.btnDisabledTip" jbPlaceholder="This button is disabled because..." (ngModelChange)="upBtn()"></jb-input>
+        </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="btnConf.hasTooltip" (ngModelChange)="upBtn()" jbLabel="Has Tooltip"></jb-checkbox> </div>
+        <div class="col-10" *ngIf="btnConf.hasTooltip">
+          <jb-input [(ngModel)]="btnConf.btnTooltip" (ngModelChange)="upBtn()"></jb-input>
+        </div>
+        <div class="col-2" *ngIf="btnConf.hasTooltip"></div>
+        <div class="col-5" *ngIf="btnConf.hasTooltip">
+          <jb-dropdown jbLabel="jbTooltipPos" [(ngModel)]="btnConf.btnTooltipPos" (ngModelChange)="upBtn()" [jbList]="btnTooltipPoss" jbRender="text" jbSelect="id"> </jb-dropdown>
+        </div>
+        <div class="col-5" *ngIf="btnConf.hasTooltip">
+          <jb-dropdown jbLabel="jbTooltipBody" [(ngModel)]="btnConf.btnTooltipBody" (ngModelChange)="upBtn()" [jbList]="btnTooltipBody" jbRender="text" jbSelect="id"> </jb-dropdown>
+        </div>
+      </div>
+
+      <!--Css-->
+      <div class="row marT15">
+        <div class="col-12 padT5">
+          <jb-label class="marR15" jbText="CSS Classes"></jb-label>
+          <jb-checkbox [(ngModel)]="btnConf.hasFullWidth" (ngModelChange)="upBtn()" jbLabel="Full Width"></jb-checkbox>
+          <jb-checkbox [(ngModel)]="btnConf.hasEllipsis" (ngModelChange)="upBtn()" jbLabel="Ellipsis"></jb-checkbox>
+          <jb-checkbox class="padL25" [(ngModel)]="btnConf.hasSquash" (ngModelChange)="upBtn()" jbLabel="Squash"></jb-checkbox>
+          <jb-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync1" (ngModelChange)="upBtn()" jbLabel="Async 1"></jb-checkbox>
+          <jb-checkbox class="padL25" [(ngModel)]="btnConf.hasAsync2" (ngModelChange)="upBtn()" jbLabel="Async 2"></jb-checkbox>
+        </div>
+        <div class="col-12 padT15" style="padding-left: 113px;">
+          <jb-checkbox jbLabel="primary"    [(ngModel)]="btnConf.cssPrimary"    (ngModelChange)="upBtn()"></jb-checkbox>
+          <jb-checkbox jbLabel="secondary"  [(ngModel)]="btnConf.cssSecondary"  (ngModelChange)="upBtn()"></jb-checkbox>
+          <jb-checkbox jbLabel="tertiary"   [(ngModel)]="btnConf.cssTertiary"   (ngModelChange)="upBtn()"></jb-checkbox>
+          <jb-checkbox jbLabel="quaternary" [(ngModel)]="btnConf.cssQuaternary" (ngModelChange)="upBtn()"></jb-checkbox>
+          <jb-checkbox jbLabel="extra"      [(ngModel)]="btnConf.cssExtra"      (ngModelChange)="upBtn()"></jb-checkbox>
+          <jb-checkbox jbLabel="warning"    [(ngModel)]="btnConf.cssWarning"    (ngModelChange)="upBtn()"></jb-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<hr>
+
+<!--Toggle Example-->
+<div class="whiteBg row" *ngIf="true">
+  <div class="col-7">
+    <h5>Toggle</h5>
+    <p>The component keeps an internal flag to be used as a toggle (true/false).
+      The arrow icons will be default according to the value.<br>
+      You just need to bind it:</p>
+
+  </div>
+  <div class="col-5 padT10">
+    <jb-btn class="toggle" [(jbToggle)]="isExp"></jb-btn>
+    <span class="marL15">Value={{isExp}}</span>
+    <div class="code-box pad15 marT10">
+      <pre>{{toggleExample}}</pre>
+    </div>
+  </div>
+
+</div>
+<hr>
+
+
+
+
+<!--Examples-->
+<h5 class="mt-4">Custom jbTypes:</h5>
+<div class="row" *ngIf="true">
+  <div class="col-12 examples-table">
+
+    <!--<div class="row">-->
+    <!--  <div class="col-3">-->
+    <!--    <jb-btn jbType="edit" (jbClick)="(count = count + 'a')"></jb-btn>-->
+    <!--    {{count}}-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance}}</pre> </div>-->
+
+    <!--  &lt;!&ndash; <div class="col-4"> Simple instance with no text only icon (small version) </div> &ndash;&gt;-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+    <!--  <div class="col-3" style="display: block">-->
+    <!--    <jb-btn jbText="Add User"  (jbClick)="(count = count + 'x')" [jbDisabled]="false"></jb-btn>-->
+    <!--    <jb-btn jbText="Save User" (jbClick)="(count = count + 'x')" [jbDisabled]="true"></jb-btn>-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance2}}</pre> </div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+      <!--<div class="col-3">-->
+        <!--<jb-btn jbText="Add User" jbIcon="icon-eye"></jb-btn>-->
+        <!--<jb-btn jbText="Add Item" jbIcon="icon-plus" jbType="quaternary"></jb-btn>-->
+      <!--</div>-->
+      <!--<div class="col-9"> <pre>{{instance3}}</pre> </div>-->
+    <!--</div>-->
+
+
+    <!--<div class="row">-->
+      <!--<div class="col-3" style="display: block">-->
+          <!--<jb-btn jbType="save"    jbText="Save User"></jb-btn>-->
+          <!--<br/>-->
+          <!--<jb-btn jbType="add"     jbText="Add User"></jb-btn>-->
+          <!--<br/>-->
+          <!--<jb-btn jbType="delete"  jbText="Delete User"></jb-btn>-->
+          <!--<br/>-->
+          <!--<jb-btn jbType="cancel"  jbText="Cancel"></jb-btn>-->
+          <!--<jb-btn class="squash" jbType="expand"></jb-btn>-->
+          <!--<jb-btn class="squash" jbType="collapse"></jb-btn>-->
+      <!--</div>-->
+      <!--<div class="col-9"> <pre>{{instance4}}</pre> </div>-->
+    <!--</div>-->
+
+    <div class="row">
+      <div class="col-2"><jb-btn jbType="search">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('search')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="search-icon"></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('search-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="add">        </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('add')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="add-icon">   </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('add-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="edit">       </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('edit')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="edit-icon">  </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('edit-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="save">       </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('save')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="save-icon">  </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('save-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="delete">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('delete')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="delete-icon"></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('delete-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="view">       </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('view')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="view-icon">  </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('view-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="cancel">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('cancel')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="cancel-icon"></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('cancel-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="update">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('update')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="update-icon"></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('update-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="upload">       </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('upload')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="upload-icon">  </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('upload-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="download">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('download')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="download-icon"></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('download-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="reset">        </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('reset')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="reset-icon">   </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('reset-icon')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="refresh">      </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('refresh')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="refresh-icon"> </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('refresh-icon')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="next">         </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('next')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="expand">       </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('expand')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="prev">         </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('prev')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="collapse">     </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('collapse')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="back" jbText="Back to ..."></jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('back')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="back">         </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('back')}}</pre></div>
+
+      <div class="col-2"><jb-btn jbType="copy">         </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('copy')}}</pre></div>
+      <div class="col-2"><jb-btn jbType="menu">         </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('menu')}}</pre></div>
+
+      <!--<div class="col-2"><jb-btn jbType="primary"     jbText="primary">    </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('primary')}}</pre></div>-->
+      <!--<div class="col-2"><jb-btn jbType="secondary"   jbText="secondary">  </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('secondary')}}</pre></div>-->
+      <!--<div class="col-2"><jb-btn jbType="tertiary"    jbText="tertiary">   </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('tertiary')}}</pre></div>-->
+      <!--<div class="col-2"><jb-btn jbType="quaternary"  jbText="quaternary"> </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('quaternary')}}</pre></div>-->
+      <!--<div class="col-2"><jb-btn jbType="warning"     jbText="warning">    </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('warning')}}</pre></div>-->
+      <!--<div class="col-2"><jb-btn jbType="extra"       jbText="extra">      </jb-btn></div> <div class="col-4 padT10"><pre>{{getBtnInst('extra')}}</pre></div>-->
+    </div>
+
+
+    <!--<div class="row">-->
+    <!--  <div class="col-3" style="display: block">-->
+    <!--    <jb-btn jbText="Simple Tooltip" jbTooltip="Hello World"></jb-btn>-->
+    <!--    <jb-btn jbText="Better tooltip" jbTooltip="Hey" jbTooltipPos="left" [jbTooltipBody]="true"></jb-btn>-->
+    <!--  </div>-->
+    <!--  <div class="col-9"> <pre>{{instance6}}</pre> </div>-->
+    <!--</div>-->
+  </div>
+</div>
+
+
+
+<!--Asynchronous Handling -->
+<div class="row" *ngIf="true">
+  <div class="col-12">
+    <h5 class="mt-4">Asynchronous Handling</h5>
+    <p>In order to handle asynchronous tasks triggered by buttons, there's an option to automatically block all buttons until an async process is resolved.
+    <br>That is helpful to avoid unwanted cases like calling an API twice, etc.</p>
+    <p>To do so, just pass the promise that resolves the async process to <span class="bold">[jbAsyncPromise]</span>.
+
+    </p>
+  </div>
+  <div class="col-1"></div>
+  <div class="col-5 code-box">
+    <pre class="pad10">{{ asyncExample1 }}</pre>
+  </div>
+  <div class="col-6">
+    <jb-btn jbText="Async Click Option 1"
+            [jbAsyncPromise]="blockPr"
+            (jbClick)="blockPr = asyncClickFunc('myValue', desc)">
+    </jb-btn>
+  </div>
+
+  <div class="col-12 marT20">
+    <p>It is also possible to do the same using <span class="bold">[jbAsyncClick]</span>. Passing a callback function to this parameter, you don't need to use (jbClick) output.
+    <br>That callback should return the promise that blocks the button till resolving. That function is called into the component, so to pass parameters you should bind them on its definition:</p>
+  </div>
+  <div class="col-1"></div>
+  <div class="col-5 code-box">
+    <pre class="pad10">{{ asyncExample2 }}</pre>
+  </div>
+  <div class="col-6">
+    <!--<jb-btn jbText="Async Click Option 2"-->
+    <!--        [jbAsyncClick]="asyncClickFunc.bind(this, 'myValue2', desc)">-->
+    <!--</jb-btn>-->
+  </div>
+</div>
+
+
+
+<!--Applicable classes -->
+<div class="row" *ngIf="true">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>It is possible to restyle the button to make it slimmer (special fit for narrow rows)
+    adding the class "<span class="bold">squash</span>":
+      <jb-btn class="squash" jbIcon="icon-plus" jbText="hey there"></jb-btn>
+      <jb-btn class="squash" jbType="expand"></jb-btn>
+      <jb-btn class="squash" jbType="collapse"></jb-btn>
+    </p>
+    <pre class="marT10">{{ squashExample }}</pre>
+  </div>
+
+  <div class="col-12 marT20">
+    <p>If you need a button covering the whole with of a block element (with 100%) you can add class "<span class="bold">full-width</span>":</p>
+  </div>
+  <div class="col-3">
+    <jb-btn class="full-width" jbText="Full Width Button"></jb-btn>
+  </div>
+  <div class="col-9">
+    <pre class="marT10">{{ fullWidthExample }}</pre>
+  </div>
+</div>
+
+
+<!--CSS Styling-->
+<div class="row marT40" *ngIf="true">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>
+      Every name in <b>"$jb-ui-lib-colors"</b> represents a css class that you can apply on the button to color it (primary, secondary, tertiary, quaternary, warning, extra, white, disabled)
+    </p>
+    <p>To change the color of the buttons use the SASS variable <b>$default-btn-text-color</b></p>
+    <p>To add extra colors, there is a mixin that can be used inside a selector <b>"custom-btn-color(color-bg, text-color)"</b>:</p>
+  </div>
+  <div class="col-6">
+    <pre>{{ cssReset }}</pre>
+  </div>
+  <div class="col-6">
+    <jb-btn class="yellow-btn" jbText="This is a custom button" jbIcon="icon-plus"></jb-btn>
+  </div>
+</div>
+

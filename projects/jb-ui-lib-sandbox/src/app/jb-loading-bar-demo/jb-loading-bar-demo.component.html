@@ -1,0 +1,123 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<p>
+Initiate the loading by calling .run() and passing a native Promise.
+The loading will be resolved automatically when that promise is finished
+<br>
+It is possible to queue multiple promises.
+Calling .run() multiple times stacks promises, and keeps the bar running until they are all completed
+</p>
+<p>
+  You can set a default configuration that will be applied every time the loading bar runs using .config(options).
+  You can also pass a specific "options" object when calling .run(). In that case, those options will be applied before the default options.
+</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+
+<!--Asynchronous Handling -->
+<div class="row">
+  <div class="col-12">
+    <h5 class="mt-4">Examples</h5>
+  </div>
+
+  <div class="col-5 padL30">
+    <span>To set a global configuration for the service:</span>
+    <div class="code-box"><pre class="pad10">{{ example1 }}</pre></div>
+  </div>
+
+  <div class="col-7 padL30">
+    <span>Run and stop the loading bar manually</span>
+    <div class="code-box marB20"><pre class="pad10">{{ example2 }}</pre></div>
+
+    <span>Run it passing promises</span>
+    <div class="code-box"><pre class="pad10">{{ example3 }}</pre></div>
+  </div>
+
+</div>
+
+<hr>
+
+<div class="whiteBg row">
+  <div class="col-12 marB10"><h5>Inject the component</h5></div>
+  <div class="col-12">
+    <p>You have to add an instance of the component somewhere in the html, in order to activate it when needded.
+    It's should be (preferably) at the very top of the components tree (app component view)</p>
+  </div>
+  <div class="col-12">
+    <div class="code-box"><pre class="pad10">{{ compInstance }}</pre></div>
+  </div>
+</div>
+
+<hr>
+
+<div class="whiteBg row">
+  <div class="col-12 marB10"><h5>Simple run / stop</h5></div>
+
+  <div class="col-2">
+    <jb-checkbox class="block" jbLabel="blockScreen" [jbDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.blockScreen"></jb-checkbox>
+    <jb-checkbox class="block" jbLabel="showBar"     [jbDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.showBar"></jb-checkbox>
+    <jb-checkbox class="block" jbLabel="showSpinner" [jbDisabled]="loadingBar.status > 0" [(ngModel)]="myOpts.showSpinner"></jb-checkbox>
+    <jb-radio [(ngModel)]="myOpts.spinnerType" [hidden]="!myOpts.showSpinner" class="padL30"
+              jbValue="circular" jbLabel="Circular Spinner" jbRequired="true">
+    </jb-radio>
+    <jb-radio [(ngModel)]="myOpts.spinnerType" [hidden]="!myOpts.showSpinner" class="padL30"
+              jbValue="boxes" jbLabel="Boxes Spinner" jbRequired="true">
+    </jb-radio>
+  </div>
+  <div class="col-2">
+    <jb-input jbLabel="delayTime (s)" [jbDisabled]="loadingBar.status > 0" [(ngModel)]="delayTimeSec"></jb-input>
+  </div>
+  <div class="col-3 padT20">
+    <jb-btn jbText=".stop()" [jbDisabled]="loadingBar.status === 0" (jbClick)="simpleStop()"></jb-btn>
+    <jb-btn jbText=".run()"  [jbDisabled]="loadingBar.status > 0"   (jbClick)="simpleRun()"></jb-btn>
+  </div>
+  <div class="col-3">
+    {{testLog}}
+  </div>
+  <div class="col-2">
+    <jb-input jbLabel="Stop Automatically after (s)" [jbDisabled]="loadingBar.status > 0" [(ngModel)]="autoStopTime"></jb-input>
+  </div>
+</div>
+
+<hr>
+
+<div class="whiteBg row">
+  <div class="col-12 marB10"><h5>Defer using promises</h5></div>
+
+  <div class="col-2">
+    <jb-input jbLabel="Resolve after (s)" [(ngModel)]="resTimePromise"></jb-input>
+
+  </div>
+  <div class="col-3 padT20">
+    <jb-btn jbText=".run(promise)" (jbClick)="pushPromise(resTimePromise)"></jb-btn>
+  </div>
+  <div class="col-3">
+    Stack of promises:
+    <div *ngFor="let prom of promStack">
+      {{prom.num}} - {{prom.logMsg}}
+    </div>
+  </div>
+  <div class="col-3">{{testLog2}}</div>
+
+
+  <div class="col-12">
+    <p>promise = setTimeout(resolve => resolve(), {{resTimePromise * 1000}})</p>
+  </div>
+</div>
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+  </div>
+</div>
+

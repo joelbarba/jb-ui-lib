@@ -1,0 +1,44 @@
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.jb-icon {
+  //flex: 1;
+  padding: 10px;
+  border: 1px solid gray;
+  font-size: 20px;
+  margin: 1px;
+  border-radius: 3px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  min-width: 60px;
+  &.long { min-width: 100px; flex: 1; }
+  &:hover { background: rgba(gray, 0.2); }
+  &.free { background: rgba(#00B6F1, 0.1); }
+  &.sel {
+    background: rgba(#57c16f, 0.3);
+    &:hover { background: rgba(#57c16f, 0.5); }
+  }
+  .icon-name {
+    display: block;
+    font-size: 10px;
+    padding-top: 4px;
+    font-family: monospace !important;
+  }
+}
+
+.copy-input {
+  position: fixed;
+  top: 20px;
+  left: 45%;
+  height: 25px;
+  border: none;
+  padding: 0 10px;
+  background: #464646;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+  width: 180px;
+}

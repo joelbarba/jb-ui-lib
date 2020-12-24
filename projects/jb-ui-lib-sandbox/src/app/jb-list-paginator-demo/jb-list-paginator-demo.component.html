@@ -1,0 +1,153 @@
+<!-- jb-list-paginator = 'jb-btn' -->
+
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This is the equivalent of the old "dir-pagination-controls" directive (from angularJS)</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<jb-list-paginator [jbCtrl]="compConf.myList"
+                   jbMaxButtons="4" [jbShowSelector]="true">
+</jb-list-paginator>
+
+
+<!--jb-list-paginator Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customization:</h5>
+      <div class="padB25">
+        <jb-list-paginator
+                [class.full-width]="compConf.hasFullWidth"
+                [class.mobile]="compConf.hasMobile"
+                [class.align-right]="compConf.hasAlignRight"
+                [class.align-center]="compConf.hasAlignCenter"
+                [jbCtrl]="compConf.myList"
+                [jbMaxButtons]="compConf.jbMaxButtons"
+                [jbShowSelector]="compConf.jbShowSelector"
+        ></jb-list-paginator>
+        compConf.myList={{compConf.myList | json}}
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <div class="col-4">
+          <jb-input class="input-num" jbLabel="jbCtrl.totalPages"  jbType="number" [(ngModel)]="compConf.myList.totalPages" (ngModelChange)="upComp()"></jb-input>
+          <jb-btn (jbClick)="compConf.myList.totalPages = compConf.myList.totalPages - 1" jbIcon="icon-minus"></jb-btn>
+          <jb-btn (jbClick)="compConf.myList.totalPages = compConf.myList.totalPages + 1" jbIcon="icon-plus"></jb-btn>
+        </div>
+        <div class="col-4">
+          <jb-input class="input-num" jbLabel="jbCtrl.rowsPerPage" jbType="number" [(ngModel)]="compConf.myList.rowsPerPage" (ngModelChange)="upComp()"></jb-input>
+          <jb-btn (jbClick)="compConf.myList.rowsPerPage = compConf.myList.rowsPerPage - 1" jbIcon="icon-minus"></jb-btn>
+          <jb-btn (jbClick)="compConf.myList.rowsPerPage = compConf.myList.rowsPerPage + 1" jbIcon="icon-plus"></jb-btn>
+        </div>
+        <div class="col-4">
+          <jb-input class="input-num" jbLabel="jbCtrl.currentPage" jbType="number" [(ngModel)]="compConf.myList.currentPage" (ngModelChange)="upComp()"></jb-input>
+          <jb-btn (jbClick)="compConf.myList.currentPage = compConf.myList.currentPage - 1" jbIcon="icon-minus"></jb-btn>
+          <jb-btn (jbClick)="compConf.myList.currentPage = compConf.myList.currentPage + 1" jbIcon="icon-plus"></jb-btn>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-4 padT15"> <jb-checkbox [(ngModel)]="compConf.hasMaxButtons" (ngModelChange)="upComp()" jbLabel="Has Max Buttons"></jb-checkbox> </div>
+        <div class="col-4" style="margin-top: -10px;">
+          <jb-input class="input-num" [(ngModel)]="compConf.jbMaxButtons" jbType="number" (ngModelChange)="upComp()" jbLabel="jbMaxButtons" [jbDisabled]="!compConf.hasMaxButtons"></jb-input>
+          <jb-btn (jbClick)="compConf.jbMaxButtons = changeNum(compConf.jbMaxButtons, -1)" jbIcon="icon-minus"></jb-btn>
+          <jb-btn (jbClick)="compConf.jbMaxButtons = changeNum(compConf.jbMaxButtons, 1)" jbIcon="icon-plus"></jb-btn>
+        </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.jbShowSelector" (ngModelChange)="upComp()" jbLabel="jbShowSelector"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasPageChange" (ngModelChange)="upComp()" jbLabel="jbPageChange"></jb-checkbox> </div>
+      </div>
+      <div class="row">
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasFullWidth" (ngModelChange)="upComp()" jbLabel=".full-width"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasMobile" (ngModelChange)="upComp()" jbLabel=".mobile"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasAlignRight" (ngModelChange)="upComp()" jbLabel=".align-right"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasAlignCenter" (ngModelChange)="upComp()" jbLabel=".align-center"></jb-checkbox> </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <jb-list-paginator class="align-right" [jbCtrl]="myList"></jb-list-paginator>
+      <div class="padT10">myList={{ myList | json }}</div>
+    </div>
+    <div class="col-7"> <pre>{{instance}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <jb-list-paginator [jbCtrl]="myList" (jbPageChange)="page = $event"></jb-list-paginator>
+      <div class="padT10">page = {{ page }}</div>
+    </div>
+    <div class="col-7"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <jb-list-paginator jbShowSelector="true" [jbCtrl]="myList"></jb-list-paginator>
+    </div>
+    <div class="col-7"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5" style="background: white">
+      <jb-list-paginator class="full-width" [jbCtrl]="myList"></jb-list-paginator>
+    </div>
+    <div class="col-7"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+
+
+</div>
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+  </div>
+
+  <div class="col-12">
+    <hr>
+    <h5>Applicable classes:</h5>
+    <p>If you want the paginator to fill all the width of the row, you can add class <span class="bold">"full-width"</span>:</p>
+    <jb-list-paginator class="full-width" [jbCtrl]="myList"></jb-list-paginator>
+
+    <p class="marT30">It is also possible to align the pagination to the right or center applying the classes <span class="bold">"align-right"</span> or <span class="bold">"align-center"</span>:</p>
+    <div class="marV10">
+      <jb-list-paginator class="align-right" [jbCtrl]="myList"></jb-list-paginator>
+    </div>
+    <div class="marV10">
+      <jb-list-paginator class="align-center" [jbCtrl]="myList"></jb-list-paginator>
+    </div>
+
+  </div>
+</div>
+

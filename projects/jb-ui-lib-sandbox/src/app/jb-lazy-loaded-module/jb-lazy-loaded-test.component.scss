@@ -1,0 +1,117 @@
+jb-btn:host {
+  width: fit-content;
+  display: inline-block;
+}
+
+.jb-btn {
+  border: 0;
+  border-radius: 4px;
+  height: 35px;
+  //margin: 2.5px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  &:focus { outline: none; }
+
+  box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
+
+  .btn-text-section {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding: 0 15px;
+    line-height: 35px;
+    vertical-align: top;
+  }
+  .btn-icon-section {
+    display: inline-block;
+    padding: 10px 10.5px;
+    &.small-btn { padding: 10px 12px; }
+    line-height: 14px;
+    font-size: 14px;
+
+    .loading-spinner {
+      animation-duration: 600ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-name: jb-btn-spinner;
+      @keyframes jb-btn-spinner {
+        from { transform: rotate(0deg);   }
+          to { transform: rotate(360deg); }
+      }
+
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      width: 14px;
+      height: 14px;
+      border-radius: 100%;
+      border-top-color: transparent;
+    }
+  }
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    .btn-icon-section { }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .65;
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+    .btn-icon-section {
+      box-shadow: inset 0px 2px 5px rgba(34, 36, 38, 0.4);
+    }
+  }
+}
+
+.disabled-tooltip {
+  display: inline-block;
+}
+
+// Styles for squashed buttons (class "squash" applied on the <jb-btn>)
+:host.squash {
+  .jb-btn {
+    height: 25px;
+    .btn-icon-section {
+      padding: 6px 12px;
+    }
+    .btn-text-section {
+      padding: 6px 12px;
+      line-height: 13px;
+    }
+  }
+}
+
+// Styles for full width buttons (class "full-width" applied on the <jb-btn>)
+:host.full-width {
+  display: block;
+  width: 100%;
+  .disabled-tooltip {
+    width: 100%;
+    .jb-btn {
+      width: 100%;
+      margin: 0;
+      .btn-icon-section.left { float: left; }
+      .btn-icon-section.right { float: right; }
+    }
+  }
+}
+
+
+// --------------------------------------------------------------
+// This is to reset the button color:
+@mixin btn-color-mixin($btn-color) {
+  color: white;
+  background: $btn-color;
+  .btn-icon-section { background: darken($btn-color, 5%); }
+  .btn-icon-section.small-btn { background: $btn-color; } // If icon btn
+  &:hover:not(:disabled) {
+    background: darken($btn-color, 3%);
+    .btn-icon-section { background: darken($btn-color, 7%); }
+  }
+}
+// .jb-btn { @include btn-color-mixin(green); }
+
+

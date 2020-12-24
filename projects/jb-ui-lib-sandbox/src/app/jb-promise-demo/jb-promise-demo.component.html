@@ -1,0 +1,67 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This reproduces the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">native ES6 Promise</a>
+  logic, extending its capabilities:</p>
+<ul>
+  <li>Cancel option    --> It is possible to cancel a pending promise</li>
+  <li>Exposed status   --> The status is readable at any time, to be checked out of the promise (IJbDeferStatus)</li>
+  <li>Complete         --> It exposes a complete (like finally) subscription, available on the then() function too.</li>
+  <li>Resolve / Reject --> It exposes the resolve() / reject() methods externally, so they can be called out of the constructor</li>
+</ul>
+<p>
+  It does not use a native promise internally, but reproduces the stack callback chain so it has full controll
+  on the ongoing subscriptions. It can also be chained.
+</p>
+
+<h5 class="mt-4">Methods:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+<h4 class="mt-4">Static Helpers:</h4>
+<div class="col-12"><pre>{{staticHelpers}}</pre></div>
+
+<hr>
+<div class="row whiteBg">
+  <div class="col-12"><h5 class="marB20">Running Example:</h5></div>
+  <div class="col-2"><jb-input jbLabel="Resolve after" [(ngModel)]="resolveTime" [jbDisabled]="myPromise?.status === 0"></jb-input></div>
+  <div class="col-2"><jb-input jbLabel="Reject after" [(ngModel)]="rejectTime" [jbDisabled]="myPromise?.status === 0"></jb-input></div>
+  <div class="col-2 padT20">
+    <jb-btn jbText="Trigger Promise"
+            [jbDisabled]="myPromise?.status === 0"
+            (jbClick)="initTest()">
+    </jb-btn>
+  </div>
+  <div class="col-2 padT20">{{testLog}}</div>
+  <div class="col-2 padT20">
+    <jb-btn jbText="Cancel Promise" jbType="warning"
+            [jbDisabled]="myPromise?.status !== 0"
+            (jbClick)="testCancel()">
+    </jb-btn>
+  </div>
+</div>
+
+<hr>
+<h5 class="marB20">Examples:</h5>
+
+<div class="row">
+
+  <div class="col-6">
+    <p>Constructor to wrap the async logic:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <p>No Constructor:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre style="font-size: 16px;">{{example2}}</pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

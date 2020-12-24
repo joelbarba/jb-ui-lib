@@ -1,0 +1,193 @@
+$dropdown-selection-bg: rgba($quaternary_color, 0.35) !default;
+$dropdown-selection-hover: $primary_color !default;
+$dropdown-valid-color: $valid-color !default;
+
+jb-autocomplete {
+  display: block;
+
+  .jb-autocomplete-form-group {
+    display: inline-block;
+    margin-bottom: 15px;
+
+    .jb-autocomplete {
+      position: relative;
+
+      // Input for the selected value
+      input.form-control {
+        border: 1px solid $optional-color;
+
+        // If image present, make room
+        height: 34px;
+        font-size: 14px;
+        border-right: none;
+
+        &:focus {
+          outline: 0;
+          box-shadow: none; // Remove it from Bootstrap
+        }
+      }
+
+      // Right button next to the input to expand the list
+      .input-group-append {
+        margin-left: 0;
+
+        .btn.btn-outline-secondary {
+          border-color: $dropdown-valid-color;
+          background: $dropdown-valid-color;
+          color: $white;
+          border-left: none;
+          font-size: 14px;
+          padding: 0;
+          min-width: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          div {
+            padding: 0 7.5px;
+          }
+          &:focus {
+            box-shadow: none;
+          }
+          &:active {
+            box-shadow: none;
+          }
+          .icon-cross3 {
+            font-size: 22px;
+          }
+          // input-group overrides
+          border-top-right-radius: 4px !important;
+          border-bottom-right-radius: 4px !important;
+        }
+      }
+
+      &.is-expanded {
+        input.form-control {
+          border-bottom-left-radius: 0;
+          border-bottom: none;
+        }
+        .btn.btn-outline-secondary {
+          border-bottom-right-radius: 0 !important;
+          border-left-color: transparent;
+          border-bottom-color: transparent;
+          background: $white;
+          color: $dropdown-valid-color;
+          border-top-color: $optional-color;
+          border-right-color: $optional-color;
+        }
+        .list-container {
+          display: block;
+        }
+      }
+
+      // Expanded list to select an item
+      .list-container {
+        background: $white;
+        border: 1px solid $optional-color;
+        border-top-color: rgba($optional-color, 0.5);
+        display: none;
+        position: absolute;
+        width: 100%;
+        z-index: 6000;
+        max-height: 300px;
+        overflow: auto;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        overflow-x: hidden;
+
+        .option-row {
+          padding: 4px 10px;
+          margin: 1px 0;
+          min-height: 36px;
+          max-height: 72px;
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:not(.empty-row) { cursor: pointer; }
+
+          i {
+            padding: 0 10px 0 0;
+            font-size: 100%;
+          }
+
+          &.selected {
+            font-weight: 700;
+            color: $white;
+            background: $dropdown-selection-bg
+          }
+
+          &.candidate {
+            background: $dropdown-selection-hover;
+            color: $white;
+          }
+
+          // Optional image / icon into the input (left)
+          .option-row-image, .option-row-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+    &.is-disabled {
+      input.form-control {
+        color: $disabled-color;
+        cursor: not-allowed;
+      }
+    }
+
+    // Changes the colors depending on the status
+    @mixin jb-autocomplete-status-color($color) {
+      label {
+        color: $color;
+      }
+      .jb-autocomplete {
+        input.form-control {
+          border-color: $color;
+        }
+
+        .btn.btn-outline-secondary {
+          background: $color;
+          border-color: $color;
+        }
+
+        &.is-expanded .btn.btn-outline-secondary {
+          background: $white;
+          color: $color;
+          border-color: $color $color transparent transparent;
+        }
+
+        .list-container {
+          border-color: $color;
+          border-top-color: rgba($optional-color, 0.5);
+        }
+      }
+    }
+
+    &.is-required {
+      @include jb-autocomplete-status-color($required-color);
+    }
+
+    &.is-focus {
+      @include jb-autocomplete-status-color($focused-color);
+    }
+
+    &.is-error {
+      @include jb-autocomplete-status-color($invalid-color);
+    }
+  }
+
+  &.full-width .jb-autocomplete-form-group {
+      width: 100%;
+  }
+
+  &.flat .jb-autocomplete-form-group {
+      margin-bottom: 0;
+  }
+
+}
+
+

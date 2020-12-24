@@ -1,0 +1,265 @@
+<div class="row">
+  <div class="col-6">
+    <h2>jb-input - Validators</h2>
+  </div>
+  <div class="col-6 text-right">
+    <jb-btn jbText="jbInput" (jbClick)="router.navigate(['/jb-input'])"></jb-btn>
+    <jb-btn jbText="Validators"      (jbClick)="router.navigate(['/jb-input/validators'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Async Validator" (jbClick)="router.navigate(['/jb-input/async-validator'])"></jb-btn>
+    <jb-btn jbText="Controls"        (jbClick)="router.navigate(['/jb-input/controls'])"></jb-btn>
+    <jb-btn jbText="Autofill"        (jbClick)="router.navigate(['/jb-input/autofill'])"></jb-btn>
+  </div>
+</div>
+<hr>
+Examples with the multiple (synchronous) validators that can be applied.
+
+<!--Input Validators-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Input Validators</h5>
+
+  <div class="col-6">
+    <div class="row" *ngIf="isLinked">
+      <jb-input class="col-9"
+                [(ngModel)]="val1"  #jbInputRef="ngModel"
+                [jbDisabled]="valEx.isDisabled"
+                [jbType]="valEx.jbType"
+
+                [jbRequired]="valEx.isRequired"
+                [jbMinlength]="valEx.isMinLen ? valEx.minLen : null"
+                [jbMaxlength]="valEx.isMaxLen ? valEx.maxLen : null"
+                [jbPattern]="valEx.hasPattern ? valEx.pattern : null"
+                [jbValidType]="valEx.hasValidType ? valEx.valType : null"
+                [jbValidIf]="valEx.hasValidIf ? (val1 === valEx.jbValMatchVal) : null"
+                [jbValidator]="valEx.hasjbValidator ? jbValidatorFn : null"
+
+                [jbErrorOnPristine]="valEx.hasErrOnPristine"
+                [jbIcon]="valEx.hasIcon ? valEx.jbIcon : ''"
+                [jbInvalidIcon]="valEx.hasInvalidIcon ? valEx.jbInvalidIcon : 'icon-warning22'"
+                [jbValidIcon]="valEx.hasValidIcon ? valEx.jbValidIcon : ''"
+                [jbErrorText]="valEx.hasErrorText ? valEx.jbErrorText : ''"
+                [jbErrorPos]="valEx.errorPos"
+                (jbOnLoaded)="inputRef = $event"
+                jbLabel="view.common.name">
+      </jb-input>
+
+      <div class="col-3 padT20 text-right"><jb-btn jbText="Relink" (jbClick)="reLink()"></jb-btn></div>
+
+      <div class="col-12 padL30" *ngIf="!!innerInput" style="font-family: monospace;">
+        FromControl (internal input):<br>
+        <div class="marL10">- inputCtrl.value: <b>{{innerInput.value | json}}</b></div>
+        <div class="marL10">- inputCtrl.valid: <b [style.color]="innerInput.valid ? '#28a745': '#dc3545'">{{innerInput.valid | json}}</b></div>
+        <div class="marL10">- inputCtrl.pristine: <b>{{innerInput.pristine | json}}</b></div>
+        <div class="marL10">- inputCtrl.errors: <b>{{innerInput.errors | json}}</b></div>
+        <hr>
+      </div>
+
+      <div class="col-12 padL30" *ngIf="!!jbInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- jbInputRef.value: <b>{{jbInputRef.value | json}}</b></div>
+        <div class="marL10">- jbInputRef.valid: <b [style.color]="jbInputRef.valid ? '#28a745': '#dc3545'">{{jbInputRef.valid | json}}</b></div>
+        <div class="marL10">- jbInputRef.pristine: <b>{{jbInputRef.pristine | json}}</b></div>
+        <div class="marL10">- jbInputRef.errors: <b>{{jbInputRef.errors | json}}</b></div>
+      </div>
+    </div>
+
+
+    <div>
+      <hr>
+      <h5>Set value externally</h5>
+      <span>val:</span><input class="marB10 marL10" type="text" [(ngModel)]="val1">
+      <br>
+      <jb-btn jbText="val1 = '20'" (jbClick)="val1='20'"></jb-btn>
+      <jb-btn jbText="val1 = '300'" (jbClick)="val1='300'"></jb-btn>
+      <jb-btn jbText="val1 = 'AAA'" (jbClick)="val1='AAA'"></jb-btn>
+      <jb-btn jbText="val1 = '123456789'" (jbClick)="val1='123456789'"></jb-btn>
+      <jb-btn jbText="val1 = '@#*'" (jbClick)="val1='@#*'"></jb-btn>
+      <jb-btn jbText="val1 = ''" (jbClick)="val1=''"></jb-btn>
+      <div class="padT5"></div>
+      <jb-btn jbText="val1 = null" (jbClick)="val1=null"></jb-btn>
+      <jb-btn jbText="val1 = undefined" (jbClick)="val1=undefined"></jb-btn>
+      <jb-btn jbText="val1 = false" (jbClick)="val1=false"></jb-btn>
+      <jb-btn jbText="val1 = 0" (jbClick)="val1=0"></jb-btn>
+
+    </div>
+
+    <div class="padT15">
+      <div class="code-box pad15">
+        <pre>{{valCompCode}}</pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-6" *ngIf="!!inputRef">
+
+    <div class="row">
+
+      <!--jbErrorOnPristine-->
+      <jb-checkbox class="col-3 block" jbLabel="jbErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--Disabled-->
+      <jb-checkbox class="col-3 block" jbLabel="jbDisabled" [(ngModel)]="valEx.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--jbErrorPos-->
+      <jb-dropdown class="col-3" style="margin-top: -32px" jbLabel="jbErrorPos"
+                   [jbList]="valEx.errorPosOpts" jbRender="text" jbSelect="id"
+                   [(ngModel)]="valEx.errorPos" (ngModelChange)="upComp()">
+      </jb-dropdown>
+
+
+      <jb-dropdown class="col-3" style="margin-top: -32px" jbLabel="jbType"
+                   [jbList]="valEx.inputTypes" jbRender="text" jbSelect="id" [jbRequired]="true"
+                   [(ngModel)]="valEx.jbType" (ngModelChange)="upComp()">
+      </jb-dropdown>
+
+      <!--jbInvalidIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbInvalidIcon" style="width: 130px;" [(ngModel)]="valEx.hasInvalidIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbInvalidIcon" [disabled]="!valEx.hasInvalidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbValidIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbValidIcon" style="width: 120px;" [(ngModel)]="valEx.hasValidIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbValidIcon" [disabled]="!valEx.hasValidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbErrorText-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbErrorText" style="width: 130px;" jbTooltipPos="left" jbTooltip="It will replace any other error message"
+                     [(ngModel)]="valEx.hasErrorText" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbErrorText" [disabled]="!valEx.hasErrorText" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbIcon" style="width: 120px;" [(ngModel)]="valEx.hasIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbIcon" [disabled]="!valEx.hasIcon" (ngModelChange)="upComp()">
+      </div>
+
+    </div>
+
+    <div class="row">
+      <!--<h5 class="col-12 marB15">Validators</h5>-->
+      <div class="col-12"><hr></div>
+
+      <!--Required-->
+      <jb-checkbox class="col-12 block" style="min-height: 40px;" jbLabel="jbRequired" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--MinLen-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbMinlength" style="width: 130px;" [(ngModel)]="valEx.isMinLen" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 50px;" [disabled]="!valEx.isMinLen" [(ngModel)]="valEx.minLen" (ngModelChange)="upComp()">
+        <span class="marL20" [show]="valEx.isMinLen">(Remember minlength does not apply on empty values)</span>
+      </div>
+
+      <!--MaxLen-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbMaxlength" style="width: 130px;" [(ngModel)]="valEx.isMaxLen" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 50px;" [disabled]="!valEx.isMaxLen" [(ngModel)]="valEx.maxLen" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbValidType-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbValidType" style="width: 130px;" [(ngModel)]="valEx.hasValidType" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-dropdown style="display: inline-block; width: 150px;" [(ngModel)]="valEx.valType" [jbList]="valEx.valTypes"
+                     jbRender="text" jbSelect="id" [jbDisabled]="!valEx.hasValidType" (ngModelChange)="upComp()">
+        </jb-dropdown>
+        <span class="marL30 text-danger" [show]="valEx.hasValidType && valEx.hasPattern">You shall not use [jbPattern] + [jbValidType] !!</span>
+      </div>
+
+      <!--jbPattern-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbPattern" style="width: 130px;" [(ngModel)]="valEx.hasPattern" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 150px;" [(ngModel)]="valEx.pattern" (ngModelChange)="upComp()" [disabled]="!valEx.hasPattern">
+      </div>
+
+      <!--jbValidIf-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbValidIf (expr):" [(ngModel)]="valEx.hasValidIf" (ngModelChange)="upComp()"></jb-checkbox>
+        <span class="marL15">
+          <span>{{'[jbValidIf]="val1 === \''}}</span>
+          <input type="text" style="width: 50px;" [(ngModel)]="valEx.jbValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasValidIf">
+          <span>{{'\'"'}}</span>
+        </span>
+      </div>
+
+      <!--jbValidator-->
+      <div class="col-12" style="min-height: 40px;">
+        <jb-checkbox jbLabel="jbValidator (function):" [(ngModel)]="valEx.hasjbValidator" (ngModelChange)="upComp()"></jb-checkbox>
+        <span class="marL15">
+          <span>{{"validIfFn = (value) => value === '"}}</span>
+          <input type="text" style="width: 50px;" [(ngModel)]="valEx.jbValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasjbValidator">
+          <span>{{"' ? null : { label : 'wrooong' };"}}</span>
+        </span>
+      </div>
+
+      <!--jbAsyncValidator-->
+      <!--<div class="col-12" style="min-height: 40px;">-->
+      <!--  <jb-checkbox jbLabel="jbAsyncValidator (promise):" [(ngModel)]="valEx.hasAsyncVal" (ngModelChange)="upComp()"></jb-checkbox>-->
+      <!--  <span class="marL15">-->
+      <!--    <span>{{"fn = (value) => Promise.resolve(value === '"}}</span>-->
+      <!--    <input type="text" style="width: 50px;" [(ngModel)]="valEx.jbValMatchVal" (ngModelChange)="upComp()" [disabled]="!valEx.hasAsyncVal">-->
+      <!--    <span>{{"' ? null : { label : 'no' });"}}</span>-->
+      <!--  </span>-->
+      <!--</div>-->
+
+      <!--Manual error-->
+      <div class="col-12">
+        <hr>
+        <jb-checkbox jbLabel="Manual error trigger" [(ngModel)]="valEx.hasManualErr" (ngModelChange)="upComp()"></jb-checkbox>
+        <span style="vertical-align: top; margin-left: 50px;">Use variable:
+          <b style="margin-left: 35px; font-family: monospace;">{{manualErrorEx3}}</b>
+        </span>
+        <br>
+        <span style="vertical-align: top; margin-left: 210px; margin-right: 30px;">Add to jb-input:
+          <b style="margin-left: 12px; font-family: monospace;">(jbOnLoaded)="inputCtrl = $event"</b>
+        </span>
+
+        <div class="marL35 marT5">
+          <jb-btn class="full-width" jbType="save" jbText="Clear Error" style="width: 150px;"
+                  [jbDisabled]="!valEx.hasManualErr" (jbClick)="inputRef.removeError()">
+          </jb-btn>
+          <span style="margin-left: 25px; font-family: monospace;">{{manualErrorEx1}}</span>
+        </div>
+        <div class="marL35 marT5">
+          <jb-btn class="full-width" jbType="save" jbText="Add Error" style="width: 150px;"
+                  [jbDisabled]="!valEx.hasManualErr" (jbClick)="inputRef.addError({ label: 'wroooong!' })">
+          </jb-btn>
+          <span style="margin-left: 25px; font-family: monospace;">{{manualErrorEx2}}</span>
+        </div>
+
+        <!--<jb-btn class="full-width" jbType="save" jbText="Set Focus" style="width: 150px;"-->
+        <!--        [jbDisabled]="!valEx.hasManualErr" (jbClick)="ngInputRef.setFocus()">-->
+        <!--</jb-btn>-->
+        <!--<jb-btn class="full-width" jbType="save" jbText="Set Blur" style="width: 150px;"-->
+        <!--        [jbDisabled]="!valEx.hasManualErr" (jbClick)="ngInputRef.setBlur()">-->
+        <!--</jb-btn>-->
+        <!--<jb-btn class="full-width" jbType="save" jbText="Set Dirty" style="width: 150px;"-->
+        <!--        [jbDisabled]="!valEx.hasManualErr" (jbClick)="ngInputRef.setDirty()">-->
+        <!--</jb-btn>-->
+        <!--<jb-btn class="full-width" jbType="save" jbText="Set Pristine" style="width: 150px;"-->
+        <!--        [jbDisabled]="!valEx.hasManualErr" (jbClick)="ngInputRef.setPristine()">-->
+        <!--</jb-btn>-->
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12 marT30">
+    <p>The jb-input uses <b>NG_VALIDATORS</b> internally to set the validity of the component.
+      <br>
+      Here's a diagram about how/when this is triggered on the different actions
+      (<a href="https://go.gliffy.com/go/html5/13282334" target="_blank">original source of the diagram</a>):
+    </p>
+  </div>
+  <div class="col-12 padL30">
+    <!--<a href="assets/jbInput.png" target="_blank"><img src="assets/jbInput.png"></a>-->
+    <a href="jb-ui-lib-doc/assets/jbInput.png" target="_blank"><img src="jb-ui-lib-doc/assets/jbInput.png"></a>
+  </div>
+</div>
+
+

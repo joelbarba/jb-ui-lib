@@ -1,0 +1,21 @@
+<div *ngIf="!!jbLabel" class="switch-label" [class.horizontal]="jbLabelPos=='left'">
+  <jb-label [jbText]="jbLabel"
+            [jbTooltip]="jbTooltip"
+            [jbTooltipPos]="jbTooltipPos"
+            [jbTooltipBody]="jbTooltipBody">
+  </jb-label>
+</div>
+<div class="jb-switch"
+     [class.is-disabled]="jbDisabled"
+     (click)="onSwitch()">
+  <div class="switch-bar"></div>
+  <div class="switch-lever" [class.is-off]="!jbModel" [class.is-on]="jbModel"></div>
+  <div class="switch-value">
+    <span [hidden]="!jbModel" class="jb-switch-on-text">{{jbOnText$ | async}}</span>
+    <span [hidden]="jbModel" class="jb-switch-off-text">{{jbOffText$ | async}}</span>
+  </div>
+
+  <input type="checkbox" class="switch-input"
+         [ngModel]="jbModel"
+         [disabled]="jbDisabled">
+</div>

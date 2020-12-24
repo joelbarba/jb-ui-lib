@@ -1,0 +1,36 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="navbar">
+  <h1 routerLink="/index">Jb UI Library</h1>
+
+  <div class="nav-options">
+    <div>
+      <span style="font-size: 18px;">Language:</span>
+      <jb-radio class="marL20" [(ngModel)]="lang" jbValue="en"  jbLabel="En"  (ngModelChange)="translate.changeLanguage(lang)" jbRadioGroup="lang"></jb-radio>
+      <jb-radio class="marL20" [(ngModel)]="lang" jbValue="cat" jbLabel="Cat" (ngModelChange)="translate.changeLanguage(lang)" jbRadioGroup="lang"></jb-radio>
+    </div>
+
+    <div style="font-size: 18px; margin: 0 15px 0 50px;">Font Family:</div>
+    <div style="color: grey;">
+      <jb-dropdown class="flat" style="max-width: 210px;" [jbRequired]="true"
+                   [jbList]="fontsList" jbRender="name" jbSelect="css"
+                   [(ngModel)]="selectedFont">
+      </jb-dropdown>
+    </div>
+  </div>
+
+  <!--<a class="home-link mr-3" routerLink="/index">-->
+  <!--  <span class="icon-home"></span>-->
+  <!--</a>-->
+</div>
+
+<app-menu></app-menu>
+<jb-growl-pop-up></jb-growl-pop-up>
+<jb-loading-bar></jb-loading-bar>
+
+<div class="container route-container" [ngClass]="selectedFont">
+  <div class="row">
+    <div class="col-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

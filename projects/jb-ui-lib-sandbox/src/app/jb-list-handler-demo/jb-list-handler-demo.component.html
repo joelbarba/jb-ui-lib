@@ -1,0 +1,413 @@
+<div class="row">
+  <h2 class="col-8">{{name}}</h2>
+  <h5 class="col-4 text-right"><a href="/list-test">e2e test page</a></h5>
+</div>
+<hr/>
+<h5>{{desc}}</h5>
+<p>
+  This class generates an object that encapsulates the default behaviour we usually need to render a list in the UI.
+</p>
+<p>
+  It provides an observable <b>renderList$</b> that can subscribed to fetch the rendered data of the list.
+  It is also possible to subscribe to any state change with <b>render$</b>.
+  <br>It also provides a set of methods to manage how the list is presented (order, filter, pagination, ...).
+  This class is fully integrated with <a href="/jb-list-header-col">jb-list-header-col</a> and <a href="/jb-list-paginator">jb-list-paginator</a>
+</p>
+
+<hr>
+<h5 class="mt-4">Methods / Members:</h5>
+<pre>{{api}}</pre>
+
+
+<hr>
+<h5 class="marB20">Example:</h5>
+<div *ngIf="true">
+  <div class="row whiteBg padB15">
+    <jb-input class="col-4"
+              jbLabel="Filter (any)"
+              jbIcon="icon-search"
+              [(ngModel)]="myList.filterText"
+              (ngModelChange)="myList.filter($event)">
+    </jb-input>
+    <jb-input class="col-3 filter-username" jbLabel="Filter username" jbIcon="icon-search"
+              [(ngModel)]="myList.filters.username" (ngModelChange)="myList.filter($event, '~username')">
+    </jb-input>
+    <jb-input class="col-3 filter-email" jbLabel="Filter email" jbIcon="icon-search"
+              [(ngModel)]="myList.filters.email" (ngModelChange)="myList.filter($event, '~email')">
+    </jb-input>
+    <div class="col-12">
+      <jb-btn jbText=".prevPage()" (jbClick)="myList.prevPage()"
+              jbIcon="icon-arrow-left6" jbIconPos="left">
+      </jb-btn>
+      <jb-btn jbText=".nextPage()" jbType="save" (jbClick)="myList.nextPage()"></jb-btn>
+      <jb-btn jbText=".goToPage(2)" (jbClick)="myList.goToPage(2)"></jb-btn>
+      <jb-btn jbText=".paginate(20)" (jbClick)="myList.paginate(20)"></jb-btn>
+      <jb-btn jbText="orderConf.setField('username')" (jbClick)="myList.orderConf.setField('username')"></jb-btn>
+      <jb-btn jbText=".load(data)" (jbClick)="myList.load(getRandomData())"></jb-btn>
+      <jb-btn jbText=".loader$.next(data)" (jbClick)="asyncLoad()"></jb-btn>
+      <jb-btn jbType="add" jbText=".add({...})" (jbClick)="addItem()"></jb-btn>
+    </div>
+    <div class="col-12 padT10">
+      rowsPerPage={{myList.rowsPerPage}}
+      , totalItems={{myList.totalItems}}
+      , totalFiltered={{myList.totalFiltered}}
+      , renderedItems={{myList.renderedItems}}
+      , currentPage={{myList.currentPage}}
+      , totalPages={{myList.totalPages}}
+      , loadingStatus={{myList.loadingStatus}}
+    </div>
+  </div>
+
+
+  <div class="row whiteBg">
+    <jb-list-paginator class="col-12" [jbCtrl]="myList" jbShowSelector="true"></jb-list-paginator>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <ul class="list-unstyled table-list">
+        <li class="list-header">
+          <jb-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="myList.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="myList.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Email"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Full Name"></jb-list-header-col>
+        </li>
+
+        <jb-list-placeholder [hidden]="myList.loadingStatus > 1" [jbColumns]="[1, 2, 4, 4, 1]"></jb-list-placeholder>
+        <li class="list-row" [hidden]="myList.loadingStatus <= 1"
+            *ngFor="let item of myList.renderList$ | async">
+          <div class="col-1">{{item.id}}</div>
+          <div class="col-2">{{item.username}}</div>
+          <div class="col-4">{{item.email}}</div>
+          <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
+          <div class="col-1 text-right">
+            <jb-btn jbText="" jbType="delete" (jbClick)="deleteItem(item)"></jb-btn>
+            <jb-btn jbText="" jbType="edit"   (jbClick)="editItem(item)"></jb-btn>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row marT30">
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box">
+          <pre style="font-size: 13px;">{{codeExample}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{viewExample}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<hr>
+<h5 class="marB20">Example (backend pagination):</h5>
+<div *ngIf="true">
+  <div class="row marT40">
+    <div class="col-8">
+      <div class="row">
+        <!--<jb-input class="col-4" jbLabel="Filter any" jbIcon="icon-search"-->
+        <!--          [(ngModel)]="bpList.filterText" (ngModelChange)="bpList.filter($event)">-->
+        <!--</jb-input>-->
+        <jb-input class="col-4" jbLabel="Filter username" jbIcon="icon-search"
+                  [(ngModel)]="bpList.filters.username" (ngModelChange)="bpList.filter($event, 'username', 1000)">
+        </jb-input>
+        <jb-input class="col-4" jbLabel="Filter email" jbIcon="icon-search"
+                  [(ngModel)]="bpList.filters.email" (ngModelChange)="bpList.filter($event, 'email')">
+        </jb-input>
+        <jb-btn class="col-4 padT20" jbText="Clear Filters" (jbClick)="clearFilters()" jbType="save"></jb-btn>
+        <div class="col-12">
+          <jb-btn jbText=".prevPage()" (jbClick)="bpList.prevPage()"
+                  jbIcon="icon-arrow-left6" jbIconPos="left">
+          </jb-btn>
+          <jb-btn jbText=".nextPage()" jbType="save" (jbClick)="bpList.nextPage()"></jb-btn>
+          <jb-btn jbText=".fetchPage()" (jbClick)="bpList.fetchPage()"></jb-btn>
+          <jb-btn jbText=".load(data)" (jbClick)="asyncLoad(true)"></jb-btn>
+          <!--<jb-btn jbType="add" jbText=".add({...})" (jbClick)="addItem()"></jb-btn>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="row">
+        <div class="col-6"><pre>filters={{bpList.filters | json }}</pre></div>
+        <div class="col-6"><pre>
+          rowsPerPage={{bpList.rowsPerPage}}
+          totalItems={{bpList.totalItems}}
+          totalFiltered={{bpList.totalFiltered}}
+          renderedItems={{bpList.renderedItems}}
+          currentPage={{bpList.currentPage}}
+          totalPages={{bpList.totalPages}}
+          loadingStatus={{bpList.loadingStatus}}
+        </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row whiteBg">
+    <jb-list-paginator class="col-12"
+                       [jbCtrl]="bpList"
+                       jbShowSelector="true">
+    </jb-list-paginator>
+  </div>
+  <div class="row">
+    <div class="col-12" [jbLoadingSpinner]="bpList.loadingStatus === 4">
+      <ul class="list-unstyled table-list">
+        <li class="list-header">
+          <jb-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="bpList.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="bpList.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Email"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Full Name"></jb-list-header-col>
+        </li>
+
+        <jb-list-placeholder [hidden]="bpList.loadingStatus > 1" [jbColumns]="[1, 2, 4, 4, 1]"></jb-list-placeholder>
+        <li class="list-row" [hidden]="bpList.loadingStatus <= 1"
+            *ngFor="let item of bpList.renderList$ | async">
+          <div class="col-1">{{item.id}}</div>
+          <div class="col-2">{{item.username}}</div>
+          <div class="col-4">{{item.email}}</div>
+          <div class="col-4">{{item.first_name + ' ' + item.last_name}}</div>
+          <div class="col-1 text-right">
+            <jb-btn jbText="" jbType="delete" (jbClick)="deleteItem(item)"></jb-btn>
+            <jb-btn jbText="" jbType="edit"   (jbClick)="editItem(item)"></jb-btn>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row marT30">
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{codeExampleBe}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="examples-table">
+        <div class="code-box padV10 padH15">
+          <pre style="font-size: 13px;">{{viewExampleBe}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--<hr>-->
+<!--<div class="row marT40">-->
+<!--  <div class="col-12">-->
+<!--    <p>-->
+<!--      There are 4 basic types of actions that trigger a change on a rendering of the list:-->
+<!--    </p>-->
+<!--    <ul>-->
+<!--      <li>content → Should the source of the list changes (data).</li>-->
+<!--      <li>filter → If a filter is applied to the content, to produce only the matches in the rendered list</li>-->
+<!--      <li>order → If the rendered list should be ordered differently</li>-->
+<!--      <li>paginate → In case a pagination should be applied, the rendered list is just the current page to show</li>-->
+<!--    </ul>-->
+<!--    <p>-->
+<!--      Based on these, the class provides a dispatcher with different actions to apply, and then recalculate the state-->
+<!--      to output the new rendered list. Shortcut methods are available to trigger all those actions.-->
+<!--      <br>-->
+<!--      To render the list the actions are applied in the same order: Full content → filter → order → paginate.-->
+<!--    </p>-->
+<!--  </div>-->
+<!--  <div class="col-5">-->
+<!--    <img style="max-width: 500px;" src="assets/listHandler.png">-->
+<!--  </div>-->
+<!--</div>-->
+
+<hr>
+<div class="row marT40">
+  <div class="col-6">
+    <h5 class="marB20">Creating a New Instance</h5>
+    <p>When a new instance, the following parameters can be used to set up the list.</p>
+    <p>A second object can also be provided to initialize filters for the list. Backend filters will
+    also be considered in this object (limit, offset, order_by) to trigger the initial page load</p>
+    <div class="code-box padV10 padH15">
+      <pre style="font-size: 16px;">{{example1}}</pre>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <h5 class="marB20">Loading Data</h5>
+    <p>There are 2 ways to load the content to the list: </p>
+    <ul>
+      <li> <b>load</b>(data) → You can manually load an array passing it as a parameter </li>
+      <li> <b>subscribeTo</b>(loader$) → Passing an observable that emits the content (internal subscription)</li>
+    </ul>
+    <div class="code-box padV10 padH15">
+      <pre style="font-size: 16px;">{{example2}}</pre>
+    </div>
+    <p class="marT30">In case of fetching the data through an observable (subscribeTo),
+      if the source is know at the moment of generating the list, it can be passed
+      as an initial parameter to <b>data$</b>. Additionally, the status of the data source
+      can be also passed as a second parameter of subscribeTo(), or as <b>status$</b> initial param.
+    </p>
+  </div>
+
+</div>
+
+
+
+
+<hr>
+<h5 class="marB20">Filtering</h5>
+<p>
+  There are 2 types of front end filtering: Using a free text (<b>filterText</b>) or a key value match (<b>filters</b>)
+</p>
+<ul>
+  <li><b>filterText</b> → is applied to a group of fields (<b>filterFields[]</b>) of every item on the list, as a generic search match. Do it passing only the 1st parameter to <b>.filter(value)</b></li>
+  <li><b>filters</b> → applies a match individually to every given field of every item. Backend filters are included here. Do it passing 1st + 2nd parameters to <b>.filter(value, 'field_name')</b></li>
+</ul>
+<p>By default the filtering is performed with a none case sensitive match of the pattern for filterText.
+  <br>For specific filed filters, there are 3 different types of match that can be applied.
+</p>
+<ul>
+  <li><b>.filter(value, '=field_name')</b> Strict match → The value should match exactly the item's field (item.field_name === value)
+  <li><b>.filter(value, '~field_name')</b> Inclusive match → The value should be included into the item's field (item.field_name.includes(value)). No case sensitive.
+  <li><b>.filter([value1, value2, ...], 'field_name')</b> Array match → Any item's field can be any of the array of values (value.includes(item.field_name))
+</ul>
+<p>
+  If a different filter needs to be applied, the method <b>.filterList()</b> can be extended to be used instead, providing a custom matching condition
+  It should return the filtered list.
+</p>
+<p class="marT15">
+  The state produces a parameter <b>totalFiltered</b> to know the total number of filtered items before pagination is applied.
+  <br>It is also possible to apply a debounce to the trigger, using the 3rd parameter of .filter(matchValue, filterName, millisecondsDebounce)
+  <br>There are 2 methods to help clear the filters:
+</p>
+<ul>
+  <li><b>resetFilters()</b> → Removes all filters + filterText values (setting them to null)
+  <li><b>reset()</b> → Removes all filters + resets the order and pagination to the initial parameters
+</ul>
+<div class="code-box padV10 padH15">
+  <pre style="font-size: 16px;">{{example3}}</pre>
+</div>
+
+
+
+
+<hr>
+<h5 class="marB20">Ordering</h5>
+<p>
+  To set the fields you want to order by you can set them on creation passing an array into <b>orderFields['field1', 'field2', ...]</b>.
+  You can also specify the order ascendant (false) / descendent (true) with parameter <b>orderReverse</b>.
+  <br>
+  Every time the list renders, the order will be applied comparing the first field of that array.
+  In case of same value of that field, second will be looked up, and so on.
+</p>
+<p>
+  This configuration is held in the class into an object named <b>orderConf:</b> fields[], reverse, setField().
+  To change the order fields dynamically use method <b>.orderConf.setField('xxx')</b>. This will add the given field to the
+  first position in .orderField.fields[], swapping it if it's already there.
+</p>
+<p>By default the order is performed comparing strings or numerically if type detected.
+  <br>If a different sorting needs to be applied, the method <b>.orderList()</b> can be extended to be used instead.
+</p>
+<p>
+  The <b>orderConf</b> object is meant to be used along side component <b><{{'jb-list-header-col'}}></b>, so no extra configuration is needed.
+  Just inject the object into <b>[orderConf]</b> parameter and it will handle everything.
+</p>
+<div class="code-box padV10 padH15">
+  <pre style="font-size: 16px;">{{example4}}</pre>
+</div>
+
+
+
+
+<hr>
+<h5 class="marB20">Pagination (frontend)</h5>
+<p>
+  You can set the default values for pagination using the constructor parameters <b>rowsPerPage</b> and <b>totalPages</b>.
+  They can also be changed later. To apply no pagination, set rowsPerPage = 0.
+</p>
+<p>
+  Every time the list is rendered, the filtered and ordered list will be offset into a page based on the parameters currentPage and rowsPerPage.
+  <br>To control the pagination there are multiple shortcuts that can be applied:
+</p>
+<ul>
+  <li><b>paginate</b>(rowsPerPage) → This changes the configuration of the pagination, applying a different number of rows per page</li>
+  <li><b>goToPage</b>(pageNum) → This will change the current page to the given one.</li>
+  <li><b>nextPage</b>() → To automatically jump to the next page</li>
+  <li><b>prevPage</b>() → To automatically jump to the previous page</li>
+</ul>
+<p>
+  Those methods are ready to work alon side the pagination component <b><{{'jb-list-paginator'}}></b> using <b>[jbCtrl]</b> object parameter.
+</p>
+<div class="code-box padV10 padH15">
+  <pre style="font-size: 16px;">{{example5}}</pre>
+</div>
+
+<hr>
+<h5 class="marB20">Pagination (backend)</h5>
+<p>
+  To set up a list with backend side pagination, just provide a callback function when the list is generated in <b>backendPagination</b>: () => {{'{}'}}
+  <br>In this case, the class provides the mechanisms to mock a full list and trigger the page reloads on demand.
+  Note that some of the features cannot be used in this case, since the full list is unknown.
+</p>
+<p>
+  subscribeTo() cannot be used in this case, since the data needs to be injected page by page.
+  A manual load of the page can be done using <b>.load(data, count)</b> method, providing the data of the page and the total count of the full list.
+  <br>The loading of the page will be automatically handled using the <b>backendPagination()</b> trigger.
+  It is automatically called on the first load, and also every time the filters, current page, or the rows per page change. If needs be, it can also be triggered manually.
+  <br>, the  is called. It is expected that backend request is triggered within backendPagination() function,
+  to asynchronously load the next page to display. Two parameters are provided on that function:
+<ul>
+  <li><b>slimFilter</b> → Object with only those filters that have value (ready to be send to the request)</li>
+  <li><b>fullFilter</b> → Object with all filters, empty ones included</li>
+</ul>
+<p>These filters also include the standard fields <b>limit</b> <b>offset</b> and <b>order_by</b>, to be send along with the request
+  <br>When backend pagination, the filterText option cannot be used in this case.
+  Also, the .filter(value, name) methods come with a 1sec debounce by default.
+</p>
+<p>
+  The function can optionally return a promise, that resolves to an object with {{'{ list, count }'}}, so the new page content will be automatically load.
+  <br>It is also possible to do it manually using <b>.load(list, count)</b> method.
+</p>
+<p>
+  If the values of the list have not changed, resulting in a request that will be exactly the same as the previous,
+  the backendPagination() function is not triggered, to avoid unnecessary requests.
+</p>
+
+<div class="code-box padV10 padH15">
+  <pre style="font-size: 16px;">{{codeExampleBe}}</pre>
+</div>
+
+
+
+<!--<hr>-->
+<!--<h5 class="marB20">Content Management</h5>-->
+<!--<p>-->
+<!--When the data is loaded into the list, a reference is held to the original array, so any modification on the objects-->
+<!--is going to be reflected on the original data.-->
+<!--To ease this task, every time the data is loaded some management methods are extended on the items of the list too,-->
+<!--as shortcuts for list manipulation purposes.-->
+<!--</p>-->
+<!--<p>-->
+<!--  Every item is extended a <b>$save({{'{...}'}})</b> and <b>$remove()</b> function. Those functions will also trigger the list rendering, so-->
+<!--  there's no need to do it manually after.-->
+<!--  <br>-->
+<!--  There is also a global function <b>.add({{'{...}'}})</b> to insert new items into the list.-->
+<!--</p>-->
+
+<!--<div class="code-box padV10 padH15">-->
+<!--  <pre style="font-size: 16px;">{{example6}}</pre>-->
+<!--</div>-->
+
+
+

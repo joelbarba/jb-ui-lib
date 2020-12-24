@@ -1,0 +1,239 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>The functions can be either applied to the corresponding prototypes, or imported as isolated functions over a wrapping object.</p>
+
+<div class="row">
+  <div class="col-6">
+    <p>If extending the Array.getById(), we can use that function on any array: </p>
+    <pre>{{example1}}}</pre>
+  </div>
+  <div class="col-6">
+    <p>If using the JbArray wrapper, the function should be call passing the context as the target array you want to apply it to:</p>
+    <pre>{{example2}}</pre>
+  </div>
+</div>
+
+
+<h5 class="marT20">Array functions</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getById</b>(id): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches by .id</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getByProp</b>(property, value): T</pre></div>
+    <div class="col-7">Returns the first object (if any) in the array that matches the given property / value</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getIndexById</b>(id): number</pre></div>
+    <div class="col-7">Returns the index of the first object (if any) in the array that matches by .id. If not -1</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getLast</b>(): T</pre></div>
+    <div class="col-7">Returns the last element of the array, or undefined if it's empty</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>removeById</b>(id): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by .id. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>removeByProp</b>(property, value): T</pre></div>
+    <div class="col-7">Removes the first object (if any) in the array that matches by property / value. Returns the removed object or null if not found.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getKeyById</b>(keyName, id): T{{'<' + 'any' + '>'}}</pre></div>
+    <div class="col-7">Returns the selected property (keyName) of the first object that matches the id.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>getKeyByProp</b>(keyName, property, value): T{{'<' + 'any' + '>'}}</pre></div>
+    <div class="col-7">Returns the selected property (keyName) of the first object that matches the "value" of the "property".</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>toObject</b>(): Object</pre></div>
+    <div class="col-7">It converts the array to an object, pairing each index to a [key, value] array entry. Ex: [['a', 1 ], ['b', 2]] --> {{'{ a: 1, b: 2 }'}}</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>isEqualTo</b>(arr2: Array): boolean</pre></div>
+    <div class="col-7">It compares to another array, item by item, and going down recursively if non primitives</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Array.<b>dCopy</b>(): Array{{'<' + 'T' + '>'}}</pre></div>
+    <div class="col-7">Array clone - Makes an exact (deep) copy of the array, with no references, and returns it. Every item inside is deeply copied too.</div>
+  </div>
+</div>
+<hr>
+
+<h5 class="marT20">Object functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5">
+      <pre>Object.<b>keyFilter</b>(filterFn: (val?, key?) => boolean)<br>Object.<b>keyFilter</b>(propNames: string): Partial{{'<' + 'T' + '>'}}</pre></div>
+    <div class="col-7">
+      Iterates over all object properties. If false, the property is not added onto the returned object. Ex: obj.keyFilter(val => val !== null);
+      <br>It can also accept a string with the names of properties to filter in (shortcut to filter by property name)
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>valueMap</b>(mapFn = (val, key) => val): T</pre></div>
+    <div class="col-7">Returns a new object mapping every value from every key of the original object with an iterator function
+      <br>{{'{ p1: 10, p2: 20 }.valueMap(v => v + 1)  --> { p1: 11, p2: 21 }'}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>keyMap</b>(mapFn = (key, val) => key): Object</pre></div>
+    <div class="col-7">Returns a new object mapping every property name with an iterator function. If !key, the same name is applied.
+      <br>{{"{ name: 1, age: 10 }.keyMap(k => k + '_desc') ---> { name_desc: 1, age_desc: 10 }"}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>keyCount</b>(): number</pre></div>
+    <div class="col-7">Returns the number of keys on the object</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>peel</b>(): Partial{{'<' + 'T' + '>'}}</pre></div>
+    <div class="col-7">Shortcut to obj.keyFilter(k => k !== null && k !== undefined)</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>hasProp</b>(props: [string] | string): boolean</pre></div>
+    <div class="col-7">Multiple .hasOwnProperty() checks. If the object has any of the props, it returns true.</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>isEqualTo</b>(obj2: Object): boolean</pre></div>
+    <div class="col-7">It compares to another objects, going down recursively to all their properties</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>updateFrom</b>(obj2: Object)</pre></div>
+    <div class="col-7">This mutates the object! Updates those keys that also exist in obj2. It ignores the rest (doesn't add or delete non existing key)</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>cloneProp</b>(propName: string, fromObj: Object): T</pre></div>
+    <div class="col-7">Clones a property from an other object to itself. If that value is null / undefined, or not found on the other object,
+      it deletes the property of the object. So after that both objects have exactly the same (property presence & value)</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Object.<b>dCopy</b>(): T</pre></div>
+    <div class="col-7">Object clone - Makes an exact (deep) copy of the object, with no references, and returns it. Every item inside is deeply copied too.</div>
+  </div>
+</div>
+<hr>
+
+
+<h5 class="marT20">Number functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5"><pre>Number.<b>isIn</b>(list: Array{{'<' + 'number' + '>'}}): boolean</pre></div>
+    <div class="col-7">Returns true if there is any instance of the current number into the list</div>
+  </div>
+</div>
+<hr>
+
+<h5 class="marT20">String functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5"><pre>String.<b>isIn</b>(list: Array{{'<' + 'string' + '>'}}): boolean</pre></div>
+    <div class="col-7">Returns true if there is any instance of the current string into the list</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>String.<b>pad</b>(leftPad: number, placeholder = '0', rightPad?: number): string</pre></div>
+    <div class="col-7">It fulfills the string with 0s (or specified placeholder) on the left & right.<br>
+                       Shortcut for .padStart() / .padEnd(). Ex: myValue.pad(4) -> 0003</div>
+  </div>
+</div>
+<hr>
+
+<h5 class="marT20">Date functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>toUTC</b>()</pre></div>
+    <div class="col-7">Converts the time, whatever its timezone is, to its UTC equivalent. It preserves the same JS timezone</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>truncMin</b>()</pre></div>
+    <div class="col-7">Truncate the current date to minutes</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>truncHour</b>()</pre></div>
+    <div class="col-7">Truncate the current date to hours</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>truncDay</b>()</pre></div>
+    <div class="col-7">Truncate the current date to days</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addSeconds</b>(seconds: numbers)</pre></div>
+    <div class="col-7">Add seconds to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addMinutes</b>(minutes: numbers)</pre></div>
+    <div class="col-7">Add minutes to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addHours</b>(hours: numbers)</pre></div>
+    <div class="col-7">Add hours to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addDays</b>(days: numbers)</pre></div>
+    <div class="col-7">Add days to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addMonths</b>(months: numbers)</pre></div>
+    <div class="col-7">Add months to the current date</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>addYears</b>(years: numbers)</pre></div>
+    <div class="col-7">Add years to the current date</div>
+  </div>
+
+  <div class="row">
+    <div class="col-5"><pre>Date.<b>convertTZ</b>(desTZ?: string)</pre></div>
+    <div class="col-7">
+      <p>
+        Convert a JS time from your current timezone to another timezone (<a href="https://www.iana.org/time-zones">Timezone standard list</a>).<br>
+        The object returned is a JS date with the time at the specified timezone, still represented in the current timezone. Example:
+      </p>
+      <pre style="font-size: 12px;">
+        let myDate = new Date('Mon Jul 29 2019 12:00:55 GMT+0100 (Irish Standard Time)')
+        myDate.convertTZ('America/New_York');
+        console.log(myDate); ---> Mon Jul 29 2019 07:00:55 GMT+0100 (Irish Standard Time)
+      </pre>
+    </div>
+  </div>
+
+</div>
+<hr>
+
+<h5 class="marT20">Global functions</h5>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-5"><pre><b>isEqualTo</b>(i1: Array|Object, i2: Array|Object): boolean</pre></div>
+    <div class="col-7">It compares 2 objects or arrays, item by item, and going down recursively if non primitives</div>
+  </div>
+  <div class="row">
+    <div class="col-5"><pre><b>dCopy</b>(source: T): T</pre></div>
+    <div class="col-7">
+      Returns a deep copy of the given parameter, whatever its type (Array, Object, ...)
+      <br>Note: It uses stringify, which omits keys with value 'undefined', and Dates are turned to strings
+    </div>
+  </div>
+</div>
+<hr>
+
+
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>Import</h4>
+    <p>An index js module is provided with an init function JbPrototypes.<br/>
+That function can be called to extend all listed prototypes (if no parameters), or can be also called passing<br/>
+the list of functions that we want to extend. That list is composed by strings that contain 2 values
+(type and function name) separated by a '.'
+    </p>
+    <pre>{{ example3 }}</pre>
+    <pre>{{ example4 }}</pre>
+  </div>
+</div>
+

@@ -1,0 +1,26 @@
+<label *ngIf="!!jbLabel">
+  <span class="info-badge" *ngIf="!!jbTooltip"
+        [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+        [container]="(jbTooltipBody ? 'body' : '')">
+    <span class="icon-info"></span>
+  </span>
+  <span>{{jbLabelTrans$ | async}}</span>:
+</label>
+
+<div class="quantity-controller">
+  <div class="quantity-controller-box left" [class.blocked]="!decBtnEnabled"
+       (click)="decBtnEnabled && modelChange(jbModel - 1)">
+    <span class="icon-minus"></span>
+  </div>
+
+  <div class="quantity-controller-center">
+    <input type="text" class="quantity-input"
+           [disabled]="jbDisabled" (wheel)="onMouseWheel($event)"
+           [(ngModel)]="jbModel" (ngModelChange)="modelChange($event)"/>
+  </div>
+
+  <div class="quantity-controller-box right" [class.blocked]="!incBtnEnabled"
+       (click)="incBtnEnabled && modelChange(jbModel + 1)">
+    <span class="icon-plus"></span>
+  </div>
+</div>

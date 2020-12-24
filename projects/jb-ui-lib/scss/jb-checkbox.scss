@@ -1,0 +1,119 @@
+////////////////////////////////////////// CHECKBOXES ////////////////////////////////////////
+
+$checkbox-uncheck-bg: $white !default;
+$checkbox-uncheck-border: $primary_color !default;
+
+$checkbox-check-bg: $primary_color !default;
+$checkbox-check-border: darken($primary_color, 3%) !default;
+$checkbox-check-color: $white !default;
+
+$checkbox-disabled-bg: $disabled-color !default;
+$checkbox-disabled-border: darken($disabled-color, 3%) !default;
+
+// Checkbox view structure:
+//    <div class="checkbox">
+//      <label>
+//        <input type="checkbox" [ngModel]="option.selected">
+//        <span class="check-box icon-checkmark3"></span>
+//        <span class="check-text">Option Text</span>
+//      </label>
+//    </div>
+
+jb-checkbox {
+  display: inline-block;
+
+  &.block { display: block; }
+  &[class*="col-"] { display: block; }
+
+  &.pad-input { padding-top: 7px; }
+  &.pad-btn   { padding-top: 8.5px; }
+  &.pad-form  { padding-top: 30px; }
+
+  &.flat div.checkbox { max-height: 20px; }
+
+  &.revert {
+    div.checkbox label input[type=checkbox]:checked + span.check-box {
+      background: $white;
+      &:before { color: $primary_color; }
+    }
+  }
+
+
+  div.checkbox {
+    display: inline-block;
+    margin: 0;
+
+    label {
+      display: inline-flex;
+      padding: 0; // Override ".checkbox label" from bootstrap
+      margin-bottom: 0;
+
+      // Text next to the box
+      span.check-text {
+        padding: 0;
+        line-height: 20px;
+        vertical-align: top;
+        text-align: left;
+        cursor: pointer;
+        &.has-text { margin-left: 10px; }
+      }
+
+      input[type='checkbox'] {
+        display: none;  // Hide the input element
+
+        // Generate a box over the input to mock the checkbox
+        + span.check-box {
+          height: 20px;
+          width: 20px;
+          min-width: 20px;
+          text-align: center;
+          //line-height: 1;
+          line-height: 16px; // Mozilla aligns it different
+          @supports (-moz-appearance:none) { line-height: 15px; }
+          cursor: pointer;
+          border-width: 1px;
+          border-style: solid;
+          border-radius: 3px;
+          transition: 150ms;
+
+          // Box empty (not checked)
+          background: $checkbox-uncheck-bg;
+          border-color: $checkbox-uncheck-border;
+          &:before {
+            opacity: 0;
+            font-size: 12px;
+            line-height: 1;
+            vertical-align: baseline;
+          }
+        }
+
+        // Box marked (checked)
+        &:checked + span.check-box {
+          border-width: 1px;
+          border-style: solid;
+          background: $checkbox-check-bg;
+          border-color: $checkbox-check-border;
+          &:before {
+            color: $checkbox-check-color;
+            opacity: 1;
+          }
+        }
+
+        // Box disabled (checked or unchecked)
+        &[disabled] {
+          + span.check-box {
+            cursor: not-allowed;
+            background: $checkbox-disabled-bg;
+            border-color: $checkbox-disabled-border;
+            + span.check-text {
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+

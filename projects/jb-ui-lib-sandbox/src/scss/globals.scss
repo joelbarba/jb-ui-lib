@@ -1,0 +1,120 @@
+
+body {
+  background: #ebeff2;
+
+  //font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  color: #525254;
+  font-size: 14px;
+  //font-size: 14px;
+  //line-height: 1.42857;
+  line-height: 1.5; // Bootstrap default
+}
+
+.code-box, .code-box-sm {
+  background: black;
+  pre {
+    font-size: 14px;
+    color: white;
+    margin-bottom: 0;
+  }
+  &.code-box-sm pre { font-size: 10px; }
+}
+
+.examples-table {
+  .row {
+    border-top: 1px solid gray;
+    &:last-child {
+      border-bottom: 1px solid gray;
+    }
+  }
+  [class*="col-"] {
+    border-left: 1px solid gray;;
+    padding: 5px 15px;
+    &:last-child {
+      border-right: 1px solid gray;
+    }
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+  }
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 18px;
+  }
+  .code-box, .code-box-sm {
+    background: black;
+    pre { font-size: 14px; color: white; }
+    &.code-box-sm pre { font-size: 10px; }
+  }
+}
+
+
+
+
+.whiteBg {
+  padding: 25px;
+  margin: 15px 0;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(34,36,38,.15);
+  border-radius: 3px;
+  &.row {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+
+.modal-confirmation .modal-content  {
+  margin-top: -20px;
+}
+
+// Almost hidden button to expand/collapse whiteBgs
+.collapse-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  right: 0;
+  display: inline-block;
+  margin-top: -20px;
+  margin-right: 20px;
+  z-index: 999;
+}
+
+.jb-drag-ghost {
+  .jb-draggable {
+    background: #7c1fda !important;
+    opacity: 0.8;
+    //transform: rotate(8deg);
+  }
+}
+
+.jb-drag-ghost {
+  .jb-draggable.list-draggable {
+    opacity: 0.6;
+    background: gray !important;
+    width: 200px;
+    height: 40px;
+    padding: 10px 15px;
+    transform: rotate(-3deg);
+  }
+}
+
+.green { color: green; font-weight: bold; }
+
+
+// Add spacing when 2+ components in a row
+jb-btn:not(.block) + jb-btn:not(.block) { margin-left: 5px; }
+jb-btn.block + jb-btn.block { margin-top: 5px; }
+
+jb-checkbox:not(.block):not([class*="col-"]) + jb-checkbox:not(.block):not([class*="col-"]) { margin-left: 15px; }
+jb-radio:not(.block):not([class*="col-"]) + jb-radio:not(.block):not([class*="col-"]) { margin-left: 15px; }
+
+
+// With Blueface font families, a baseline alignment looks better
+jb-btn .disabled-tooltip .jb-btn {
+  .btn-text-section { padding: 1px 15px 0; }
+  .btn-icon-section { padding: 1px 0 0 0; }
+}

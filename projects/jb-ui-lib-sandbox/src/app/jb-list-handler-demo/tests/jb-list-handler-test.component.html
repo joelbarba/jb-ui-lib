@@ -1,0 +1,166 @@
+<div class="jb-list-handler-test1" *ngIf="testNum === 1">
+  <div class="row">
+    <h2 class="col-10">List Test 1 (frontend pagination)</h2>
+    <jb-btn class="col-2 switch-test-2" jbText="Backend Pagination" (jbClick)="testNum=2"></jb-btn>
+  </div>
+  <div class="row marT40">
+    <jb-input class="col-3 filter-text" jbLabel="Free Text Filter" jbIcon="icon-search"
+              [(ngModel)]="testList1.filterText" (ngModelChange)="testList1.filter($event)">
+    </jb-input>
+    <jb-input class="col-2 filter-username-strict" jbLabel="Filter =username" jbIcon="icon-search"
+              [(ngModel)]="testList1.filters.username" (ngModelChange)="testList1.filter($event || null, 'username')">
+    </jb-input>
+    <jb-input class="col-2 filter-username" jbLabel="Filter ~username" jbIcon="icon-search"
+              [(ngModel)]="testList1.filters.username" (ngModelChange)="testList1.filter($event, '~username')">
+    </jb-input>
+    <jb-input class="col-2 filter-email" jbLabel="Filter ~email" jbIcon="icon-search"
+              [(ngModel)]="testList1.filters.email" (ngModelChange)="testList1.filter($event, '~email')">
+    </jb-input>
+    <jb-input class="col-2 filter-name" jbLabel="Filter Name (debounced)" jbIcon="icon-search"
+              [(ngModel)]="testList1.filters.first_name" (ngModelChange)="testList1.filter($event, '~first_name', 1000)">
+    </jb-input>
+
+
+    <!--<jb-btn class="col-2 padT20" jbText="Clear Filters" (jbClick)="clearFilters()" jbType="save"></jb-btn>-->
+    <div class="col-4 padT30">filterText={{testList1.filterText}} | filters={{testList1.filters | json }}</div>
+
+    <div class="col-12">
+      <jb-btn jbText=".prevPage()" (jbClick)="testList1.prevPage()"
+              jbIcon="icon-arrow-left6" jbIconPos="left">
+      </jb-btn>
+      <jb-btn jbText=".nextPage()" jbType="save" (jbClick)="testList1.nextPage()"></jb-btn>
+      <jb-btn jbText=".goToPage(2)" (jbClick)="testList1.goToPage(2)"></jb-btn>
+      <jb-btn jbText=".paginate(20)" (jbClick)="testList1.paginate(20)"></jb-btn>
+      <jb-btn jbText="orderConf.setField('username')" (jbClick)="testList1.orderConf.setField('username')"></jb-btn>
+      <jb-btn jbText="load More" class="load-more-btn" (jbClick)="loadMoreData()"></jb-btn>
+      <jb-btn jbText="load Less" class="load-less-btn" (jbClick)="loadLessData()"></jb-btn>
+    </div>
+    <div class="col-12 padT10">
+      rowsPerPage={{testList1.rowsPerPage}}
+      , totalItems={{testList1.totalItems}}
+      , totalFiltered={{testList1.totalFiltered}}
+      , renderedItems={{testList1.renderedItems}}
+      , currentPage={{testList1.currentPage}}
+      , totalPages={{testList1.totalPages}}
+      , loadingStatus={{testList1.loadingStatus}}
+    </div>
+  </div>
+  <div class="row whiteBg">
+    <jb-list-paginator class="col-12"
+                       [jbCtrl]="testList1"
+                       jbShowSelector="true">
+    </jb-list-paginator>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <ul class="list-unstyled table-list">
+        <li class="list-header">
+          <jb-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="testList1.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="testList1.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Email"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Full Name"></jb-list-header-col>
+        </li>
+
+        <jb-list-placeholder [hidden]="testList1.loadingStatus > 1" [jbColumns]="[1, 2, 4, 4, 1]"></jb-list-placeholder>
+        <li class="list-row" [hidden]="testList1.loadingStatus <= 1"
+            *ngFor="let item of testList1.renderList$ | async">
+          <div class="jb-list-col col-1">{{item.id}}</div>
+          <div class="jb-list-col col-2">{{item.username}}</div>
+          <div class="jb-list-col col-4">{{item.email}}</div>
+          <div class="jb-list-col col-4">{{item.first_name + ' ' + item.last_name}}</div>
+          <div class="jb-list-col col-1 text-right">
+            <jb-btn jbText="" jbType="delete"></jb-btn>
+            <jb-btn jbText="" jbType="edit"  ></jb-btn>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="jb-list-handler-test2" *ngIf="testNum === 2">
+  <div class="row">
+    <h2 class="col-10">List Test 2 (backend pagination)</h2>
+    <jb-btn class="col-2 switch-test-1" jbText="Frontend Pagination" (jbClick)="testNum=1"></jb-btn>
+  </div>
+  <div class="row marT40">
+    <!--<jb-input class="col-3 filter-text" jbLabel="Free Text Filter" jbIcon="icon-search"-->
+    <!--          [(ngModel)]="testList2.filterText" (ngModelChange)="testList2.filter($event)">-->
+    <!--</jb-input>-->
+    <jb-input class="col-3 filter-username" jbLabel="Filter username (debounced .5)" jbIcon="icon-search"
+              [(ngModel)]="testList2.filters.username" (ngModelChange)="testList2.filter($event, 'username')">
+    </jb-input>
+    <jb-input class="col-3 filter-email" jbLabel="Filter email (debounced .5)" jbIcon="icon-search"
+              [(ngModel)]="testList2.filters.email" (ngModelChange)="testList2.filter($event, 'email')">
+    </jb-input>
+    <jb-input class="col-3 filter-name" jbLabel="Filter Name (debounced 2s)" jbIcon="icon-search"
+              [(ngModel)]="testList2.filters.first_name" (ngModelChange)="testList2.filter($event, 'first_name', 2000)">
+    </jb-input>
+    <!--<jb-btn class="col-2 padT20" jbText="Clear Filters" (jbClick)="clearFilters()" jbType="save"></jb-btn>-->
+    <div class="col-6 padT30">filters={{testList2.filters | json }}</div>
+    <div class="col-2 padT30">limit:    <span class="filter-limit">{{testList2.filters.limit}}</span></div>
+    <div class="col-2 padT30">offset:   <span class="filter-offset">{{testList2.filters.offset}}</span></div>
+    <div class="col-2 padT30">order_by: <span class="filter-order-by">{{testList2.filters.order_by}}</span></div>
+
+
+    <div class="col-12">
+      <jb-btn jbText=".prevPage()" (jbClick)="testList2.prevPage()"
+              jbIcon="icon-arrow-left6" jbIconPos="left">
+      </jb-btn>
+      <jb-btn jbText=".nextPage()" jbType="save" (jbClick)="testList2.nextPage()"></jb-btn>
+      <jb-btn jbText=".goToPage(2)" (jbClick)="testList2.goToPage(2)"></jb-btn>
+      <jb-btn jbText=".paginate(20)" (jbClick)="testList2.paginate(20)"></jb-btn>
+      <jb-btn jbText="orderConf.setField('username')" (jbClick)="testList2.orderConf.setField('username')"></jb-btn>
+      <jb-btn jbText="load More" class="load-more-btn" (jbClick)="loadMoreData()"></jb-btn>
+      <jb-btn jbText="load Less" class="load-less-btn" (jbClick)="loadLessData()"></jb-btn>
+    </div>
+    <div class="col-12 padT10">
+      rowsPerPage={{testList2.rowsPerPage}}
+      , totalItems={{testList2.totalItems}}
+      , totalFiltered={{testList2.totalFiltered}}
+      , renderedItems={{testList2.renderedItems}}
+      , currentPage={{testList2.currentPage}}
+      , totalPages={{testList2.totalPages}}
+      , loadingStatus={{testList2.loadingStatus}}
+    </div>
+  </div>
+  <div class="row whiteBg">
+    <jb-list-paginator class="col-12"
+                       [jbCtrl]="testList2"
+                       jbShowSelector="true">
+    </jb-list-paginator>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12" [jbLoadingSpinner]="testList2.loadingStatus === 4">
+      <ul class="list-unstyled table-list">
+        <li class="list-header">
+          <jb-list-header-col class="col-1" colTitle="Id"         fieldName="id"        [orderConf]="testList2.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-2" colTitle="Username"   fieldName="username"  [orderConf]="testList2.orderConf"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Email"></jb-list-header-col>
+          <jb-list-header-col class="col-4" colTitle="Full Name"></jb-list-header-col>
+        </li>
+
+        <jb-list-placeholder [hidden]="testList2.loadingStatus > 1" [jbColumns]="[1, 2, 4, 4, 1]"></jb-list-placeholder>
+        <li class="list-row" [hidden]="testList2.loadingStatus <= 1"
+            *ngFor="let item of testList2.renderList$ | async">
+          <div class="jb-list-col col-1">{{item.id}}</div>
+          <div class="jb-list-col col-2">{{item.username}}</div>
+          <div class="jb-list-col col-4">{{item.email}}</div>
+          <div class="jb-list-col col-4">{{item.first_name + ' ' + item.last_name}}</div>
+          <div class="jb-list-col col-1 text-right">
+            <jb-btn jbText="" jbType="delete"></jb-btn>
+            <jb-btn jbText="" jbType="edit"  ></jb-btn>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+

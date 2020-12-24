@@ -1,0 +1,20 @@
+<div class="menu">
+  <div class="m-2 mb-4">
+    <input type="text" class="form-control" placeholder="Search"
+           (input)="filterMenu($event.target.value)">
+  </div>
+  <ul class="menu-list">
+    <li routerLink="/index">
+      <div class="menu-item" [ngClass]="{ 'active': activeRoute === '/index' }">Index</div>
+    </li>
+    <li routerLink="/icomoon">
+      <div class="menu-item" [ngClass]="{ 'active': activeRoute === '/icomoon' }">Icomoon</div>
+    </li>
+    <li *ngFor="let compItem of filteredList" routerLink="{{ '/' + compItem.name }}">
+      <div class="menu-item" [ngClass]="{ 'active': activeRoute === ('/' + compItem.name) }">
+        <span class="element-type" [ngClass]="compItem.uiType">{{compItem.uiType?.charAt(0)?.toLowerCase()}}</span>
+        <span class="element-name">{{ compItem.name }}</span>
+      </div>
+    </li>
+  </ul>
+</div>

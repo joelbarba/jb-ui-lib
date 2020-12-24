@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-3">
+    <h2>jbDnD - Example 4</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbDnD" (jbClick)="router.navigate(['/jbDnD'])"></jb-btn>
+    <jb-btn jbText="Ex.1" (jbClick)="router.navigate(['/jbDnD/example1'])"></jb-btn>
+    <jb-btn jbText="Ex.2" (jbClick)="router.navigate(['/jbDnD/example2'])"></jb-btn>
+    <jb-btn jbText="Ex.3" (jbClick)="router.navigate(['/jbDnD/example3'])"></jb-btn>
+    <jb-btn jbText="Ex.4" (jbClick)="router.navigate(['/jbDnD/example4'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Ex.5" (jbClick)="router.navigate(['/jbDnD/example5'])"></jb-btn>
+    <jb-btn jbText="Ex.6" (jbClick)="router.navigate(['/jbDnD/example6'])"></jb-btn>
+  </div>
+</div>
+<hr/>
+
+<div class="row">
+  <div class="col-8">
+    <h4>Drop Placeholders</h4>
+    <p>Using different placeholders into the containers to drop in different positions</p>
+  </div>
+  <div class="col-4 text-right">
+    <div>
+      <jb-switch jbLabel="jbDnD.isDebugMode" jbLabelPos="left"
+                 [(ngModel)]="isDebugMode" (ngModelChange)="jbDnD.setDebugMode($event)">
+      </jb-switch>
+    </div>
+    <div>
+      <jb-switch jbLabel="jbDnD.isAccurateMode" jbLabelPos="left" class="accurate-mode-switch"
+                 [(ngModel)]="isAccurateMode" (ngModelChange)="jbDnD.isAccurateMode = $event">
+      </jb-switch>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3">
+    <div class="board">
+      <h4>List 1</h4>
+      <div *ngFor="let item of list1">
+        <div [jbDraggable]="item" jbDragMode="copy">{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div id="cont-1" [jbDropContainer]="container1">
+      <h5>Container 1</h5>
+
+      <div [jbDropPlaceholder]="{ pos: 0 }" jbDropContainerId="cont-1">Placeholder 0</div>
+      <div [jbDropPlaceholder]="{ pos: 1 }" jbDropContainerId="cont-1">Placeholder 1</div>
+      <div [jbDropPlaceholder]="{ pos: 2 }" jbDropContainerId="cont-1">Placeholder 2</div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div id="cont-2" class="cont-2" [jbDropContainer]="container2">
+      <h5>Container 2</h5>
+      <div class="ph-1" [jbDropPlaceholder]="{ pos: 1 }" jbDropContainerId="cont-2">Placeholder 1</div>
+      <div class="ph-2" [jbDropPlaceholder]="{ pos: 2 }" jbDropContainerId="cont-2">Placeholder 2</div>
+      <div class="ph-3" [jbDropPlaceholder]="{ pos: 3 }" jbDropContainerId="cont-2">Placeholder 3</div>
+      <div class="ph-4" [jbDropPlaceholder]="{ pos: 4 }" jbDropContainerId="cont-2">Placeholder 4</div>
+      <div class="ph-5" [jbDropPlaceholder]="{ pos: 5 }" jbDropContainerId="cont-2">Placeholder 5</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row marT30 marB30">
+  <div class="col-12">
+    <div>
+      <b>Placeholders =</b>
+      <span class="marL15" *ngFor="let placeholder of jbDnD.placeholders"
+            [class.is-active]="placeholder.id === jbDnD.activePlaceholder?.id">
+        {{placeholder.id}}
+      </span>
+    </div>
+    <div><b>Containers =</b>
+      <span class="marL15" *ngFor="let cont of jbDnD.containers"
+            [class.is-active]="cont.id === jbDnD.activeContainer?.id">{{cont.id}}</span>
+    </div>
+    <div><b>activeContainer = </b><span class="demo-active-container-id">{{jbDnD.activeContainer?.id}}</span></div>
+    <div><b>activePlaceholder = </b><span class="demo-active-placeholder-id">{{jbDnD.activePlaceholder?.id}}</span></div>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-7">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+    <hr class="marT30">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre>{{ctrlCode}}</pre>
+    </div>
+  </div>
+  <div class="col-5">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+
+
+  <div class="col-12"><hr></div>
+
+</div>

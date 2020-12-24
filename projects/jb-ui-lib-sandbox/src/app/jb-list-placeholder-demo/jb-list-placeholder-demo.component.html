@@ -1,0 +1,78 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<h5 class="mt-4">Examples:</h5>
+
+<div class="row">
+  <div class="col-5">
+    <div class="row">
+      <div class="col-12 marB15"><div class="code-box pad5"><pre>{{instance}}</pre></div></div>
+      <div class="col-12">
+        <jb-list-placeholder jbType="table"></jb-list-placeholder>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-7">
+    <div class="row">
+      <div class="col-12 marB15"><div class="code-box pad5"><pre>{{instance2}}</pre></div></div>
+      <div class="col-12">
+        <ul class="list-unstyled table-list">
+          <li class="list-header">
+            <jb-list-header-col class="col-5" colTitle="Code"    fieldName="code"  ></jb-list-header-col>
+            <jb-list-header-col class="col-3" colTitle="Module"  fieldName="module"></jb-list-header-col>
+            <jb-list-header-col class="col-2" colTitle="Active"  fieldName="active"></jb-list-header-col>
+          </li>
+          <jb-list-placeholder jbType="list" [jbColumns]="[5, 3, 2]" jbRows="4"></jb-list-placeholder>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row marT20">
+  <div class="col-3">
+    <jb-list-placeholder jbType="tile"></jb-list-placeholder>
+  </div>
+  <div class="col-9">
+    <p>A placeholder for the tile view with fixed height that adapts in width</p>
+    <div class="code-box pad5"><pre>{{instance3}}</pre></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5>Cards</h5>
+    <p>Using the jbType="<b>cards</b>" a list of card placeholders is displayed</p>
+  </div>
+  <div class="col-5">
+    <div class="code-box pad5"><pre>{{code}}</pre></div>
+  </div>
+  <div class="col-5">
+    <jb-label jbText="Css class to arrange the number of columns (on max resolution)"></jb-label>
+    <div class="padT5">
+      <jb-radio [(ngModel)]="conf.cssClass" jbValue="four-columns"  jbLabel="four-columns" (ngModelChange)="upCode()"></jb-radio>
+      <jb-radio [(ngModel)]="conf.cssClass" jbValue="three-columns" jbLabel="three-columns" (ngModelChange)="upCode()"></jb-radio>
+      <jb-radio [(ngModel)]="conf.cssClass" jbValue="two-columns"   jbLabel="two-columns" (ngModelChange)="upCode()"></jb-radio>
+    </div>
+  </div>
+  <jb-dropdown class="col-2"
+               jbLabel="jbRows"
+               [jbList]="conf.rowOps"
+               [(ngModel)]="conf.jbRows"
+               (ngModelChange)="upCode()"
+               [jbRequired]="true"
+               jbSelect="id"
+               jbRender="id">
+  </jb-dropdown>
+  <div class="col-12 padT15" *ngIf="link">
+    <jb-list-placeholder jbType="cards" [jbRows]="conf.jbRows" [ngClass]="conf.cssClass"></jb-list-placeholder>
+  </div>
+</div>

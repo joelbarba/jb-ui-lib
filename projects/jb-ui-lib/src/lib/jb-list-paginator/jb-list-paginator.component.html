@@ -1,0 +1,32 @@
+<div class="jb-list-paginator">
+  <div class="page-buttons">
+
+    <!--<div *ngIf="jbTopArrows" class="page-btn prev-btn" (click)="goToFirst()">‹‹</div>-->
+    <!--<div *ngIf="jbTopArrows" class="page-btn next-btn disabled" (click)="goToLast()">››</div>-->
+
+    <div class="page-btn prev-btn" (click)="jbCtrl.currentPage > 1 && goToPrev()"
+         [class.disabled]="jbCtrl.currentPage === 1">‹</div>
+
+    <div class="page-btn num-btn" *ngFor="let listBtn of listBtns"
+         [class.current]="jbCtrl.currentPage === listBtn.pageNum"
+         [class.disabled]="!listBtn.pageNum"
+         (click)="!!listBtn.pageNum && goToPage(listBtn.pageNum)">{{ listBtn.pageNum || '...' }}</div>
+    <div class="page-btn next-btn" (click)="jbCtrl.currentPage < jbCtrl.totalPages && goToNext()"
+         [class.disabled]="jbCtrl.currentPage === jbCtrl.totalPages">›</div>
+
+  </div>
+
+  <div *ngIf="jbShowSelector" class="page-num-selector text-right">
+    <jb-dropdown class="flat"
+                 [jbList]="jbCtrl.maxRowsPerPageList"
+                 [(ngModel)]="jbCtrl.rowsPerPage"
+                 (ngModelChange)="changeRowsPerPage($event)"
+                 jbSelect="num"
+                 jbRender="label"
+                 [jbRequired]="true">
+    </jb-dropdown>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,17 @@
+<ul *ngIf="firstItem">
+  <li>
+    <div class="list-txt" [innerHTML]="firstItem"></div>
+    <button class="list-btn" [show]="isCollapsed && !!expList.length" (click)="isCollapsed = false">
+      (+{{expList.length}})
+      <span class="icon-arrow-down5"></span>
+    </button>
+  </li>
+</ul>
+<ul *ngIf="expList.length" [jb-collapse]="isCollapsed">
+  <li *ngFor="let item of expList; let ind = index">
+    <div class="list-txt" [innerHTML]="item"></div>
+    <button class="list-btn" [show]="ind + 1 === expList.length" (click)="isCollapsed = true">
+      <span class="icon-arrow-up5"></span>
+    </button>
+  </li>
+</ul>

@@ -1,0 +1,226 @@
+$input-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+$input-focused-color   : $focused-color !default;
+$input-disabled-color  : $disabled-color !default;
+$input-required-color  : $required-color !default;
+$input-invalid-color   : $invalid-color !default;
+$input-valid-color     : $valid-color !default;
+
+jb-input {
+
+  .jb-input-form-group {
+    margin-bottom: 15px;
+    position: relative; // Set it as a container for the internal relatives
+
+    .jb-input-inner-icon {
+      position: absolute;
+      display: block;
+      z-index: 2;
+      top: initial;
+      width: 34px;
+      height: 34px;
+      bottom: 0;
+      right: 0;
+      padding: 10px;
+      font-size: 14px;
+      text-align: center;
+      pointer-events: none;
+      &.loading {
+        animation: jbSpinAround 1000ms infinite linear;
+      }
+    }
+
+    label {
+      font-weight: 700;
+      margin-bottom: 2px;
+
+      .info-badge {
+        display: inline-block;
+        margin-right: 7px;
+        cursor: pointer;
+      }
+      .asterisk {
+        margin-left: 3px;
+      }
+    }
+
+    input.form-control {
+      height: 34px;
+      font-size: 14px;
+      &:focus { outline: 0; }
+    }
+
+    .input-wrapper {
+      .input-group-prepend, .input-group-append {
+        .btn.btn-outline-secondary {
+          font-size: 14px;
+          padding: 0;
+          min-width: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          div { padding: 0 7.5px; }
+          &:focus { box-shadow: none; }
+          //&:active:not(.disabled) {
+          //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+          //}
+        }
+      }
+    }
+
+    &.is-disabled input.form-control {
+      cursor: not-allowed;
+    }
+
+    &.is-error {
+      .jb-input-error-text {  // Error message
+        font-size: 11px;
+        position: absolute;
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
+
+        // errorPosition:
+        &.none { display: none; } // Hide error text
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { right: 5px; padding-top: 3px; } // Default > xs = Top right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+        }
+        &.top-right { right: 5px; padding-top: 3px; }
+        &.bottom-left  { bottom: -20px; left: 5px; }
+        &.bottom-right { bottom: -20px; right: 5px; }
+      }
+
+      // If error text at the bottom, add extra margin
+      &.error-bottom { margin-bottom: 30px; }
+      @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+
+      // When numeric input with error, hide the arrows on the right
+      input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      // input[type=number] { appearance: textfield; } // Firefox crashes, hence taking it outside .is-error
+    }
+    input[type=number] { -moz-appearance: textfield; } // HACK Firefox will never show the spin buttons
+
+
+    // Expose an animation when autofill is triggered, to be hooked up in JS through 'animationstart' event
+    @keyframes onAutoFillStart {
+      0%   { transform: translateX(0); }
+      50%  { transform: translateX(1px); }
+      100% { transform: translateX(0); }
+    }
+    .has-autofill-detection input:-webkit-autofill {
+      animation: onAutoFillStart 0.05s ease-in-out 0s;
+      transform: translateX(0);
+    }
+  }
+
+
+  // Horizontal layout (label to the left, input to the right)
+  &.input-col, &[class*="input-col-"] {
+    .jb-input-form-group {
+      display: flex;
+      label {
+        flex: 1;
+        text-align: right;
+        padding-top: 5px;
+        max-height: 30px;
+      }
+      .input-wrapper {
+        display: flex;
+        margin-left: 15px;
+        flex: 1;
+      }
+      .jb-input-inner-icon { top: 0; }
+
+      .jb-input-error-text {  // Error message
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { padding-top: 0; top: -20px; } // Default > xs = Top right
+          @media (max-width: 768px) { }  // Default xs = Bottom right
+        }
+        &.bottom-left { padding-left: calc(calc(100% / 3) + 10px); }
+        &.top-right { padding-top: 0; top: -20px; }
+      }
+
+      // Add extra margin
+      margin-top: 25px;
+      margin-bottom: 30px;
+    }
+  }
+
+  @for $ind from 1 through 10 {
+    &.input-col-#{$ind} {
+      .jb-input-form-group .input-wrapper { flex: #{$ind}; }
+    }
+  }
+
+  &.flat .jb-input-form-group { margin-bottom: 0; }
+}
+
+
+
+
+
+// --- <jb-input> color reset -----------------------------------------------------------
+// This styles the jb-input to behave exactly like the old <jb-input> in the old Splice portal (AngularJS)
+jb-input .jb-input-form-group {
+  &.is-required .jb-input-inner-icon {
+    color: $input-required-color; // Icon into the input to add info or error alert
+  }
+  .jb-input-inner-icon {
+    &.jb-icon-error { color: $input-invalid-color; }
+    &.jb-icon-valid { color: $input-valid-color; }
+    &.jb-icon-loading { color: $input-valid-color; }
+  }
+  input.form-control {
+    border: 1px solid $input-optional-color;
+    &:focus { border-color: $input-focused-color; }
+
+    //&::-webkit-input-placeholder { color: $input-optional-color; } /* WebKit, Blink, Edge */
+    //&:-moz-placeholder           { color: $input-optional-color; opacity:  1; } /* Mozilla Firefox 4 to 18 */
+    //&::-moz-placeholder          { color: $input-optional-color; opacity:  1; } /* Mozilla Firefox 19+ */
+    //&:-ms-input-placeholder      { color: $input-optional-color; } /* Internet Explorer 10-11 */
+    //&::-ms-input-placeholder     { color: $input-optional-color; } /* Microsoft Edge */
+    //&::placeholder               { color: $input-optional-color; } /* Most modern browsers support this now. */
+    //box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    //&:focus { box-shadow: 0 0 0 2px rgba($input-optional-color, 0.35); }
+  }
+  &.is-disabled input.form-control { color: $input-disabled-color; }
+  &.is-required  input.form-control {
+    border-color: $input-required-color;
+    &:focus { border-color: $input-focused-color; }
+  }
+
+  label { transition-property: color; transition-duration: 0.2s; }
+  &.is-required label { color: $input-required-color; }
+  &.is-focus label { color: $input-focused-color; }
+
+  &.is-error {
+    label { color: $input-invalid-color; }
+    input.form-control { border-color: $input-invalid-color; }
+    input.form-control:focus { border-color: $input-invalid-color; }
+    .jb-input-error-text { color: $input-invalid-color; }
+  }
+
+  // Addon buttons
+  .btn.btn-outline-secondary {
+    border-color: $input-valid-color;
+    background: $input-valid-color;
+    color: $white;
+    //transition-property: none;
+    &:active:not(.disabled) {
+      //  box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+      border-color: $input-valid-color;
+      background: $input-valid-color;
+    }
+  }
+  &.is-focus .btn.btn-outline-secondary {
+    border-color: $input-focused-color;
+    background: $input-focused-color;
+  }
+  &.is-error .btn.btn-outline-secondary, &.is-error .btn.btn-outline-secondary:active {
+    border-color: $input-invalid-color;
+    background: $input-invalid-color;
+  }
+
+
+  input.form-control { box-shadow: none; }  // Remove it from Bootstrap
+}

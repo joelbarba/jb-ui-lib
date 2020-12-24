@@ -1,0 +1,163 @@
+<!-- jb-status-badge = 'jb-btn' -->
+
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This component is for display the status of a object, It must be a number or a boolean.</p>
+<p>The defaul labels are:</p>
+<p>   0:  Active<br/>   1:  Inactive<br/>   2:  Pending</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--jb-status-badge Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">jb-status-badge Customization:</h5>
+      <div>
+        <jb-status-badge [jbStatus]="compConf.status"
+                         [jbLabel]="(compConf.hasLabel? compConf.labelText : '')"
+                         [jbColor]="(compConf.hasColor? compConf.colorCode : '')"
+                         [jbCircle]="compConf.isCircle">
+        </jb-status-badge>
+      </div>
+      <div class="padT15">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <div class="row marT15">
+        <div class="col-12">
+          <jb-dropdown [(ngModel)]="compConf.status"
+                       (ngModelChange)="upComp()"
+                       [jbList]="statusList"
+                       jbLabel="Status"
+                       jbSelect="id"
+                       jbRender="$$$ $item.id +' - '+ $item.name">
+          </jb-dropdown>
+        </div>
+      </div>
+      <div class="row marT15">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" jbLabel="Add Label"></jb-checkbox> </div>
+        <div class="col-5" *ngIf="compConf.hasLabel"><jb-radio [(ngModel)]="compConf.isSingleLabel" jbLabel="Single" [jbValue]="true" (ngModelChange)="upComp(); setList()"></jb-radio></div>
+        <div class="col-5" *ngIf="compConf.hasLabel"><jb-radio [(ngModel)]="compConf.isSingleLabel" jbLabel="Multiple" [jbValue]="false" (ngModelChange)="setList()"></jb-radio></div>
+        <div class="col-10"> <jb-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!compConf.hasLabel || !compConf.isSingleLabel"></jb-input></div>
+      </div>
+      <div class="row marT15">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="compConf.hasColor" (ngModelChange)="upComp(); setColor()" jbLabel="Add Color"></jb-checkbox> </div>
+        <div class="col-10" *ngIf="compConf.hasColor"><input [(ngModel)]="compConf.colorCode" type="color" (ngModelChange)="upComp()" [disabled]="!compConf.hasColor"/></div>
+      </div>
+      <div class="row marT15">
+        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="compConf.isCircle" (ngModelChange)="upComp()" jbLabel="Is Circle"></jb-checkbox> </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5">
+      <h5 class="marB25">jbColorSet Example - Orders</h5>
+      <div>
+        <jb-status-badge [jbStatus]="modConf.status"
+                         [jbLabel]="modConf.labelText"
+                         [jbColorSet]="modConf.orderColorSet">
+        </jb-status-badge>
+      </div>
+      <div class="padT30">
+        <div class="code-box pad15">
+          <pre>{{customModCode}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-7">
+      <div class="row marT15">
+        <div class="col-12">
+          <jb-dropdown [(ngModel)]="modConf.status"
+                       (ngModelChange)="updateModStatus();upMod();"
+                       [jbList]="modConf.defaultList"
+                       [jbRequired]="true"
+                       jbLabel="Status"
+                       jbSelect="id"
+                       jbRender="$$$ $item.id +' - '+ $item.name">
+          </jb-dropdown>
+        </div>
+        <div class="col-12">
+          <pre class="padT20">[jbColorSet] = {{modConf.orderColorSet | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+  
+  <div class="row">
+    <div class="col-4">
+      <h5 class="bold">Default Color Set</h5>
+      <br/><br/>
+      <jb-status-badge [jbStatus]="0"></jb-status-badge>
+      <jb-status-badge [jbStatus]="1"></jb-status-badge>
+      <jb-status-badge [jbStatus]="2"></jb-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance}}</pre> </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-4">
+      <jb-status-badge [jbStatus]="1" [jbLabel]="'Custom Label'"></jb-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance2}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <jb-status-badge [jbStatus]="true" [jbLabel]="['YES', 'NO']"></jb-status-badge>
+      <jb-status-badge [jbStatus]="false" [jbLabel]="['YES', 'NO']"></jb-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance3}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <jb-status-badge [jbStatus]="2" jbLabel="Circle Example" [jbCircle]="true">
+      </jb-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance4}}</pre> </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <jb-status-badge [jbStatus]="2" [jbColor]="'7f3fc0'"></jb-status-badge>
+    </div>
+    <div class="col-8"> <pre>{{instance5}}</pre> </div>
+  </div>
+
+</div>
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+    <p>PS. Also the following classes could updating using the [jbColorSet]</p>
+  </div>
+</div>
+

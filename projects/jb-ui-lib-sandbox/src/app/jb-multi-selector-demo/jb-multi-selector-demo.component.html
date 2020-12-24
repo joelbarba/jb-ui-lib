@@ -1,0 +1,330 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+<p>This is a simplified version of the <b>jbDropdown[type=multiselect]</b> from AngularJS (meaning that not all options are available here).
+  It allows to select multiple values from a list of values. For other options,
+  check components <a href="/jb-autocomplete">jb-autocomplete</a>, <a href="/jb-dropdown">jb-dropdown</a>, ...
+</p>
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+
+
+<!--Button Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Multi-selector Customization:</h5>
+
+      <div *ngIf="isLinked">
+        <div class="col-12 padL30 marB30" *ngIf="!!jbDropdownRef" style="font-family: monospace;">
+          FromControl (ngModel):<br>
+          <div class="marL10">- jbInputRef.value: <b>{{jbDropdownRef.value | json}}</b></div>
+          <div class="marL10">- jbInputRef.valid: <b [style.color]="jbDropdownRef.valid ? '#28a745': '#dc3545'">{{jbDropdownRef.valid | json}}</b></div>
+          <div class="marL10">- jbInputRef.pristine: <b>{{jbDropdownRef.pristine | json}}</b></div>
+          <div class="marL10">- jbInputRef.errors: <b>{{jbDropdownRef.errors | json}}</b></div>
+        </div>
+
+        <jb-multi-selector [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
+                           [class.flat]="conf.hasFlat"
+                           [(ngModel)]="selObj10" #jbDropdownRef="ngModel"
+                           [jbList]="dList"
+                           [jbOrderBy]="conf.hasOrder ? conf.jbOrderBy: null"
+                           [jbSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
+                           [jbRender]="(conf.hasRender ? conf.renderExp : null)"
+                           [jbRenderFn]="(conf.hasRenderFn ? renderFn : null)"
+
+                           [jbPlaceholder]="conf.hasPlaceholder ? conf.jbPlaceholder : null"
+                           [jbEmptyValue]="conf.hasEmptyValue ? conf.customEmptyValue : null"
+
+                           [jbRequired]="conf.isRequired"
+                           [jbDisabled]="conf.isDisabled"
+                           [jbDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
+                           [jbLoading]="conf.isLoadingWithPromise ? conf.jbLoadingPromise : conf.isLoading"
+                           [jbErrorOnPristine]="conf.isErrorOnPristine"
+                           [jbLabel]="(conf.hasLabel ? conf.labelText : '')"
+                           [jbTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
+                           [jbTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
+                           [jbTooltipBody]="conf.hasLabel && conf.tooltipBody"
+                           [jbErrorText]="conf.hasErrorText ? conf.jbErrorText : ''"
+                           [jbErrorPos]="conf.errorPos"
+                           [jbKeepSearch]="conf.jbKeepSearch"
+                           [jbFilterFn]="conf.hasFilterFn ? conf.jbFilterFn : null"
+                           [jbCustomPlacementList]="conf.jbCustomPlacementList"
+                           (jbOnLoaded)="myCtrl = $event"
+        >
+        </jb-multi-selector>
+      </div>
+
+      <div class="padT30">
+        <jb-btn jbIcon="icon-loop32"  jbText="Relink" (jbClick)="reLink()"></jb-btn>
+        <jb-btn jbText="val=null" (jbClick)="selObj10=null"></jb-btn>
+        <jb-btn jbText="val='arrax'" (jbClick)="selObj10='arrax'"></jb-btn>
+        <jb-btn jbText="val='abc'" (jbClick)="selObj10='abc'"></jb-btn>
+        <jb-btn jbText="val=Item 13" (jbClick)="mockAutoSelect()"></jb-btn>
+      </div>
+
+      <pre class="padT10">Selection = {{selObj10 | json}}</pre>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{code}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 block padT5" jbLabel="jbErrorOnPristine" [(ngModel)]="conf.isErrorOnPristine" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-5 flat" [(ngModel)]="conf.disabledTip" jbPlaceholder="[jbDisabledTip]: This is disabled because..." (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <div class="row marT15">
+
+        <!--jbLabel-->
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-4" style="margin-bottom: -5px;" [(ngModel)]="conf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasLabel"></jb-input>
+
+        <!--jbLoading-->
+        <jb-checkbox class="col-3 block padT5" jbLabel="jbLoading" [(ngModel)]="conf.isLoading" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-btn jbType="save" jbText="jbLoading (promise)" (jbClick)="loadWithPromise()"></jb-btn>
+
+        <!--jbTooltip-->
+        <div class="offset-2 col-10">
+          <div class="row">
+            <jb-checkbox class="col-3 padT5" jbLabel="jbTooltip" [jbDisabled]="!conf.hasLabel" [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-9" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+            <jb-checkbox class="col-3" jbLabel="jbTooltipBody" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></jb-checkbox>
+            <div class="col-9">
+              <jb-label class="marR20" jbText="jbTooltipPos"></jb-label>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="top"     jbValue="top"    jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="left"    jbValue="left"   jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="right"   jbValue="right"  jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="bottom"  jbValue="bottom" jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--jbSelect-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbSelect" [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" jbTooltipPos="left" jbTooltip="The field of the object to be set in the ngModel when selected. If empty, the whole object is set to ngModel."></jb-checkbox>
+        <div class="col-3 padT5 padB15">
+          <select [disabled]="!conf.hasSelect" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()">
+            <option value="id">id</option>
+            <option value="username">username</option>
+            <option value="email">email</option>
+            <option value="first_name">first_name</option>
+            <option value="last_name">last_name</option>
+          </select>
+        </div>
+        <jb-checkbox class="col-2 padT5" jbLabel="jbOrderBy" [(ngModel)]="conf.hasOrder" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-5" [jbDisabled]="!conf.hasOrder" [(ngModel)]="conf.jbOrderBy" (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <!--jbRender-->
+      <div class="row marT5">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbRender" jbTooltipPos="left" jbTooltip="How to display every item on the list. It can be either a field of the object or a translation label"
+                     [(ngModel)]="conf.hasRender" (ngModelChange)="conf.hasRenderFn = false; upComp()">
+        </jb-checkbox>
+        <jb-input class="col-3 flat" [jbDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
+                  jbPlaceholder="field to display..." (ngModelChange)="upComp()">
+        </jb-input>
+
+        <div class="col-6 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
+          <pre *ngIf="conf.renderExp === 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderInfo}}</pre>
+          <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">jbRender="id", "username", "email", "first_name" ...</pre>
+        </div>
+        <jb-checkbox class="col-1 padT10" jbLabel="" [(ngModel)]="conf.renderLabel" jbTooltip="Render a translation label instead"
+                     (ngModelChange)="(conf.renderLabel ? conf.renderExp = 'views.item_number' : conf.renderExp = 'email'); upComp()">
+        </jb-checkbox>
+
+        <div class="col-12 padT10"></div>
+
+        <jb-checkbox class="col-2 padT5" jbLabel="jbRenderFn" jbTooltipPos="left" jbTooltip="If jbRender is not enough, use this function to determine how to render every item on the list"
+                     [(ngModel)]="conf.hasRenderFn" (ngModelChange)="conf.hasRender = false; upComp()">
+        </jb-checkbox>
+        <div class="col-10" *ngIf="conf.hasRenderFn && !conf.hasRender">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderFnStr}}</pre>
+        </div>
+      </div>
+
+      <!--Empty label + Empty Value-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbPlaceholder" jbTooltipPos="left" jbTooltip="To be displayed when 'Empty' option selected"
+                     [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()">
+        </jb-checkbox>
+        <jb-input class="col-4 marB15 flat" [jbDisabled]="!conf.hasPlaceholder" [(ngModel)]="conf.jbPlaceholder" (ngModelChange)="upComp()"></jb-input>
+
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbEmptyValue" jbTooltip="Value to be set to ngModel when empty option selected (default=null)"
+                     [(ngModel)]="conf.hasEmptyValue" (ngModelChange)="upComp()">
+        </jb-checkbox>
+        <jb-input class="col-4 flat" [jbDisabled]="!conf.hasEmptyValue" [(ngModel)]="conf.customEmptyValue" (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <!--jbErrorText + jbError Pos-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="jbErrorText" [(ngModel)]="conf.hasErrorText" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-4" jbPlaceholder="'none' = displays no text"
+                  [(ngModel)]="conf.jbErrorText" [jbDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
+        </jb-input>
+
+        <div class="col-2">
+          <jb-label class="block" jbText="jbErrorPos"></jb-label>
+          <jb-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="none" jbValue="none" jbTooltip="Error text always hidden" jbTooltipPos="left"></jb-radio>
+        </div>
+        <div class="col-4">
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="default" [jbValue]="null"></jb-radio>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="top-right" jbValue="top-right"></jb-radio>
+          <br>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="bottom-left" jbValue="bottom-left"></jb-radio>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="bottom-right" jbValue="bottom-right"></jb-radio>
+        </div>
+      </div>
+
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="jbKeepSearch" [(ngModel)]="conf.jbKeepSearch" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-2 padT10" jbLabel="jbFilterFn" [(ngModel)]="conf.hasFilterFn" (ngModelChange)="upComp()"></jb-checkbox>
+        <div class="col-7 padT5" *ngIf="conf.hasFilterFn">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">jbFilterFn: (list) => list.filter(item => item.id > 3)</pre>
+        </div>
+      </div>
+
+      <!--jbErrorText + jbError Pos-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="Controls" [(ngModel)]="conf.hasControls" (ngModelChange)="upComp()"></jb-checkbox>
+        <div class="col-10 padR0">
+          <jb-btn jbText="Expand"   (jbClick)="myCtrl.expand()"></jb-btn>
+          <jb-btn jbText="Collapse" (jbClick)="myCtrl.collapse()"></jb-btn>
+          <jb-btn jbText="Toggle"   (jbClick)="myCtrl.toggle()"></jb-btn>
+          <jb-btn jbText="Type"     (jbClick)="myCtrl.type('ax')"></jb-btn>
+          <jb-btn jbText="Pristine" (jbClick)="myCtrl.setPristine()"></jb-btn>
+          <jb-btn jbText="+ Error"  (jbClick)="myCtrl.addError('wrong')"></jb-btn>
+          <jb-btn jbText="- Error"  (jbClick)="myCtrl.removeError()"></jb-btn>
+        </div>
+      </div>
+
+      <!--Show Images + Icons-->
+      <div class="row marT15 padT5">
+        <div class="col-2">
+          <jb-checkbox class="block" [(ngModel)]="conf.hasImages" (ngModelChange)="switchList()" jbLabel="Show images"></jb-checkbox>
+          <jb-checkbox class="block marT10" [(ngModel)]="conf.hasIcons" (ngModelChange)="switchList()" jbLabel="Show icons"></jb-checkbox>
+        </div>
+        <div class="col-7">
+          <div style="min-height: 32px;"><span [hidden]="!conf.hasImages">Add the property "<b>img</b>" on every object of the array with the url</span></div>
+          <div style="min-height: 32px;"><span [hidden]="!conf.hasIcons">Add the property "<b>icon</b>" on every object of the array with the icomoon class</span></div>
+        </div>
+
+        <!--jbCustomPlacementList-->
+        <div class="col-3 padL25 padR5">
+          <jb-label jbText="jbCustomPlacementList" jbTooltip="By default the dropdown expands downwards unless its position on the screen is too low. With this option you can force the direction it will be always expanded towards"></jb-label>
+          <div class="text-right padR10">
+            <select [(ngModel)]="conf.jbCustomPlacementList" (ngModelChange)="upComp()">
+              <option value="">auto</option>
+              <option value="top">top</option>
+              <option value="bottom">bottom</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="CSS 'flat'" [(ngModel)]="conf.hasFlat" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 padT5" jbLabel="CSS 'full-width'" [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()"></jb-checkbox>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr>
+
+
+
+<!--External control-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-12 marB5">
+      <h5 class="marB25">External Control Example:</h5>
+      <p>It is possible to control some options of the dropdown externally.<br>
+        There are 2 ways to do it. You can hook up the controller object on (jbOnLoaded), and use its methods,
+        or you can pass an observable to [extCtrl$] that emits commands to trigger actions.
+      </p>
+    </div>
+
+    <div class="col-6 marB15">
+      <h6>Using (jbOnLoaded)</h6>
+      <code class="padT15">
+        <ul><li *ngFor="let ctrlAction of ctrlActions1">{{ctrlAction}}</li></ul>
+      </code>
+      <div>
+        <jb-btn jbText="Expand"   (jbClick)="myCtrl2.expand()"></jb-btn>
+        <jb-btn jbText="Collapse" (jbClick)="myCtrl2.collapse()"></jb-btn>
+        <jb-btn jbText="Toggle"   (jbClick)="myCtrl2.toggle()"></jb-btn>
+        <jb-btn jbText="Type"     (jbClick)="myCtrl2.type('ax')"></jb-btn>
+        <jb-btn jbText="Pristine" (jbClick)="myCtrl2.setPristine()"></jb-btn>
+        <jb-btn jbText="+ Error"  (jbClick)="myCtrl2.addError('wrong')"></jb-btn>
+        <jb-btn jbText="- Error"  (jbClick)="myCtrl2.removeError()"></jb-btn>
+      </div>
+      <div class="marT15">
+        <jb-multi-selector jbLabel="Example Multi-select 1"
+                     [(ngModel)]="selObj9"
+                     [jbList]="myList"
+                     (jbOnLoaded)="myCtrl2 = $event">
+        </jb-multi-selector>
+      </div>
+      <div class="marT10">
+        <div class="code-box pad15">
+          <pre>{{extCtrlExample1}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 marB15">
+      <h6>Using [extCtrl$]</h6>
+      <code class="padT15">
+        <ul><li *ngFor="let ctrlAction of ctrlActions2">{{ctrlAction}}</li></ul>
+      </code>
+      <div>
+        <jb-btn jbText="Expand"   (jbClick)="extCtrl$.next({ action: 'expand' })"></jb-btn>
+        <jb-btn jbText="Collapse" (jbClick)="extCtrl$.next({ action: 'collapse' })"></jb-btn>
+        <jb-btn jbText="Toggle"   (jbClick)="extCtrl$.next({ action: 'toggle' })"></jb-btn>
+        <jb-btn jbText="Type"     (jbClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></jb-btn>
+        <jb-btn jbText="Pristine" (jbClick)="extCtrl$.next({ action: 'setPristine' })"></jb-btn>
+        <jb-btn jbText="+ Error"  (jbClick)="extCtrl$.next({ action: 'addError', value: 'wrong' })"></jb-btn>
+        <jb-btn jbText="- Error"  (jbClick)="extCtrl$.next({ action: 'removeError' })"></jb-btn>
+      </div>
+      <div class="marT15">
+        <jb-multi-selector jbLabel="Example Multi-select 2"
+                     [(ngModel)]="selObj8"
+                     [jbList]="myList"
+                     [extCtrl$]="extCtrl$">
+        </jb-multi-selector>
+      </div>
+      <div class="marT10">
+        <div class="code-box pad15">
+          <pre>{{extCtrlExample2}}</pre>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+  </div>
+</div>

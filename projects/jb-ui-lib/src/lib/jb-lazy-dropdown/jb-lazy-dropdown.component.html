@@ -1,0 +1,71 @@
+<div class="form-group dropdown-form-group"
+     (keydown)="triggerKey($event)"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="showError">
+
+  <label *ngIf="!!jbLabel" [class.is-required]="jbRequired">
+    <span class="info-badge" *ngIf="!!jbTooltip"
+          [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+          [container]="(jbTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{jbLabelTrans$ | async}}</span>:
+    <span *ngIf="jbRequired" class="asterisk">*</span>
+  </label>
+
+  <!--Error Message-->
+  <span *ngIf="showError && errorPosition !== 'none'"
+        class="dropdown-error-text"
+        [class.pull-up]="!jbLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+
+  <div class="dropdown" [class.is-expanded]="isExpanded && !isLoading" [class.expand-upward]="expandUpward">
+    <div class="input-group"
+         [disableTooltip]="!jbDisabled || !jbDisabledTip"
+         [ngbTooltip]="jbDisabledTipTrans$ | async">
+
+      <input type="text" class="form-control" #dropdownInput
+             [(ngModel)]="inputText" (ngModelChange)="typing$.next($event)"
+             [placeholder]="jbPlaceholderTrans$ | async"
+             [disabled]="jbDisabled"
+             (focusin)="expandList()"
+             (focusout)="collapseList()">
+
+      <div class="input-group-append" (click)="!jbDisabled && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="jbDisabled ? 'true' : ''" tabIndex="-1">
+          <span [hidden]="isLoading"
+                [ngClass]="!inputText ? 'icon-search' : 'icon-cross'"
+                (click)="!!inputText && clear()"
+          ></span>
+          <span [hidden]="!isLoading" class="loading"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list-container" #listContainer
+         *ngIf="isExpanded"
+         [class.list-upward]="expandUpward">
+      <div *ngFor="let item of list" class="option-wrapper option-row" #optionRow
+           [class.selected]="jbModel === item"
+           [class.candidate]="jbCandidate === item"
+           (mouseenter)="!ignoreHover && (jbCandidate = item)"
+           (mouseleave)="!ignoreHover && (jbCandidate = null)"
+           (mousedown)="selectItem(item)">
+        <span>{{item.$renderedText}}</span>
+      </div>
+      <div *ngIf="showNoResultLabel()" class="option-row">
+        <span>{{noResultLabel | async}}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,34 @@
+<div *ngIf="jbType === 'profile'" class="whiteBg placeholder-profile">
+  <div *ngFor="let item of fakeProfile">
+    <div [ngClass]="item.classRow">
+      <div *ngFor="let itemList of item.list" class="placeholder-text" [ngClass]="itemList"></div>
+      <div *ngFor="let itemList of item.dataList" [ngClass]="itemList.colClass">
+        <div *ngFor="let col of itemList.columnList" class="placeholder-text" [ngClass]="col"></div>
+      </div>
+    </div>
+
+    <hr *ngIf="item.row === 'space'"/>
+
+  </div>
+</div>
+<div *ngIf="jbType === 'details'" class="placeholder-details" [ngClass]="{'whiteBg': !jbTabs}">
+  <div *ngIf="fakeDetails.title">
+    <h3 class="placeholder-text details_title"></h3>
+    <hr/>
+  </div>
+  <h5 *ngIf="fakeDetails.description" class="placeholder-text details_description"></h5>
+  <div class="row">
+    <div *ngFor="let column of fakeDetails.columns" [ngClass]="column.col">
+      <div *ngIf="column.subtitle">
+        <h4 class="placeholder-text details_subtitle"></h4>
+        <hr/>
+      </div>
+      <div *ngFor="let item  of column.colList">
+        <h5 class="placeholder-text" [ngClass]="item.label"></h5>
+        <h5 class="placeholder-text" [ngClass]="item.input"></h5>
+      </div>
+    </div>
+  </div>
+</div>
+
+

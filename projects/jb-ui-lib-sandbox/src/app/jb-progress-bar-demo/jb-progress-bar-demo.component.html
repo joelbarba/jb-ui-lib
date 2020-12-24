@@ -1,0 +1,141 @@
+<!-- jb-progress-bar = 'jb-btn' -->
+<div class="progress-bar-demo">
+  <h2>{{name}}</h2>
+  <hr/>
+  <p>{{desc}}</p>
+
+  <h5 class="mt-4">Parameters:</h5>
+  <div class="col-12">
+    <pre>{{api}}</pre>
+  </div>
+
+
+  <!--jb-progress-bar Customization-->
+  <div class="whiteBg">
+    <div class="row">
+
+      <div class="col-5 marB15">
+        <h5 class="marB25">jb-progress-bar Customization:</h5>
+        <div class="padB50">
+          <jb-progress-bar
+            [jbValue]="custom.obj.jbValue"
+            [jbTotal]="custom.obj.jbTotal"
+            [jbLabel]="custom.obj.jbLabel"
+            [jbUsedLabel]="custom.obj.jbUsedLabel"
+            [jbLeftLabel]="custom.obj.jbLeftLabel">
+          </jb-progress-bar>
+        </div>
+        <div>
+          <div class="code-box pad15">
+            <pre>{{custom.obj.componentView}}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-7">
+
+        <div class="row">
+          <div class="col-4 padT5">
+            <jb-input [(ngModel)]="custom.obj.jbValue"
+                      jbType="number"
+                      (ngModelChange)="custom.buildComponentView()"
+                      jbLabel="jbValue"></jb-input>
+          </div>
+          <div class="col-4 padT5">
+            <jb-input [(ngModel)]="custom.obj.jbTotal"
+                      jbType="number"
+                      (ngModelChange)="custom.buildComponentView()"
+                      jbLabel="jbTotal"></jb-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 padT30">
+            <jb-checkbox [(ngModel)]="custom.config.hasLabel" (ngModelChange)="custom.buildComponentView()"
+                         jbLabel="Has label"></jb-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <jb-input [(ngModel)]="custom.obj.jbLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      jbLabel="jbLabel"
+                      [jbDisabled]="!custom.config.hasLabel"></jb-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 padT30">
+            <jb-checkbox [(ngModel)]="custom.config.hasUsedLabel" (ngModelChange)="custom.buildComponentView()"
+                         jbLabel="Has used label"></jb-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <jb-input [(ngModel)]="custom.obj.jbUsedLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      jbLabel="jbUsedLabel"
+                      [jbDisabled]="!custom.config.hasUsedLabel"></jb-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 padT30">
+            <jb-checkbox [(ngModel)]="custom.config.hasLeftLabel" (ngModelChange)="custom.buildComponentView()"
+                         jbLabel="Has left label"></jb-checkbox>
+          </div>
+          <div class="col-8 padT5">
+            <jb-input [(ngModel)]="custom.obj.jbLeftLabel"
+                      (ngModelChange)="custom.buildComponentView()"
+                      jbLabel="jbLeftLabel"
+                      [jbDisabled]="!custom.config.hasLeftLabel"></jb-input>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <h5 class="mt-4">Examples:</h5>
+  <div class="col-12 examples-table">
+
+    <div class="row">
+      <div class="col-5">
+        <jb-progress-bar
+          [jbValue]="cyclingProgress | async"
+          [jbTotal]="100">
+        </jb-progress-bar>
+      </div>
+      <div class="col-7">
+        <pre>{{instance1}}</pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-5">
+        <jb-progress-bar
+          [jbLabel]="'Mobile Minutes 250'"
+          [jbValue]="1299"
+          [jbTotal]="2048"
+          [jbUsedLabel]="'minutes used'"
+          [jbLeftLabel]="'minutes left'">
+        </jb-progress-bar>
+      </div>
+      <div class="col-7">
+        <pre>{{instance2}}</pre>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!--CSS Styling-->
+  <div class="row marT40">
+    <div class="col-12">
+      <hr>
+      <h4>CSS Styling</h4>
+      <p>The following SASS variables can be overridden to provide customized coloring:</p>
+      <pre class="padL30">{{ cssReset }}</pre>
+    </div>
+  </div>
+
+</div>

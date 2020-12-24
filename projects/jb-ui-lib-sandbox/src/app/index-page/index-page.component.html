@@ -1,0 +1,141 @@
+<h4>
+  <a [routerLink]="['/lazy-loading-test']">Link to Lazy Loaded Module test</a>
+</h4>
+
+
+
+
+<h3>How to install the library</h3>
+<p>There are 2 options, pulling the library from the public NPM repository (simple) or reference the local file system</p>
+<p>Install from NPM: <span class="inline-code">npm install jb-ui-lib --save</span></p>
+<p>Install from file reference: <span class="inline-code">npm install ../../../jb-ui-lib/dist/jb-ui-lib/jb-ui-lib-*.*.*.tgz --save</span> </p>
+<p>
+  This library has some dependencies. It works with <a href="https://getbootstrap.com/">Bootstrap</a>
+  and <a href="https://ng-bootstrap.github.io">Angular Bootstrap</a>, so you'll have to install them to get everything working.
+  <br>
+  It also uses the icon library <a href="https://icomoon.io/">icoMoon</a>, which can easily be imported via npm: jb-icomoon
+  <br>
+  Remember also that many components of the library make use of the ngModel and it's formControl directive, so you'll need
+  to import the <b>"FormsModule"</b> into your app's module
+</p>
+
+<p>
+  The library also requires a translation service to be injected (<b>JbTranslateService</b>).
+  There is an abstract class (<b>AbstractTranslateService</b>) you can extend to provide the methods for such service.
+</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-8 code-box">
+      <pre style="font-size: 14px;">{{libImport2}}</pre>
+    </div>
+    <div class="col-4 code-box">
+      <pre style="font-size: 14px; justify-content: start;">{{libImport}}</pre>
+    </div>
+  </div>
+</div>
+
+<hr>
+<h4>Color styling</h4>
+<p>
+  The library exposes (without encapsulation) the css styles, so they can be overridden later.
+  <br>A group of SCSS variables can be configured in order to change the colors or styles at convenience. Default values are provided based on the primary colors
+</p>
+<p>Example:</p>
+<div class="col-12 examples-table">
+  <div class="row">
+    <div class="col-12 code-box">
+      <pre style="font-size: 16px;">{{stylesExample}}</pre>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+<h3>How to add a new component</h3>
+
+<p>The easiest way is by running the script <span class="inline-code">sh new_comp.sh</span></p>
+<p>To add a new component to the library (manually), follow the steps:</p>
+<ol>
+  <li>Create the component: 
+    <span class="inline-code">ng generate component myNewBaby --project=jb-ui-lib</span>
+  </li>
+  <li>Export the component from the library module (jb-ui-lib.module.ts):
+    <span class="inline-code">exports: [ … , MyNewBaby ]</span>
+  </li>
+  <li>Export the component reference in public_api.ts :
+    <span class="inline-code">export * from './lib/my-new-baby/my-new-baby.component';</span>
+  </li> 
+  <br/>
+
+  <li>Create a sandbox component to test and document it:
+    <span class="inline-code">ng generate component myNewBabyDemo --project=jb-ui-lib-sandbox</span>
+  </li>
+  <li>
+    Add the new component to the list of <span class="inline-code">compList[]</span>, to register it into the sandbox app (lib-register.service.ts)
+  </li>
+  <li>
+    <p>You can use the templates for the <span style="font-weight: bold">myNewBabyDemo</span> component 
+      (<span style="color: green">demo-comp.html.template</span>  and  <span style="color: green">demo-comp.ts.template</span>).<br/>
+      It is necessary that MyNewBabyDemo.component exports also an object with the "name, desc, api, instance, COMPONENT"
+    </p>
+  </li>
+</ol>
+<hr/>
+
+
+
+
+
+<h3>How to update the library</h3>
+<p>To update the library and use it with a file reference, run the npm command (on root foolder): <span class="inline-code">npm run pack_all</span></p>
+<p>To update and publish the library (NPM repository), run script <span class="inline-code">sh publish.sh</span>
+<br/>or do it manually following the steps: </p>
+<ol>
+  <li>Increment version: <span class="inline-code">npm run version_up</span></li>
+  <li>Generate library: <span class="inline-code">npm run pack_all</span></li>
+  <li>Login into NPM register (as joel.barba) <span class="inline-code">npm login</span></li>
+  <li>Publish the library (*.*.* = current version)<span class="inline-code">npm publish ./jb-ui-lib/dist/jb-ui-lib/jb-ui-lib-*.*.*.tgz</span></li>
+</ol>
+<p>If you need to increment a minor or major version, replace point 1 by: 
+  <span class="inline-code">cd dist/jb-ui-lib && npm version patch | minor | major</span>
+</p>
+<p>
+  The library is published in the public NPM repository <a href="https://www.npmjs.com/package/jb-ui-lib">https://www.npmjs.com/package/jb-ui-lib</a>
+  although the code is not private into our BitBucket repository
+</p>
+<p><a href="https://docs.npmjs.com/packages-and-modules/">NPM documentation</a></p>
+<hr/>
+
+
+
+
+
+
+
+
+
+<!--<h3 class="marT50">Index of components</h3>-->
+
+<!--<table class="index-table">-->
+<!--  <thead class="index-header">-->
+<!--    <tr>-->
+<!--      <th>Component</th>-->
+<!--      &lt;!&ndash; <th>Api</th> &ndash;&gt;-->
+<!--      <th>Instance</th>-->
+<!--      <th>Example</th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+<!--  -->
+<!--  <tbody>-->
+<!--    <tr *ngFor="let compItem of reg.compList">-->
+<!--      <td routerLink="{{ '/' + compItem.name }}"><pre>{{ compItem.name }}</pre></td>-->
+<!--      &lt;!&ndash; <td><pre>{{ compItem.api }}</pre></td> &ndash;&gt;-->
+<!--      <td><pre>{{ compItem.instance }}</pre></td>-->
+<!--      <td>-->
+<!--        &lt;!&ndash; <jb-btn></jb-btn>    &ndash;&gt;-->
+<!--      </td> -->
+<!--    </tr>-->
+<!--  <tbody>-->
+<!--</table>-->
+
+<div style="height: 60px;"></div>

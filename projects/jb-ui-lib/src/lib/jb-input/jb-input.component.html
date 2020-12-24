@@ -1,0 +1,95 @@
+<div class="form-group  jb-input-form-group"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
+     [class.is-focus]="isFocus"
+     [class.is-error]="status === 'error'"
+
+     [class.error-default]="errorPosition === 'default'"
+     [class.error-top]="errorPosition === 'bottom-right'"
+     [class.error-bottom]="errorPosition === 'bottom-left' || errorPosition === 'bottom-right'">
+
+  <label *ngIf="!!jbLabel" [class.is-required]="jbRequired">
+    <span class="info-badge" *ngIf="!!jbTooltip"
+         [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+         [container]="(jbTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{jbLabelTrans$ | async}}</span>:
+    <span *ngIf="jbRequired" class="asterisk">*</span>
+  </label>
+
+  <span *ngIf="status === 'error' && errorPosition !== 'none'" class="jb-input-error-text"
+        [class.pull-up]="!jbLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+  <span *ngIf="displayIcon" class="jb-input-inner-icon"
+        [ngClass]="displayIcon"
+        [class.loading]="jbIcon === 'loading'"
+        [class.jb-icon-error]="status === 'error'">
+  </span>
+
+  <div class="input-wrapper"
+       [class.has-autofill-detection]="hasAutofillDetection"
+       [class.input-group]="!!jbLeftBtnIcon || !!jbRightBtnIcon || !!jbLeftBtnText || !!jbRightBtnText"
+       triggers="hover" container="body" [disableTooltip]="!jbDisabled || !jbDisabledTip" placement="top"
+       [ngbTooltip]="jbDisabledTipTrans$ | async">
+
+    <div class="input-group-prepend" *ngIf="!!jbLeftBtnIcon || !!jbLeftBtnText"
+         (click)="jbLeftBtnClick.emit($event)">
+      <button class="btn btn-outline-secondary" tabIndex="-1">
+        <div [class]="jbLeftBtnIcon" [hidden]="!jbLeftBtnIcon"></div>
+        <div [hidden]="!jbLeftBtnText">{{jbLeftBtnText}}</div>
+      </button>
+    </div>
+
+    <input class="form-control" name="jbInput" #ngInputRef="ngModel"
+           [ngModel]="jbModel" (ngModelChange)="parseModelChange($event)"
+           [disabled]="jbDisabled"
+           title=""
+           [class.is-numeric]="this.jbType === 'number'"
+
+           [required]="jbRequired"
+           [minlength]="jbMinlength"
+           [maxlength]="jbMaxlength"
+           [pattern]="jbPattern"
+
+           [placeholder]="jbPlaceholderTrans$ | async"
+           (focusin)="isFocus=true"
+           (focusout)="isFocus=false"
+           [type]="jbType"
+           (keydown)="triggerKey($event)"
+           [autocomplete]="autocomplete"/>
+
+    <div class="input-group-append" *ngIf="!!jbRightBtnIcon || !!jbRightBtnText"
+         (click)="jbRightBtnClick.emit($event)">
+      <button class="btn btn-outline-secondary" tabIndex="-1">
+        <div [class]="jbRightBtnIcon" [hidden]="!jbRightBtnIcon"></div>
+        <div [hidden]="!jbRightBtnText">{{jbRightBtnText}}</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="col-12" *ngIf="!!ngInputRef" style="font-family: monospace;">-->
+<!--  FromControl (internal input):<br>-->
+<!--  <div class="marL10">- ngInputRef.value: <b>{{ngInputRef.value | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.valid: <b [style.color]="ngInputRef.valid ? '#28a745': '#dc3545'">{{ngInputRef.valid | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.pristine: <b [style.color]="ngInputRef.pristine ? '#28a745': '#dc3545'">{{ngInputRef.pristine | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.errors: <b>{{ngInputRef.errors | json}}</b></div>-->
+<!--</div>-->
+<!--<hr>-->
+
+<!--<jb-btn jbText="propagateModelUp()"   (jbClick)="propagateModelUp(jbModel)"></jb-btn>-->
+<!--<jb-btn jbText="jbModel = ''"         (jbClick)="parseModelChange('')"></jb-btn>-->
+<!--<jb-btn jbText="jbModel = null"       (jbClick)="parseModelChange(null)"></jb-btn>-->
+<!--<jb-btn jbText="jbModel = undefined"  (jbClick)="parseModelChange(undefined)"></jb-btn>-->
+<!--<jb-btn jbText="jbModel = false"      (jbClick)="parseModelChange(false)"></jb-btn>-->
+<!--<jb-btn jbText="jbModel = 0"          (jbClick)="parseModelChange(0)"></jb-btn>-->

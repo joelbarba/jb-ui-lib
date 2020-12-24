@@ -1,0 +1,76 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+
+<p>This module includes:
+  <br> <span class="bold marL15">JbGrowlService</span> service
+  <br> <span class="bold marL15">{{instance}}</span> component
+</p>
+
+<p>The component wraps the notification box element, to be displayed on the top right corner of the screen.
+  <br>The you can push notifications through <b>JbGrowlService</b> service methods.
+  <br>Every message is pushed and displayed for 2 seconds (by default). There is a vanishing animation that lasts .6s, so it total they are displayed 2.6s.
+  <br>We can display multiple messages at the same time. The component handles a list of current messages, one above the other, although those cases should be rare.
+  <br>The message text is automatically translated through the provided <b>TranslateService</b> of the application.
+</p>
+
+<h5 class="mt-4">Growl API:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--text = {{ text$ | async }}-->
+
+
+<!--Examples-->
+<h5 class="mt-4">Examples:</h5>
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-9 marB15">
+      <div class="code-box pad15">
+        <pre>{{instance1}}</pre>
+      </div>
+    </div>
+    <div class="col-3 marB15">
+
+      <jb-btn class="block" jbText="Push a .success() notification" (jbClick)="pushSuccess()"></jb-btn>
+      <jb-btn class="block" jbType="warning" jbText="Push a .error() notification" (jbClick)="pushError()"></jb-btn>
+      <jb-btn class="block" jbType="secondary" jbText="Custom .pushMsg() notification" (jbClick)="pushCustom()"></jb-btn>
+
+      <jb-btn jbText="Label with params" class="block"
+              (jbClick)="growl.success('view.common.customer_changed_successfully', { customer_name: 'Other Guy' })">
+      </jb-btn>
+      <jb-btn jbText="Label with html" class="block" (jbClick)="htmlExample()"></jb-btn>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!--Set Up-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>Set Up</h4>
+    <p>You should inject the component somewhere in your app-root (unique instance per app).
+      That shouldn't change the structure of you html, since the component has a fixed position on the right top corner.
+    </p>
+    <pre class="padL20">{{instance2}}</pre>
+
+    <p>Then you can inject the service and use their methods to push notifications:
+    <pre class="padL20">{{instance3}}</pre>
+  </div>
+</div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h4>CSS Styling</h4>
+
+    <p>To provide a color restyling based on a SCSS theme you can redefine the following color variables:
+    </p>
+    <pre class="padL20">{{ cssReset }}</pre>
+
+    <p>The component is all wrapped in the <b>.growl-wrapper</b> class. It contains a list of msg boxes (for each current
+      notification) which are then wrapped into <b>.msg-box</b> class.
+    </p>
+
+  </div>
+</div>

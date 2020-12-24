@@ -1,0 +1,273 @@
+$date-picker-optional-color  : $optional-color !default;  // <-- this is a bootstrap default
+//$date-picker-focused-color   : $focused-color !default;
+$date-picker-disabled-color  : $disabled-color !default;
+$date-picker-required-color  : $required-color !default;
+$date-picker-invalid-color   : $invalid-color !default;
+$date-picker-valid-color     : $valid-color !default;
+$date-picker-modal-day-color: #212529 !default; // default bootstrap $dropdown-color ;
+$date-picker-input-color : #495057 !default; // default bootstrap $input-color ;
+
+
+
+jb-date-picker {
+
+  .jb-date-picker-form-group {
+    margin-bottom: 15px;
+    position: relative;
+    text-align: left;
+
+    input.form-control {
+      height: 34px;
+      font-size: 14px;
+      cursor: pointer;
+      color: $date-picker-disabled-color;   // Mock always disabled input
+      border: 1px solid $date-picker-optional-color;
+      &.enabled { // Mock enabled although it's not
+        color: $date-picker-input-color;
+        background: white;
+      }
+    }
+
+    .input-group {
+      min-width: 250px;
+      .input-group-prepend, .input-group-append .btn.btn-outline-secondary {
+        border-color: $date-picker-valid-color;
+        background: $date-picker-valid-color;
+        &.clear-btn { border-right: 2px solid darken($date-picker-valid-color, 5%); }
+        &:hover {
+          background: darken($date-picker-valid-color, 5%);
+          border-color: darken($date-picker-valid-color, 5%);
+        }
+        color: $white;
+        font-size: 14px;
+        padding: 0;
+        min-width: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        span { padding: 0 7.5px; }
+        &:focus { box-shadow: none; }
+      }
+    }
+
+    &.is-disabled {
+      input.form-control { cursor: not-allowed; }
+      .input-group-prepend, .input-group-append .btn.btn-outline-secondary {
+        opacity: .65;
+        cursor: not-allowed;
+        &:hover { // No hover on buttons when disable
+          background: $date-picker-valid-color;
+          border-color: $date-picker-valid-color;
+        }
+      }
+    }
+
+    &.is-required  input.form-control {
+      border-color: $date-picker-required-color;
+    }
+
+
+    &.is-error {
+      jb-label label { color: $date-picker-invalid-color; }
+
+
+      .jb-date-picker-error-text {  // Error message
+        font-size: 11px;
+        position: absolute;
+        color: $date-picker-invalid-color;
+
+        &.pull-up { top: -23px; } // If no label, pull message up above the box
+
+        // errorPosition:
+        &.none { display: none; } // Hide error text
+
+        &.default { // Default error position:
+          @media (min-width: 767px) { right: 5px; padding-top: 2px; } // Default > xs = Top right
+          @media (max-width: 768px) { bottom: -20px; right: 5px; }    // Default xs = Bottom right
+        }
+        &.top-right { right: 5px; padding-top: 2px; }
+        &.bottom-left  { bottom: -20px; left: 5px; }
+        &.bottom-right { bottom: -20px; right: 5px; }
+      }
+
+      input.form-control {
+        color: $date-picker-invalid-color;
+        border-color: $date-picker-invalid-color;
+      }
+
+      .input-group-prepend, .input-group-append .btn.btn-outline-secondary {
+        border-color: $date-picker-invalid-color;
+        background: $date-picker-invalid-color;
+        &:hover {
+          background: $date-picker-invalid-color;
+          border-color: $date-picker-invalid-color;
+        }
+        &.clear-btn, &.clear-btn:hover { border-right: 2px solid darken($date-picker-invalid-color, 5%); }
+      }
+
+      // If error text at the bottom, add extra margin
+      &.error-bottom { margin-bottom: 30px; }
+      @media (max-width: 768px) { &.error-default { margin-bottom: 30px; } } // Small default goes to the bottom too
+    }
+
+  }
+
+  &.flat .jb-date-picker-form-group { margin-bottom: 0; }
+
+  &.no-min-width .jb-date-picker-form-group .input-group { min-width: auto; }
+
+  .hidden-input {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+  }
+
+
+  &.modal-right ngb-datepicker {
+    right: 0;
+    left: auto !important;
+  }
+
+  ngb-datepicker.dropdown-menu {
+    border: none;
+  }
+
+  ngb-datepicker {
+    box-shadow: 0 1px 2px rgba(34,36,38,.6);
+    .ngb-dp-header {
+      padding-top: 0;
+      ngb-datepicker-navigation {
+        background: $primary_color;
+        color: $white;
+        border-radius: .25rem .25rem 0 0;
+        height: 30px;
+        .ngb-dp-month-name, .ngb-dp-arrow {
+          line-height: 1;
+          font-weight: 700;
+          font-size: 14px;
+          background: $primary_color;
+        }
+        .ngb-dp-arrow {
+          flex: 1;
+          height: 100%;
+          cursor: pointer;
+          &:hover { background: darken($primary_color, 5%); }
+          &:not(.right) { border-top-left-radius: .25rem; }
+          &.right { border-top-right-radius: .25rem; }
+          button {
+            color: $white;
+            width: 100%;
+            &:focus { outline: 0; }
+          }
+        }
+        .ngb-dp-month-name {
+          flex: 4;
+          height: auto;
+        }
+      }
+    }
+
+    .ngb-dp-months {
+      border: 1px solid $primary_color;
+      border-top: none;
+      justify-content: center;
+
+      .ngb-dp-month:first-child .ngb-dp-week { padding-left: 0; }
+      .ngb-dp-month:last-child  .ngb-dp-week { padding-bottom: 0; padding-right: 0; }
+      .ngb-dp-month .ngb-dp-week:last-child { padding-bottom: 0 }
+
+      // Weekday names header (Mon, Tue, Wed, ...)
+      .ngb-dp-week.ngb-dp-weekdays {
+        height: 20px;
+        font-size: 15px;
+        background: darken($primary_color, 5%) !important;
+        border-bottom: none;
+        .ngb-dp-weekday {
+          color: $white;
+          height: auto;
+          line-height: 20px;
+          font-style: normal;
+          font-weight: 700;
+          text-align: center;
+          min-width: 40px;
+        }
+      }
+
+      // Week numbers
+      .ngb-dp-week-number {
+        border-right: 1px solid $primary_color;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 12px;
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      // Days (on custom template dayTemplate)
+      .ngb-dp-day {
+        width: auto;
+        height: auto;
+        &:focus { outline: 0; }
+        .jb-date-picker-day {
+          font-size: 12px;
+          font-weight: bold;
+          text-align: center;
+          line-height: 36px;
+          min-width: 40px;
+          min-height: 40px;
+          border-radius: 10%;
+
+          border: 2px solid transparent;
+          &:hover { border-color: $primary_color; }
+
+          // Selected day
+          &.is-selected { border-color: $primary_color; }
+
+          // Day out of the current month
+          &.other-month {
+            color: rgba($date-picker-modal-day-color, 0.7);
+            //&:hover, &.is-selected { border-color: rgba($date-picker-modal-day-color, 0.7); }
+          }
+
+          // Today
+          &.is-today {
+            &:hover, &.is-selected { background: lighten($primary_color, 50%); }
+          }
+
+          // Invalid day
+          &.is-disabled {
+            cursor: not-allowed;
+            color: $date-picker-disabled-color;
+            &:hover, &.is-selected { border-color: $date-picker-disabled-color; }
+          }
+        }
+      }
+
+    }
+
+    .jb-date-picker-modal-footer {
+      padding: 10px;
+      display: flex;
+      jb-btn .jb-btn > * { // Specific height for the buttons
+        height: 31px;
+        line-height: 31px;
+      }
+      jb-btn.btn-cancel {
+        flex: 1 1 100%;
+        text-align: right;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+

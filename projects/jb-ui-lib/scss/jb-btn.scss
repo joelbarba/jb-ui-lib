@@ -1,0 +1,167 @@
+$default-btn-text-color: $white !default;
+
+$btn-border-radius: 4px;
+$btn-height: 35px;
+$btn-section-width: 35px; // Size of the icon section when text btn
+$btn-icon-width: 40px;    // Size of the button when only icon
+
+@mixin btn-color-mixin($btn-color) {
+  color: $default-btn-text-color;
+  background: $btn-color;
+  .btn-icon-section { background: darken($btn-color, 5%); }
+  &:hover:not(:disabled) {
+    background: darken($btn-color, 3%);
+    .btn-icon-section { background: darken($btn-color, 7%); }
+  }
+  &.small-btn { // If icon btn
+    .btn-icon-section { background: $btn-color; }
+  }
+}
+@mixin custom-btn-color($btn-color, $text-color) {
+  .jb-btn { @include btn-color-mixin($btn-color); }
+  .jb-btn { color: $text-color !important; }
+}
+
+// Coloring
+jb-btn {
+  @each $color, $value in $jb-ui-lib-colors {
+    .disabled-tooltip .#{$color} { @include btn-color-mixin($value); }  // from btnClass <- jbType
+
+    // Force host css class over internal jbType
+    &.#{$color} .disabled-tooltip button { @include btn-color-mixin($value); }
+  }
+}
+
+jb-btn {
+  display: inline-block;
+
+  .disabled-tooltip {
+    display: inline-block;
+
+    .jb-btn {
+      display: flex;
+      border-radius: $btn-border-radius;
+      border: 0;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(34, 36, 38, 0.6);
+
+
+      & > * {
+        height: $btn-height;
+        line-height: $btn-height;
+      }
+
+      // When adding a button on the left, the text line is pulled because the
+      // icon font has a different baseline. Add a hidden text align properly
+      .btn-left-text-baseline { width: 0; }
+
+      .btn-text-section {
+        flex: 1;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        padding: 0 15px;
+        max-height: $btn-height;
+        text-align: center;
+        white-space: nowrap;
+      }
+      .btn-icon-section {
+        display: flex;
+        width: $btn-section-width;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+
+        .loading-spinner {
+          animation-duration: 600ms;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
+          animation-name: jb-btn-spinner;
+          @keyframes jb-btn-spinner {
+            from { transform: rotate(0deg);   }
+            to { transform: rotate(360deg); }
+          }
+          border: 2px solid rgba(255, 255, 255, 0.6);
+          width: 14px;
+          height: 14px;
+          border-radius: 100%;
+          border-top-color: transparent;
+        }
+      }
+        &.small-btn { width: $btn-icon-width; }
+
+      // Special size for icon buttons
+      &.small-btn .btn-icon-section { width: $btn-icon-width; }
+
+      &:focus { outline: none; }
+
+      &:hover:not(:disabled) {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: .65;
+      }
+
+      &:active:not(:disabled) {
+        box-shadow: inset 2px 2px 5px rgba(34, 36, 38, 0.4);
+        .btn-icon-section { box-shadow: inset 0 2px 5px rgba(34, 36, 38, 0.4); }
+      }
+    }
+  }
+}
+
+
+
+// -------- Classes on the HOST ---------
+jb-btn {
+  &.block { display: block; }
+
+  // Styles for full width buttons (class "full-width" applied on the <jb-btn>)
+  &.full-width {
+    width: 100%;
+    .disabled-tooltip {
+      width: 100%;
+      .jb-btn {
+        width: 100%;
+        .btn-icon-section.full-icon { width: 100%; }
+      }
+    }
+  }
+
+  // Styles for squashed buttons (class "squash" applied on the <jb-btn>)
+  &.squash, &.toggle {
+    .jb-btn > * {
+      height: 27px;
+      line-height: 27px;
+    }
+  }
+
+  // Styles to cut off the text (when having a max width on the button)
+  &.ellipsis {
+    max-width: 100%;
+    .disabled-tooltip {
+      max-width: 100%;
+      .jb-btn {
+        max-width: 100%;
+        .btn-text-section {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+
+}
+
+
+
+
+
+

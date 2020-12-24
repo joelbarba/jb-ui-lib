@@ -1,0 +1,240 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--Textarea Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">Textarea Customization:</h5>
+      <div>
+        <jb-textarea [(ngModel)]="myVal" #jbInputRef="ngModel"
+                     [class.flat]="conf.hasFlat"
+                     [jbLabel]="conf.hasLabel ? conf.labelText : ''"
+                     [jbPlaceholder]="conf.hasPlaceholder ? conf.placeholder : ''"
+                     [jbRequired]="conf.isRequired"
+                     [jbDisabled]="conf.isDisabled"
+                     [jbRows]="conf.rows"
+                     [jbAutoFocus]="conf.autofocus"
+
+                     (jbOnKeyDown)="conf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
+                     (jbOnEsc)="conf.hasKeyEsc && growl.success('ESC key was pressed')"
+                     (jbOnSave)="conf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
+
+                     [jbErrorOnPristine]="conf.hasErrOnPristine"
+                     [jbMinlength]="conf.isMinLen ? conf.minLen : null"
+                     [jbMaxlength]="conf.isMaxLen ? conf.maxLen : null"
+                     [jbPattern]="conf.hasPattern ? conf.pattern : null"
+                     [jbValidIf]="conf.hasValidIf ? (myVal === 'AAA') : null"
+                     [jbValidator]="conf.hasjbValidator ? jbValidatorFn : null"
+
+                     [jbTooltip]="(conf.hasTooltip ? conf.tooltipText : null)"
+                     [jbTooltipPos]="(conf.tooltipPos || 'top')"
+                     [jbTooltipBody]="conf.tooltipBody"
+
+                     (jbOnLoaded)="inputRef = $event">
+        </jb-textarea>
+      </div>
+
+      <div *ngIf="!!jbInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- jbInputRef.value: <b>{{jbInputRef.value | json}}</b></div>
+        <div class="marL10">- jbInputRef.valid: <b [style.color]="jbInputRef.valid ? '#28a745': '#dc3545'">{{jbInputRef.valid | json}}</b></div>
+        <div class="marL10">- jbInputRef.pristine: <b>{{jbInputRef.pristine | json}}</b></div>
+        <div class="marL10">- jbInputRef.errors: <b>{{jbInputRef.errors | json}}</b></div>
+      </div>
+
+      <div class="marT15">
+        <div class="code-box pad15">
+          <pre>{{code}}</pre>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-7">
+
+      <!--Required + Disabled + Error on pristine + Rows-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT15" jbLabel="jbRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-2 padT15" jbLabel="jbDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 padT15" jbLabel="jbErrorOnPristine" [(ngModel)]="conf.hasErrOnPristine" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 padT15" jbLabel="jbAutoFocus" [(ngModel)]="conf.autofocus" (ngModelChange)="upComp()"></jb-checkbox>
+        <div class="col-3 mt-3">
+          <jb-btn jbIcon="icon-minus" (jbClick)="(conf.rows > 1) && (conf.rows = conf.rows - 1) && upComp()" ></jb-btn>
+          <jb-btn jbIcon="icon-plus" (jbClick)="(conf.rows = conf.rows + 1) && upComp()"></jb-btn>
+          <jb-label class="marL15 value-inline" jbText="jbRows" [jbValue]="(conf.rows + '')"></jb-label>
+        </div>
+      </div>
+
+      <!--Label-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-10" style="margin-bottom: -5px;" [(ngModel)]="conf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasLabel"></jb-input>
+      </div>
+
+      <!--Placeholder-->
+      <div class="row">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbPlaceholder" [(ngModel)]="conf.hasPlaceholder" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-10" style="margin-bottom: -5px;" [(ngModel)]="conf.placeholder" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasPlaceholder"></jb-input>
+      </div>
+
+      <!--Tooltip-->
+      <div class="row">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbTooltip" [(ngModel)]="conf.hasTooltip" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-10" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+        <div class="col-2"></div>
+        <jb-dropdown class="col-5" jbLabel="jbTooltipPos" [jbDisabled]="!conf.hasTooltip"
+                     [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()"
+                     [jbList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                     jbRender="text" jbSelect="id">
+        </jb-dropdown>
+        <jb-dropdown class="col-5" jbLabel="jbTooltipBody" [jbDisabled]="!conf.hasTooltip"
+                     [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"
+                     [jbList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" jbRender="text" jbSelect="id">
+        </jb-dropdown>
+      </div>
+
+
+      <div class="row">
+
+        <!--MinLen-->
+        <jb-checkbox class="col-2 block padT10" jbLabel="jbMinlength" [(ngModel)]="conf.isMinLen" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-1" [jbDisabled]="!conf.isMinLen" [(ngModel)]="conf.minLen" (ngModelChange)="upComp()"></jb-input>
+        <div class="col-7 padT10"><span [show]="conf.isMinLen">(Remember minlength does not apply on empty values)</span></div>
+
+        <!--jbValidIf-->
+        <jb-checkbox class="col-2 block padT15" jbLabel="jbValidIf" [(ngModel)]="conf.hasValidIf" (ngModelChange)="upComp()"></jb-checkbox>
+
+        <!--MaxLen-->
+        <jb-checkbox class="col-2 block padT10" jbLabel="jbMaxlength" [(ngModel)]="conf.isMaxLen" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-1" [jbDisabled]="!conf.isMaxLen" [(ngModel)]="conf.maxLen" (ngModelChange)="upComp()"></jb-input>
+
+        <!--jbPattern-->
+        <jb-checkbox class="offset-1 col-2 block padT10" jbLabel="jbPattern" [(ngModel)]="conf.hasPattern" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-3" [(ngModel)]="conf.pattern" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasPattern"></jb-input>
+
+        <jb-checkbox class="offset-1 col-2 block padT15" jbLabel="jbValidator" [(ngModel)]="conf.hasjbValidator" (ngModelChange)="upComp()"></jb-checkbox>
+      </div>
+
+
+      <div class="row marT15">
+        <div class="col-4">
+          <jb-checkbox jbLabel="Manual error trigger" [(ngModel)]="conf.hasManualErr" (ngModelChange)="upComp()"></jb-checkbox>
+          <div class="marL35 marT5">
+            <jb-btn class="full-width" jbType="save" jbText="Clear Error" style="width: 150px;"
+                    [jbDisabled]="!conf.hasManualErr" (jbClick)="inputRef.removeError()">
+            </jb-btn>
+          </div>
+          <div class="marL35 marT5">
+            <jb-btn class="full-width" jbType="save" jbText="Add Error" style="width: 150px;"
+                    [jbDisabled]="!conf.hasManualErr" (jbClick)="inputRef.addError({ label: 'wroooong!' })">
+            </jb-btn>
+          </div>
+        </div>
+
+        <div class="col-8">
+          <div class="row">
+            <!--Key Listeners-->
+            <jb-checkbox class="col-3 block marT10" jbLabel="(jbOnKeyDown)" [(ngModel)]="conf.hasKeyDown" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-checkbox class="col-3 block marT10" jbLabel="(jbOnEsc)" [(ngModel)]="conf.hasKeyEsc" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-checkbox class="col-6 block marT10" jbLabel="(jbOnSave) - Ctrl+Enter" [(ngModel)]="conf.hasKeyCtrlEnter" (ngModelChange)="upComp()"></jb-checkbox>
+
+            <!--jbOnLoaded + jbBeforeChange-->
+            <jb-checkbox class="col-3 block marT10" jbLabel="(jbOnLoaded)" [(ngModel)]="conf.hasOnLoad" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-checkbox class="col-3 block marT10" jbLabel="(jbBeforeChange)" [(ngModel)]="conf.hasBeforeChange" (ngModelChange)="upComp()"></jb-checkbox>
+          </div>
+        </div>
+      </div>
+
+
+      <!--Classes-->
+      <div class="row marT15">
+        <div class="col-8 padT5">
+          <jb-label jbText="CSS Classes"></jb-label>
+          <jb-checkbox class="marL20" [(ngModel)]="conf.hasFlat" (ngModelChange)="upComp()" jbLabel="flat"></jb-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-7">
+      <jb-textarea [(ngModel)]="myVal"
+                   jbLabel="My Text"
+                   [jbRequired]="true"
+                   [jbMinlength]="4"
+                   [jbMaxlength]="10"
+                   (jbOnSave)="growl.success('Saving the value')"
+                   #myInput="ngModel"
+      ></jb-textarea>
+      <p>jbRequired="true"<br>
+      jbMinlength="4"<br>
+      jbMaxlength="10"</p>
+    </div>
+    <div class="col-5">
+      <pre>
+myInput.value = {{myInput.value}}
+myInput.dirty = {{myInput.dirty}}
+myInput.valid = {{myInput.valid}}
+myInput.pristine = {{myInput.pristine}}
+myInput.errors = {{myInput.errors | json}}
+      </pre>
+    </div>
+  </div>
+
+
+</div>
+
+
+<!--Applicable classes -->
+<div class="row">
+  <h5 class="mt-4">Applicable classes:</h5>
+  <div class="col-12">
+    <p>The textarea has a margin bottom 15px by default. To remove it, add the class "<span class="bold">flat</span>":</p>
+    <pre class="marT10">{{ flatExample }}</pre>
+  </div>
+  <div class="col-3">
+    <div style="border: 1px dashed red">
+      <jb-textarea class="" jbRows="2" jbLabel="Without flat class" [ngModel]="myVal"></jb-textarea>
+    </div>
+  </div>
+  <div class="col-3">
+    <div style="border: 1px dashed red">
+      <jb-textarea class="flat" jbRows="2" jbLabel="With flat class" [ngModel]="myVal"></jb-textarea>
+    </div>
+  </div>
+  <div class="col-12" style="padding-top: 25px">
+    <p>The textarea has resize option by default. To remove it, add the class "<span class="bold">resize</span>":</p>
+    <pre class="marT10">{{ resizeExample }}</pre>
+    <div class="col-3">
+      <jb-textarea class="" jbRows="2" jbLabel="Without resize class" [ngModel]="myVal"></jb-textarea>
+    </div>
+    <div class="col-3">
+      <jb-textarea class="resize" jbRows="2" jbLabel="With resize class" [ngModel]="myVal"></jb-textarea>
+    </div>
+  </div>
+</div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The following SASS variables can be overridden to provide customized coloring:</p>
+    <pre class="padL30">{{ cssReset }}</pre>
+  </div>
+</div>

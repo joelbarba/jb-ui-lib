@@ -1,0 +1,86 @@
+jb-multi-selector {
+
+  .dropdown-form-group {
+
+    .multiselect-input-list {
+      list-style-type: none;
+      padding: 0 0 0 3px;
+      line-height: 26px;
+      height: 100% !important;
+      min-height: 34px;
+
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+
+      li {
+        margin: 2px;
+        padding: 0 5px;
+        vertical-align: middle;
+        height: 28px;
+        max-width: calc(100% - 6px);
+
+        &.multi-tag-container {
+          color: $white;
+          cursor: pointer;
+          padding: 0 5px 0 10px;
+          border-radius: 4px;
+          background: $primary_color;
+          border: 1px lighten($primary_color, 10%) solid;
+
+          &:hover {
+            border-color: darken($primary_color, 10%);
+
+            .icon-cross3 {
+              color: darken($white, 5%);
+            }
+          }
+
+          .multi-tag-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        &.li-input-container{
+          flex-grow: 1;
+
+          input {
+            box-shadow: none;
+            border: none;
+            width: 100%;
+            background-color: transparent;
+
+            &:focus {
+              outline: 0;
+              box-shadow: none;
+            }
+          }
+        }
+      }
+    }
+
+    &.is-disabled {
+      .multiselect-input-list {
+        background-color: #e9ecef;
+
+        &, li, input {
+          cursor: not-allowed !important;
+        }
+      }
+    }
+
+    &.is-error {
+      .multiselect-input-list .multi-tag-container {
+        background: $invalid-color;
+        border: 1px lighten($invalid-color, 10%) solid;
+
+        &:hover {
+          border-color: darken($invalid-color, 10%);
+        }
+      }
+    }
+  }
+}
+

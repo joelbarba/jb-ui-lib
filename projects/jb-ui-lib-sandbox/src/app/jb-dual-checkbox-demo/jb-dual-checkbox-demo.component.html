@@ -1,0 +1,107 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customized Dual Checkbox:</h5>
+      <div class="padB25">
+        <jb-dual-checkbox
+          [ngClass]="{'block' : !!compConf.isClassBlock, 'flat' : !!compConf.isClassFlat}"
+          [jbLabel]="compConf.jbLabel"
+          [jbLabelOptionOne]="compConf.labelOne"
+          [jbLabelOptionTwo]="compConf.labelTwo"
+          [(ngModel)]="compConf.ngModelValue"
+          [jbDisabled]="compConf.isDisabled">
+        </jb-dual-checkbox>
+      </div>
+      <div class="padB25">
+        <span class="padH15">
+          ngModel = {{compConf.ngModelValue | json}} <span *ngIf="compConf.ngModelValue === undefined">undefined</span>
+        </span>
+        <jb-btn jbType="save" jbText="Turn it true"      (jbClick)="compConf.ngModelValue = true"></jb-btn>
+        <jb-btn jbType="save" jbText="Turn it false"     (jbClick)="compConf.ngModelValue = false"></jb-btn>
+        <jb-btn jbType="save" jbText="Turn it undefined" (jbClick)="compConf.ngModelValue = undefined"></jb-btn>
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row marT15 marL20">
+        <div class="col-4">
+        <!--Disabled-->
+        <jb-checkbox  class="block" jbLabel="Disabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+        <!--Block class-->
+        <jb-checkbox class="block" jbLabel="Display as Block" [(ngModel)]="compConf.isClassBlock" (ngModelChange)="upComp()"></jb-checkbox>
+        <!-- Flat class -->
+        <jb-checkbox class="block" jbLabel="Display as Flat" [(ngModel)]="compConf.isClassFlat" (ngModelChange)="upComp()"></jb-checkbox>
+        </div>
+        <!--Labels-->
+        <div class="col-6">
+          <jb-input jbLabel="jbLabel" [(ngModel)]="compConf.jbLabel" (ngModelChange)="upComp()"></jb-input>
+          <jb-input jbLabel="jbLabelOptionOne" [(ngModel)]="compConf.labelOne" (ngModelChange)="upComp()"></jb-input>
+          <jb-input jbLabel="jbLabelOptionTwo" [(ngModel)]="compConf.labelTwo" (ngModelChange)="upComp()"></jb-input>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="whiteBg">
+  <h5 class="marB25">Values returned:</h5>
+  <div class="row">
+    <jb-dual-checkbox
+      class="col-2"
+      [jbLabel]="label"
+
+      [(ngModel)]="value">
+    </jb-dual-checkbox>
+    <div class="col-3">
+      <label>ngModel returned value:</label>
+      <br />
+      <label><strong>{{returnedValues()}}</strong></label>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <h5 class="col-12 marB25">Html structure:</h5>
+  <div class="col-7">
+    <p>The jb-dual-checkbox html structure:</p>
+    <pre>{{ dualCheckboxHtmlStructure }}</pre>
+  </div>
+  <div class="col-5">
+    <p>The jb-checkbox html structure:</p>
+    <pre>{{ checkboxHtmlStructure }}</pre>
+  </div>
+</div>
+<p>The idea behind dual check box is to implement existing jb checkbox component and combine it to work as undefined/true/false dual checkbox. Both options can never be unselected, at least one or both need to be checked.</p>
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+    <p>By default checkboxes are inline elements (displayed one next to another). You can easily turn then to block
+      elements by applying class "<span class="bold">block</span>":
+    </p>
+  </div>
+  <div class="col-6">
+    <pre class="marT10">{{ blockExample }}</pre>
+  </div>
+  <div class="col-3 d-flex">
+    <jb-dual-checkbox class="flex-grow-1" jbLabel="Inline Dual Checkbox"></jb-dual-checkbox>
+    <jb-dual-checkbox class="block" jbLabel="Block Dual Checkbox"></jb-dual-checkbox>
+  </div>
+</div>

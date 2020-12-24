@@ -1,0 +1,243 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+<p>This component uses the external <a href="https://ng-bootstrap.github.io/#/components/popover/examples">@ng-bootstrap module NgbPopoverModule</a> to add the tooltip on the information badge<br>
+It also makes use of the translation service (if present), to automatically translate the given text for both [jbText] and [jbTooltip]. This service needs to be configured when the library is imported.</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--jb-list-paginator Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Customization:</h5>
+      <div class="padB25">
+        <!--<jb-label class="text-12" jbValue="view.common.field_name"></jb-label>-->
+        <!--<jb-label class="text-14" jbValue="view.common.field_name"></jb-label>-->
+        <!--<jb-label class="text-16" jbValue="view.common.field_name"></jb-label>-->
+        <!--<jb-label class="text-18" jbValue="view.common.field_name"></jb-label>-->
+        <!--<jb-label class="text-24" jbValue="view.common.field_name"></jb-label>-->
+
+        <jb-label [class.block]="compConf.hasBlock"
+                  [class.no-colon]="compConf.hasNoColon"
+                  [class.colon]="compConf.hasColon"
+                  [class.value-inline]="compConf.hasValueInline"
+                  [class.value-list]="compConf.hasValueList"
+                  [class.no-bold]="compConf.hasNoBold"
+                  [class.value-bold]="compConf.hasValueBold"
+                  [class.value-ellipsis]="compConf.hasEllipsis"
+                  [class.value-light]="compConf.hasValueLight"
+                  [class.value-primary]="compConf.valuePrimary"
+                  [class.value-warning]="compConf.valueWarning"
+                  [ngClass]="(compConf.textSize + ' ' + compConf.valueMar + ' ' + compConf.valueList)"
+                  [jbText]="compConf.hasLabel ? compConf.text : ''"
+                  [jbValue]="compConf.hasValue ? compConf.value: ''"
+                  [jbRequired]="compConf.isRequired"
+                  [jbTooltip]="(compConf.hasTooltip ? compConf.tooltipText : null)"
+                  [jbTooltipPos]="(compConf.tooltipPos || 'top')"
+                  [jbTooltipBody]="compConf.tooltipBody">
+        </jb-label>
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="Label text" [(ngModel)]="compConf.hasLabel"></jb-checkbox>
+        <div class="col-10">
+          <jb-input [jbDisabled]="!compConf.hasLabel" [(ngModel)]="compConf.text" (ngModelChange)="upComp()"></jb-input>
+        </div>
+      </div>
+
+      <div class="row">
+        <jb-checkbox class="col-2 padT10" jbLabel="Value" [(ngModel)]="compConf.hasValue"></jb-checkbox>
+        <div class="col-10">
+          <jb-input [jbDisabled]="!compConf.hasValue" [(ngModel)]="compConf.value" (ngModelChange)="upComp()"></jb-input>
+        </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()" jbLabel="Has Tooltip"></jb-checkbox> </div>
+        <div class="col-9" *ngIf="compConf.hasTooltip">
+          <jb-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+        </div>
+
+        <jb-checkbox class="col-3" jbLabel="Required" [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+        <div class="col-5" *ngIf="compConf.hasTooltip">
+          jbTooltipPos: <jb-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                                     [jbList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                                     jbRender="text" jbSelect="id"> </jb-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasTooltip">
+          jbTooltipBody: <jb-dropdown [(ngModel)]="compConf.tooltipBody" (ngModelChange)="upComp()" [jbList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" jbRender="text" jbSelect="id"> </jb-dropdown>
+        </div>
+      </div>
+
+      <div class="row padT10">
+        <div class="col-12"><hr></div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasBlock" (ngModelChange)="upComp()" jbLabel="block" jbTooltip="Applies display: block;"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasNoColon" (ngModelChange)="upComp()" jbLabel="no-colon"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasColon" (ngModelChange)="upComp()" jbLabel="colon"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasValueInline" (ngModelChange)="upComp()" jbLabel="value-inline"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasValueList" (ngModelChange)="upComp()" jbLabel="value-list"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasNoBold" (ngModelChange)="upComp()" jbLabel="no-bold"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasValueBold" (ngModelChange)="upComp()" jbLabel="value-bold"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasValueLight" (ngModelChange)="upComp()" jbLabel="value-light"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasEllipsis" (ngModelChange)="upComp()" jbLabel="value-ellipsis"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.valuePrimary" (ngModelChange)="upComp()" jbLabel="value-primary"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.valueWarning" (ngModelChange)="upComp()" jbLabel="value-warning"></jb-checkbox> </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-4">
+          <jb-dropdown jbLabel="Text Size" [(ngModel)]="compConf.textSize" (ngModelChange)="upComp()"
+                       [jbList]="textSizes" jbRender="id" jbSelect="id" jbEmptyLabel="default (14px)">
+          </jb-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList || compConf.hasValueInline">
+          <jb-dropdown jbLabel="Value Margin" [(ngModel)]="compConf.valueMar" (ngModelChange)="upComp()"
+                       [jbList]="valueMars" jbRender="id" jbSelect="id" jbEmptyLabel="default (5px)">
+          </jb-dropdown>
+        </div>
+        <div class="col-4" *ngIf="compConf.hasValueList">
+          <jb-dropdown jbLabel="Value List" [(ngModel)]="compConf.valueList" (ngModelChange)="upComp()"
+                       [jbList]="valueLists" jbRender="id" jbSelect="id" jbEmptyLabel="default (1)">
+          </jb-dropdown>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-3" >
+      <jb-label jbText="view.common.username"></jb-label>
+    </div>
+    <div class="col-9"> <pre>{{instance}}</pre> </div>
+ </div>
+
+  <div class="row">
+    <div class="col-3">
+      <jb-label jbText="view.common.name" [jbRequired]="true"></jb-label>
+    </div>
+    <div class="col-9"> <pre>{{instance2}}</pre> </div>
+ </div>
+
+  <div class="row">
+    <div class="col-3">
+      <jb-label jbText="view.common.email" jbTooltip="view.tooltip.message" jbRequired="true"></jb-label>
+    </div>
+    <div class="col-9"> <pre>{{instance3}}</pre> </div>
+ </div>
+
+  <div class="row">
+    <div class="col-3">
+      <jb-label jbText="Body = true" jbTooltip="view.tooltip.message" jbTooltipPos="left" [jbTooltipBody]="true">
+      </jb-label>
+      <jb-label jbText="Body = false" jbTooltip="view.tooltip.message" jbTooltipPos="left" [jbTooltipBody]="false">
+      </jb-label>
+    </div>
+    <div class="col-9"> <pre>{{instance4}}</pre> </div>
+ </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12"><hr></div>
+  <div class="col-12">
+    <p>It generates the following html structure:</p>
+    <pre class="marL30">{{ jbHtmlStructure }}</pre>
+  </div>
+</div>
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The encapsulated styles do not use coloring.
+      <br/>
+      To provide a color based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
+  </div>
+</div>
+
+<!--Applicable classes -->
+<div class="row">
+  <div class="col-12">
+    <hr>
+    <h5 class="mt-4">Applicable classes:</h5>
+  </div>
+
+  <div class="col-12">
+    <li class="padB15">By default the font of the label is bold. You can apply class "<span class="bold">no-bold</span>" to turn it normal:</li>
+    <pre class="padL40">{{instance5}}</pre>
+  </div>
+
+  <div class="col-12 marT20">
+    <li class="padB15">By default the label is suffixed with a ":" (colon). This is automatically hidden if the value of jbLabel is empty, but
+      you can also force it (show/hide) by applying class "<span class="bold">no-colon</span>" or "<span class="bold">colon</span>":</li>
+    <pre class="padL40">{{instance6}}</pre>
+    <div class="padL40">
+      <div> <jb-label class="no-colon" jbText="No Colon Label"></jb-label> </div>
+      <div> <jb-label class="colon value-inline" jbValue="Colon with no label"></jb-label> </div>
+    </div>
+  </div>
+
+
+  <div class="col-12 marT20">
+    <li class="padB15">If you add a value to the label (jbValue), by default that falls under the label. If you like it right next to the label, use
+       class "<span class="bold">value-inline</span>":</li>
+  </div>
+
+  <div class="col-2 padL50">
+    <jb-label jbText="Label" jbValue="My first value"></jb-label>
+  </div>
+  <div class="col-3">
+    <jb-label jbText="Label" jbValue="The second value" class="value-inline"></jb-label>
+  </div>
+  <div class="col-7">
+    <pre class="marT10">{{ valueInlineExample }}</pre>
+  </div>
+
+  <div class="col-12 marT30">
+    <li class="padB15">To align a list of horizontal label - value keys, you can use class "<span class="bold">value-list</span>". It applies a flex display on the label / value. aligning them to the center.
+    <br>It is also possible to adjust the flex of the value, to give more room to the right side using
+      "<span class="bold">value-list-2</span>", "<span class="bold">value-list-3</span>", "<span class="bold">value-list-4</span>" and so on:
+    </li>
+  </div>
+  <div class="col-5 marT20 padL40">
+    <jb-label class="value-list-3" jbText="User Name" jbValue="Joel Barba" ></jb-label>
+    <jb-label class="value-list-3" jbText="Email" jbValue="joel.barba@gmail.com"></jb-label>
+    <jb-label class="value-list-3" jbText="Number" jbValue="+353 089 422 6474"></jb-label>
+    <jb-label class="value-list-3" jbText="Description" jbValue="He is a very nice guy"></jb-label>
+  </div>
+  <div class="col-7 marT20">
+    <pre>{{valueListExample}}</pre>
+  </div>
+</div>
+
+
+
+<div class="pad50"></div>
+<div class="pad50"></div>
+

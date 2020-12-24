@@ -1,0 +1,10 @@
+.section-header{
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap;
+    .section-header--description{
+        color: $primary-color;
+        font-style: italic;
+    }
+}

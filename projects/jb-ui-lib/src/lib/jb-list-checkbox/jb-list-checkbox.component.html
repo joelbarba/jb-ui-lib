@@ -1,0 +1,33 @@
+<!--Single item selector-->
+<jb-checkbox *ngIf="!!hasId" class="flat"
+             [ngModel]="selection?.ids[id]"
+             [jbDisabled]="jbDisabled"
+             (ngModelChange)="selection?.toggleCheck(id); change.emit({ id: id, value: $event })">
+</jb-checkbox>
+
+<!--Full page selector-->
+<jb-checkbox *ngIf="!hasId" class="revert flat"
+             [ngModel]="selection?.isPageChecked"
+             [jbDisabled]="jbDisabled"
+             (ngModelChange)="selection?.togglePage(); change.emit({ value: $event })">
+</jb-checkbox>
+
+<!--Actions header-->
+<div *ngIf="!hasId && !!actions" class="actions-header list-header-col-title" [class.disabled]="!selection?.count">
+  <span class="actions-text" (click)="selection.count && (actionsExp = !actionsExp)">
+    {{'(' + selection.count + ') ' + ('view.common.actions' | getLabel$ | async ) }}
+  </span>
+  <span class="actions-arrow" (click)="selection.count && (actionsExp = !actionsExp)"
+        [class.icon-arrow-up3]="actionsExp"
+        [class.icon-arrow-down3]="!actionsExp">
+  </span>
+
+  <div class="actions-list" [class.expanded]="actionsExp">
+    <div *ngFor="let action of actions" (click)="clickAction(action)"
+         class="action-row" [class.disabled]="action.disabled">
+      <span>{{action.label | getLabel$ | async }}</span>
+    </div>
+  </div>
+</div>
+
+<ng-content></ng-content>

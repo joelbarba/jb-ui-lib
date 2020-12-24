@@ -1,0 +1,189 @@
+<div class="row">
+  <div class="col-6">
+    <h2>jb-input - Asynchronous Validator</h2>
+  </div>
+  <div class="col-6 text-right">
+    <jb-btn jbText="jbInput" (jbClick)="router.navigate(['/jb-input'])"></jb-btn>
+    <jb-btn jbText="Validators"      (jbClick)="router.navigate(['/jb-input/validators'])"></jb-btn>
+    <jb-btn jbText="Async Validator" (jbClick)="router.navigate(['/jb-input/async-validator'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Controls"        (jbClick)="router.navigate(['/jb-input/controls'])"></jb-btn>
+    <jb-btn jbText="Autofill"        (jbClick)="router.navigate(['/jb-input/autofill'])"></jb-btn>
+  </div>
+</div>
+<hr>
+<p>Example about how to implement an asynchronous validation using [jbValidator] and manual error controls</p>
+<p>
+The idea is to add asynchronous logic (webapi request?) in [jbValidator], and once we get the response,
+manually set the validity of the input using addError() / removeError().
+  <br>Additionally, a valid/invalid/loading icon is set to [jbIcon] to give a nicer visualization about what's going on.
+</p>
+<p>
+  An observable is initially used to debounce and prevent duplicates through a pipe,
+  and a subscription to mock an asynchronous request (it could be done with a switchMap too if you like to go full Rx).
+  <br>
+  A global variable (asyncOp) is used to keep the previous value sent for validation, so we avoid triggering
+  the validation again for the same value, and also detect if there is a newer validation once resolved, to
+  drop and avoid overlapping.
+</p>
+
+<!--Input Validators-->
+<div class="whiteBg row">
+  <h5 class="col-12 marB15">Input Validators</h5>
+
+  <div class="col-6">
+    <div class="row" *ngIf="isLinked">
+      <jb-input class="col-9"
+                [(ngModel)]="val1"  #jbInputRef="ngModel"
+                [jbDisabled]="valEx.isDisabled"
+                [jbRequired]="valEx.isRequired"
+                [jbValidator]="jbAsyncValidatorFn"
+
+                [jbErrorOnPristine]="valEx.hasErrOnPristine"
+                [jbIcon]="valEx.hasIcon ? valEx.jbIcon : ''"
+                [jbInvalidIcon]="valEx.hasInvalidIcon ? valEx.jbInvalidIcon : 'icon-warning22'"
+                [jbValidIcon]="valEx.hasValidIcon ? valEx.jbValidIcon : ''"
+                [jbErrorText]="valEx.hasErrorText ? valEx.jbErrorText : ''"
+                [jbErrorPos]="valEx.errorPos"
+                (jbOnLoaded)="inputRef = $event"
+                jbLabel="view.common.name">
+      </jb-input>
+
+      <div class="col-3 padT20 text-right"><jb-btn jbText="Relink" (jbClick)="reLink()"></jb-btn></div>
+
+      <!--<div class="col-12 padL30" *ngIf="!!inputRef" style="font-family: monospace;">-->
+      <!--  FromControl (internal input):<br>-->
+      <!--  <div class="marL10">- inputCtrl.value: <b>{{inputRef.inputCtrl.value | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.valid: <b>{{inputRef.inputCtrl.valid | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.pristine: <b>{{inputRef.inputCtrl.pristine | json}}</b></div>-->
+      <!--  <div class="marL10">- inputCtrl.errors: <b>{{inputRef.inputCtrl.errors | json}}</b></div>-->
+      <!--  <hr>-->
+      <!--</div>-->
+
+      <div class="col-12 padL30" *ngIf="!!jbInputRef" style="font-family: monospace;">
+        FromControl (ngModel):<br>
+        <div class="marL10">- jbInputRef.value: <b>{{jbInputRef.value | json}}</b></div>
+        <div class="marL10">- jbInputRef.valid: <b [style.color]="jbInputRef.valid ? '#28a745': '#dc3545'">{{jbInputRef.valid | json}}</b></div>
+        <div class="marL10">- jbInputRef.pristine: <b>{{jbInputRef.pristine | json}}</b></div>
+        <div class="marL10">- jbInputRef.errors: <b>{{jbInputRef.errors | json}}</b></div>
+      </div>
+    </div>
+
+
+    <div>
+      <hr>
+      <h5>Set value externally</h5>
+      <span>val:</span><input class="marB10 marL10" type="text" [(ngModel)]="val1">
+      <br>
+      <jb-btn jbText="val1 = '20'" (jbClick)="val1='20'"></jb-btn>
+      <jb-btn jbText="val1 = '300'" (jbClick)="val1='300'"></jb-btn>
+      <jb-btn jbText="val1 = 'AAA'" (jbClick)="val1='AAA'"></jb-btn>
+      <jb-btn jbText="val1 = '123456789'" (jbClick)="val1='123456789'"></jb-btn>
+      <jb-btn jbText="val1 = '@#*'" (jbClick)="val1='@#*'"></jb-btn>
+      <jb-btn jbText="val1 = ''" (jbClick)="val1=''"></jb-btn>
+      <div class="padT5"></div>
+      <jb-btn jbText="val1 = null" (jbClick)="val1=null"></jb-btn>
+      <jb-btn jbText="val1 = undefined" (jbClick)="val1=undefined"></jb-btn>
+      <jb-btn jbText="val1 = false" (jbClick)="val1=false"></jb-btn>
+      <jb-btn jbText="val1 = 0" (jbClick)="val1=0"></jb-btn>
+
+    </div>
+
+    <div class="padT15">
+      <div class="code-box pad15">
+        <pre>{{valCompCode}}</pre>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-6" *ngIf="!!inputRef">
+
+    <div class="row">
+
+      <!--jbErrorOnPristine-->
+      <jb-checkbox class="col-3 block" jbLabel="jbErrorOnPristine" [(ngModel)]="valEx.hasErrOnPristine" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--Disabled-->
+      <jb-checkbox class="col-3 block" jbLabel="jbDisabled" [(ngModel)]="valEx.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--jbErrorPos-->
+      <jb-dropdown class="col-3" style="margin-top: -32px" jbLabel="jbErrorPos"
+                   [jbList]="valEx.errorPosOpts" jbRender="text" jbSelect="id"
+                   [(ngModel)]="valEx.errorPos" (ngModelChange)="upComp()">
+      </jb-dropdown>
+
+
+      <jb-dropdown class="col-3" style="margin-top: -32px" jbLabel="jbType"
+                   [jbList]="valEx.inputTypes" jbRender="text" jbSelect="id" [jbRequired]="true"
+                   [(ngModel)]="valEx.jbType" (ngModelChange)="upComp()">
+      </jb-dropdown>
+
+      <!--jbInvalidIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbInvalidIcon" style="width: 130px;" [(ngModel)]="valEx.hasInvalidIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbInvalidIcon" [disabled]="!valEx.hasInvalidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbValidIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbValidIcon" style="width: 120px;" [(ngModel)]="valEx.hasValidIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbValidIcon" [disabled]="!valEx.hasValidIcon" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbErrorText-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbErrorText" style="width: 130px;" jbTooltipPos="left" jbTooltip="It will replace any other error message"
+                     [(ngModel)]="valEx.hasErrorText" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbErrorText" [disabled]="!valEx.hasErrorText" (ngModelChange)="upComp()">
+      </div>
+
+      <!--jbIcon-->
+      <div class="col-6">
+        <jb-checkbox jbLabel="jbIcon" style="width: 120px;" [(ngModel)]="valEx.hasIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <input style="width: 200px;" [(ngModel)]="valEx.jbIcon" [disabled]="!valEx.hasIcon" (ngModelChange)="upComp()">
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-12"><hr></div>
+
+      <!--Required-->
+      <jb-checkbox class="col-4 block" style="min-height: 40px;" jbLabel="jbRequired" [(ngModel)]="valEx.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+
+      <!--Manual error-->
+      <div class="col-8 text-right">
+        <jb-btn jbType="save" jbText="Clear Error" (jbClick)="inputRef.removeError()"></jb-btn>
+        <jb-btn jbType="save" jbText="Add Error" (jbClick)="inputRef.addError({ label: 'wroooong!' })"></jb-btn>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4">
+        <span>Debounce Time:</span>
+        <input style="width: 200px;" [(ngModel)]="valEx.debounceTime" (ngModelChange)="setValidation()">
+      </div>
+      <div class="col-4">
+        <span>Async response time:</span>
+        <input style="width: 200px;" [(ngModel)]="valEx.timeoutMock">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 padT15">
+        <hr>
+        <h5>Code Example:</h5>
+        <div class="code-box pad15">
+          <pre style="font-size: 12px;">{{codeEx}}</pre>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+

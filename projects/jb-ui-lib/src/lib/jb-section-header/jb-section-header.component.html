@@ -1,0 +1,8 @@
+<div class="section-header">
+  <div>
+    <h3 class="section-header--title">{{ jbTitle | getLabel$ | async }}</h3>
+  </div>
+  <div *ngIf="jbDescription">
+    <h5 class="section-header--description">{{ jbDescription | getLabel$ | async }}</h5>
+  </div>
+</div>

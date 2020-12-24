@@ -1,0 +1,93 @@
+<div class="form-group  jb-date-picker-form-group  error-{{errorPosition}}"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
+     [class.is-error]="!isPristine && status === 'error'">
+
+  <jb-label *ngIf="!!jbLabel" [jbText]="jbLabel"
+            [jbRequired]="jbRequired"
+            [jbTooltip]="jbTooltip" [jbTooltipPos]="jbTooltipPos" [jbTooltipBody]="jbTooltipBody">
+  </jb-label>
+
+  <!--Error Message-->
+  <span *ngIf="!isPristine && status === 'error'"
+        class="jb-date-picker-error-text"
+        [class.pull-up]="!jbLabel && (errorPosition === 'default' || errorPosition === 'top-right')"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{ errorText | getLabel$ | async }}
+  </span>
+
+  <div *ngIf="!jbIsInlineDatePicker">
+    <div class="input-group" (click)="!jbDisabled && dpRef.toggle()">
+
+      <!--Just for displaying options (model is held in the other input)-->
+      <input class="form-control" disabled="disabled" [class.enabled]="!jbDisabled" name="dpv"
+            [ngModel]="jbFormattedValue">
+
+      <div class="input-group-append" *ngIf="jbHasClearBtn" (click)="!jbDisabled && clearValue($event, dpRef)">
+        <button class="btn btn-outline-secondary clear-btn">
+          <span class="icon-cross"></span>
+        </button>
+      </div>
+
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">
+          <span class="icon-calendar"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Inline datepicker -->
+
+    <!--Internal input to hold the model-->
+    <input name="dp" class="hidden-input"
+    ngbDatepicker #dpRef="ngbDatepicker"
+    [(ngModel)]="jbModel" (ngModelChange)="onInternalModelChange()"
+    navigation="arrows"
+    [showWeekNumbers]="true"
+    [minDate]="ngbMinDate"
+    [maxDate]="ngbMaxDate"
+    [dayTemplate]="dayTemplate"
+    [footerTemplate]="jbDatePickerFooter" />
+
+    <!--Modal footer-->
+    <ng-template #jbDatePickerFooter>
+      <div class="jb-date-picker-modal-footer">
+        <jb-btn class="squash" jbType="primary"   jbText="view.common.today" (jbClick)="setToday($event, dpRef)" [jbDisabled]="!isTodayValid"></jb-btn>
+        <jb-btn class="squash" jbType="warning"   jbText="view.common.clear" (jbClick)="clearValue($event, dpRef)" [jbDisabled]="jbRequired"></jb-btn>
+        <jb-btn class="squash btn-cancel" jbType="secondary" jbText="view.common.close" (jbClick)="dpRef.close()"></jb-btn>
+      </div>
+    </ng-template>
+  </div>
+
+
+  <div *ngIf="jbIsInlineDatePicker">
+    <ngb-datepicker
+      [(ngModel)]="jbModel"
+      navigation="arrows"
+      [showWeekNumbers]="true"
+      [minDate]="ngbMinDate"
+      [maxDate]="ngbMaxDate"
+      [dayTemplate]="dayTemplate"
+      (ngModelChange)="onInternalModelChange()"></ngb-datepicker>
+  </div>
+
+  <!--Modal day in the calendar-->
+  <ng-template #dayTemplate let-date
+  let-currentMonth="currentMonth"
+              let-selected="selected"
+              let-disabled="disabled"
+              let-today="today">
+    <div class="jb-date-picker-day"
+        [class.other-month]="date.month !== currentMonth"
+        [class.is-today]="today"
+        [class.is-disabled]="disabled"
+        [class.is-selected]="selected">
+      {{ date.day }}
+    </div>
+  </ng-template>
+</div>

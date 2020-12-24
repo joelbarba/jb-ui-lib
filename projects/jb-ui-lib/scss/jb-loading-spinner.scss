@@ -1,0 +1,89 @@
+$loading-spinner-color: $primary_color !default;
+
+jb-loading-spinner {
+  display: inline-block;
+  height: 1em; width: 1em;
+  &.sm { height: 2em; width: 2em; .jb-spin:after { border-width: 4px; }}
+  &.md { height: 3em; width: 3em; .jb-spin:after { border-width: 6px; }}
+  &.lg { height: 5em; width: 5em; .jb-spin:after { border-width: 7px; }}
+  &.xl { height: 8em; width: 8em; .jb-spin:after { border-width: 10px; }}
+
+  &.center-top,
+  &.center-bottom,
+  &.center-left,
+  &.center-right,
+  &.center {
+    height: 100% !important;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .jb-spin {
+      display: inline-block;
+      position: relative;
+      height: 1em; width: 1em;
+    }
+    &.sm .jb-spin { height: 2em; width: 2em; }
+    &.md .jb-spin { height: 3em; width: 3em; }
+    &.lg .jb-spin { height: 5em; width: 5em; }
+    &.xl .jb-spin { height: 8em; width: 8em; }
+  }
+  &.center-top    { align-items: flex-start; }
+  &.center-bottom { align-items: flex-end; }
+  &.center-left   { justify-content: flex-start; }
+  &.center-right  { justify-content: flex-end; }
+}
+
+.jb-spin, .jb-loading-spinner {
+  &:after {
+    animation: jbSpinAround 500ms infinite linear;
+    border: 2px solid $loading-spinner-color;
+    border-radius: 100%;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.jb-loading-spinner {
+  display: block;
+  height: 1em;
+  position: relative;
+  &:after {
+    height: 1em;
+    width: 1em;
+    position: absolute !important;
+    left: calc(50% - (1em / 2));
+    top: calc(50% - (1em / 2));
+  }
+}
+
+.jb-spin-over {
+  //* { opacity: 0.5; }
+  > * { opacity: 0.5; }
+  &:after {
+    animation: jbSpinAround 500ms infinite linear;
+    border: 2px solid $loading-spinner-color;
+    border-radius: 100%;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 1em;
+    width: 1em;
+    position: absolute !important;
+    left: calc(50% - (1em / 2));
+    top: calc(50% - (1em / 2));
+  }
+}
+
+// Emulate spinAround animation
+@keyframes jbSpinAround {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+

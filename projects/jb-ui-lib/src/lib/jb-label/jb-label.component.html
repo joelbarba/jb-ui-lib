@@ -1,0 +1,11 @@
+<label [class.is-required]="jbRequired" *ngIf="!!jbText">
+  <span class="info-badge" *ngIf="!!jbTooltip"
+       [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+       [container]="(jbTooltipBody ? 'body' : '')">
+    <span class="icon-info"></span>
+  </span>
+  <span>{{jbTextTrans$ | async}}</span>
+  <span class="the-colon" [hidden]="!(jbTextTrans$ | async)">:</span>
+  <span class="asterisk" [hidden]="!(jbTextTrans$ | async)" *ngIf="jbRequired">*</span>
+</label>
+<div class="label-value" *ngIf="!!jbValue">{{jbValueTrans$ | async}}</div>

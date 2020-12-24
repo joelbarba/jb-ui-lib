@@ -1,0 +1,14 @@
+<div class="growl-wrapper">
+  <div *ngFor="let msg of growl.msgList"
+       [class]="'msg-box ' + msg.msgType"
+       [class.fading]="msg.status === 'fading'">
+
+    <div class="default" (click)="toggleTimeout(msg)">
+      <div class="default-icon">
+        <span [class]="msg.msgIcon"></span>
+      </div>
+      <div class="default-text" [innerHTML]="msg.text$ | async"></div>
+    </div>
+
+  </div>
+</div>

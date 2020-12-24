@@ -1,0 +1,21 @@
+<h3>Icomoon List</h3>
+
+<div class="row">
+  <jb-input class="col-3" jbPlaceholder="Search" [(ngModel)]="searchTxt" (ngModelChange)="filterList()"></jb-input>
+  <jb-checkbox class="col-2 pad-input" jbLabel="Mark Free" [(ngModel)]="markFree"></jb-checkbox>
+  <jb-checkbox class="col-2 pad-input" jbLabel="Show Only Free" [(ngModel)]="onlyFree"></jb-checkbox>
+  <jb-checkbox class="col-2 pad-input" jbLabel="Show Icon Names" [(ngModel)]="showNames"></jb-checkbox>
+  <jb-btn [jbIcon]="lastIcon" jbText="Test Button" (jbClick)="printList()"></jb-btn>
+  <hr>
+</div>
+
+<div class="box">
+  <span *ngFor="let jbIcon of iconList" [hidden]="jbIcon.hide || (!jbIcon.free && onlyFree)"
+        class="jb-icon" [ngClass]="jbIcon.icon"
+        [class.long]="showNames" [class.free]="jbIcon.free && markFree" [class.sel]="jbIcon.sel"
+        (click)="copyName(jbIcon)" (mouseenter)="selIcon=jbIcon.icon">
+    <span *ngIf="showNames" class="icon-name">{{jbIcon.icon}}</span>
+  </span>
+</div>
+
+<input id="copy-input" class="copy-input" type="text" [(ngModel)]="selIcon">

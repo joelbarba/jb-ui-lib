@@ -1,0 +1,79 @@
+jb-label {
+  label {
+    font-weight: 700;
+    word-break: break-word;
+    margin-bottom: 5px;
+    line-height: 1;
+    &.is-required { color: $required-color; }
+
+    .info-badge {
+      display: inline-block;
+      margin-right: 7px;
+      cursor: pointer;
+    }
+    .asterisk {
+      margin-left: 3px;
+    }
+  }
+  .label-value {
+    line-height: 1;
+    word-break: break-word;
+    font-weight: 500;
+  }
+  &.value-light .label-value { font-weight: 400; }
+  &.value-bold  .label-value { font-weight: 700; }
+  &.value-ellipsis .label-value {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  // Styles applied to the host <jb-label>
+  &.no-bold  { label { font-weight: normal; } }
+  &.no-colon { .the-colon { display: none; } }
+  &.colon    { .the-colon { display: inline !important; } }
+  &.value-inline .label-value {
+    display: inline-block;
+    margin-left: 5px;
+  }
+  &.block { display: block; }
+}
+
+// --- Value list styles --------------------------------
+// Styles applied to the host <jb-label>
+jb-label.value-list, jb-label[class*="value-list-"] {
+  display: flex;
+  label {
+    flex: 1;
+    text-align: right;
+  }
+  .label-value {
+    display: inline-block;
+    margin-left: 5px;
+    flex: 1;
+  }
+
+}
+@for $ind from 1 through 10 {
+  jb-label.value-list-#{$ind} { .label-value { flex: #{$ind}; } }
+}
+
+@for $ind from 1 through 30 {
+  jb-label.text-#{$ind} { .label-value, label { font-size: #{$ind}px; } }
+}
+
+jb-label.value-list, jb-label.value-inline {
+  @for $ind from 0 through 6 {
+    &.value-mar-#{$ind * 5} .label-value { margin-left: #{$ind * 5}px; }
+  }
+}
+
+jb-label.value-primary  .label-value { color: $primary_color; }
+jb-label.value-warning  .label-value { color: $warning_color; }
+
+// --- Label color reset --------------------------------------------------
+//jb-label {
+//  label.is-required { color: $primary_color; }
+//  line-height: 1;
+//  font-size: 14px;
+//}

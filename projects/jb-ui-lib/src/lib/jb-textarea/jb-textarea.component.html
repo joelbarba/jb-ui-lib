@@ -1,0 +1,58 @@
+<div class="form-group  jb-textarea-form-group  error-{{errorPosition}}"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-error]="status === 'error'"
+     [class.is-pristine]="isPristine"
+     [class.is-dirty]="!isPristine"
+     [class.is-focus]="isFocus"
+     [class.horizontalLayoutClass]="false">
+
+  <label *ngIf="!!jbLabel" [class.is-required]="jbRequired">
+    <span class="info-badge" *ngIf="!!jbTooltip"
+          [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+          [container]="(jbTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{jbLabelTrans$ | async}}</span>:
+    <span *ngIf="jbRequired" class="asterisk">*</span>
+  </label>
+
+  <!--Error Message-->
+  <span *ngIf="status === 'error'"
+        class="jb-textarea-error-text"
+        [class.pull-up]="!jbLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+  <!--[formControl]="inputCtrl"-->
+  <textarea class="form-control" name="jbTextarea" #ngInputRef="ngModel"
+            [rows]="jbRows"
+            [placeholder]="jbPlaceholderTrans$ | async"
+            [ngModel]="jbModel" (ngModelChange)="parseModelChange($event)"
+            [disabled]="jbDisabled"
+
+            [required]="jbRequired"
+            [minlength]="jbMinlength"
+            [maxlength]="jbMaxlength"
+            [pattern]="jbPattern"
+
+            (focusin)="isFocus=true"
+            (focusout)="isFocus=false"
+            (keydown)="triggerKey($event)">
+  </textarea>
+
+</div>
+
+<!--<div class="col-12" *ngIf="!!ngInputRef" style="font-family: monospace;">-->
+<!--  FromControl (internal input):<br>-->
+<!--  <div class="marL10">- ngInputRef.value: <b>{{ngInputRef.value | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.valid: <b [style.color]="ngInputRef.valid ? '#28a745': '#dc3545'">{{ngInputRef.valid | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.pristine: <b>{{ngInputRef.pristine | json}}</b></div>-->
+<!--  <div class="marL10">- ngInputRef.errors: <b>{{ngInputRef.errors | json}}</b></div>-->
+<!--</div>-->
+<!--<hr>-->
+

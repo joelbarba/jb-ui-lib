@@ -1,0 +1,9 @@
+<div class="checkbox"
+     [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+     [container]="(jbTooltipBody ? 'body' : '')">
+  <label>
+    <input type="checkbox" [ngModel]="jbModel" (ngModelChange)="onChange($event)" [disabled]="jbDisabled">
+    <span class="check-box icon-checkmark3"></span>
+    <span class="check-text" [class.has-text]="!!jbLabel">{{jbLabelText$ | async}}</span>
+  </label>
+</div>

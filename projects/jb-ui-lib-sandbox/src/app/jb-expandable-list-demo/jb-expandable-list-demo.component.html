@@ -1,0 +1,25 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>
+  It helps displaying dynamic lists of (mostly text) items on small fragments.
+  <br>When the list contains only 1 item, this is simply displayed as such.
+  <br>When the list contains more than 1 item, only the 1st item is displayed initially, alongside a (+X) button. This button expands/collapses the rest of the list:
+</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<div class="whiteBg">
+  <h5 class="marB25">Example:</h5>
+  <div class="row">
+    <div class="col-6">
+      <div class="code-box pad15"><pre>{{instance}}</pre></div>
+      <div class="code-box pad15"><pre>myList: {{myList | json}}</pre></div>
+    </div>
+    <div class="col-6 padL50">
+      <jb-expandable-list [jbList]="myList"></jb-expandable-list>
+    </div>
+  </div>
+</div>

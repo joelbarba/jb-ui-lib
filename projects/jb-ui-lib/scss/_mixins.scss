@@ -1,0 +1,16 @@
+@mixin border_radius($rad){
+  -webkit-border-radius:$rad;
+  -moz-border-radius:$rad;
+  border-radius:$rad;
+}
+
+@mixin shadows($val){
+  -webkit-box-shadow: $val;
+  -moz-box-shadow: $val;
+  box-shadow: $val;
+}
+
+@mixin box-shadow($val) {
+  @include shadows($val);
+}
+

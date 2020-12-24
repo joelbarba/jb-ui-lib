@@ -1,0 +1,43 @@
+<h2>{{name}}</h2>
+<hr/>
+<p>{{desc}}</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<!--jb-section-header Customization-->
+<div class="whiteBg">
+    <div class="row">
+      <div class="col-6 marB15">
+        <h5 class="marB25">jb-section-header Customization:</h5>
+        <div class="padB25">
+            <jb-section-header [jbTitle]="compConf.title" [jbDescription]="compConf.hasDescription ? compConf.description : ''"></jb-section-header>
+        </div>
+        <div>
+            <div class="code-box pad15">
+                <pre>{{customCompCode}}</pre>
+            </div>
+        </div>
+      </div>
+  
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12"><h5>Options:</h5></div>
+          <div class="col-4 padT5"> <jb-checkbox [(ngModel)]="compConf.hasDescription" (ngModelChange)="upComp()" jbLabel="Has description"></jb-checkbox> </div>
+        </div>
+      </div>
+  
+    </div>
+</div>
+  
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <h3>CSS Styling</h3>
+    <p>The encapsulated styles do not use coloring.
+      <br/>
+      To provide a color based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
+  </div>
+</div>

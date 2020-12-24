@@ -1,0 +1,98 @@
+$radio-color: $text-color !default;  // Default radio background color (when not required)
+$radio-check-color: $white !default;
+
+
+// Radio view structure:
+//    <div class="checkbox">
+//      <label>
+//        <input type="radio" [ngModel]="option.selected">
+//        <span class="radio-box icon-checkmark3"></span>
+//        <span class="radio-text">Option Text</span>
+//      </label>
+//    </div>
+
+
+jb-radio {
+  div.radio {
+    display: inline-block;
+    margin: 0;
+
+    label {
+      display: inline-flex;
+      padding: 0; // Override ".radio label" from bootstrap
+      margin-bottom: 0;
+
+      // Text next to the box
+      span.radio-text {
+        padding: 0;
+        line-height: 20px;
+        vertical-align: top;
+        text-align: left;
+        cursor: pointer;
+        &.has-text { margin-left: 10px; }
+      }
+
+      input[type='radio'] {
+        display: none;  // Hide the input element
+
+        // Generate a box over the input to mock the checkbox
+        + span.radio-box {
+          border-color: darken($radio-color, 3%);
+          width: 20px;
+          height: 20px;
+          text-align: center;
+          line-height: 15px;
+          padding: 2px;
+          cursor: pointer;
+          border-width: 1px;
+          border-style: solid;
+          border-radius: 100%;
+          transition: 150ms;
+
+          // Box empty (not checked)
+          &:before {
+            opacity: 0;
+            font-size: 12px;
+            padding: 0;
+            color: white;
+            vertical-align: bottom;
+          }
+        }
+
+        // Box marked (checked)
+        &:checked + span.radio-box {
+          border-width: 1px;
+          border-style: solid;
+          background: $radio-color;
+          &:before {
+            color: $radio-check-color;
+            opacity: 1;
+          }
+        }
+
+        // Required
+        &[required]:not([disabled]) {
+          &:checked + span.radio-box { background: $required-color; }
+          + span.radio-box {
+            border-color: darken($required-color, 3%);
+          }
+        }
+
+        // Box disabled (checked or unchecked)
+        &[disabled] {
+          + span.radio-box {
+            background: $disabled-color;
+            border-color: darken($disabled-color, 3%);
+            cursor: not-allowed;
+            + span.radio-text {
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.block { display: block; width: 100%; }
+}
+

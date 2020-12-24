@@ -1,0 +1,59 @@
+$slider_bg: $white !default;
+$slider_color_default: $light !default;
+$slider_color_disabled: $disabled-color !default;
+$slider_color_primary: $primary_color !default;
+
+jb-range-slider {
+  .slider-label-left {
+
+  }
+  ng5-slider {
+    &.ng5-slider {
+      margin-bottom: 25px;
+      .ng5-slider-pointer {
+        background-color: $slider_color_primary;
+        outline: 0 none;
+        &.ng5-slider-active:after {
+          background-color: $slider_bg;
+        }
+      }
+      .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
+        background: $slider_color_primary;
+      }
+
+      &[disabled] {
+        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
+          background: $slider_color_disabled;
+        }
+      }
+
+      &.showOuterSelection {
+        .ng5-slider-tick {
+          background: $slider_color_primary;
+        }
+        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
+          background: $slider_color_default;
+        }
+        .ng5-slider-right-out-selection, .ng5-slider-left-out-selection {
+          .ng5-slider-bar {
+            background: $slider_color_primary;
+          }
+        }
+      }
+
+      &[disabled].showOuterSelection {
+        .ng5-slider-tick {
+          background: $slider_color_disabled;
+        }
+        .ng5-slider-selection, .ng5-slider-tick.ng5-slider-selected {
+          background: $slider_color_default;
+        }
+        .ng5-slider-right-out-selection, .ng5-slider-left-out-selection {
+          .ng5-slider-bar {
+            background: $slider_color_disabled;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+$jb-status-badge-text-color : $white !default;
+$jb-status-badge-border     : #f8f8f8 !default;
+$jb-status-font-size        : 12px !default;
+$jb-status-font-weight      : 600 !default;
+$jb-status-active   : $primary_color !default;
+$jb-status-inactive : $warning_color !default;
+$jb-status-pending  : $quaternary_color !default;
+$jb-status-other    : $secondary_color !default;
+$jb-status-other2   : $extra_color !default;
+$jb-status-other3   : darken($secondary_color, 15) !default;
+$jb-status-other4   : darken(#E99FB7, 20%) !default;
+$jb-status-submitted: darken($tertiary_color, 15) !default;
+
+$l-rootClass: '.jb-status-badge';
+
+.jb-status-badge {
+  width: 100%;
+  padding: 5px 15px;
+  margin: 3px 0 0 0;
+  text-align: center;
+  border-radius: 20px;
+  color: $jb-status-badge-text-color;
+  font-size: $jb-status-font-size;
+  font-weight: $jb-status-font-weight;
+  border: 1px solid $jb-status-badge-border;
+  &.jb-color-first   { background: $jb-status-active;   }
+  &.jb-color-second  { background: $jb-status-inactive; }
+  &.jb-color-third   { background: $jb-status-pending;  }
+  &.jb-color-fourth  { background: $jb-status-other;    }
+  &.jb-color-fifth   { background: $jb-status-other2;   }
+  &.jb-color-sixth   { background: $jb-status-other3;   }
+  &.jb-color-seventh { background: $jb-status-other4;   }
+  &.jb-color-eighth  { background: $jb-status-submitted;}
+
+  &-circle {
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    border-radius: 100%;
+    #{$l-rootClass}-text{
+      display: none;
+    }
+  }
+
+}

@@ -1,0 +1,36 @@
+// Default variable values
+
+$primary_color    : #00B6F1 !default;
+$secondary_color  : #93C83E !default;
+$tertiary_color   : #ED0677 !default;
+$quaternary_color : #004A64 !default;
+$warning_color    : #ED0677 !default;
+$extra_color      : #F17B3F !default;
+
+$white          : #fff !default;
+$grey           : #929292 !default;
+$light          : #d8e0f3 !default;
+$light-gray     : #e3e3e3 !default;
+$lighter-gray   : #f5f5f5 !default;
+$text-color     : #525254 !default;
+$optional-color : #ccc !default;       // (bootstrap default - $input-border)
+$disabled-color : #a0a0a0 !default;
+$focused-color  : darken($primary_color, 20%) !default;
+$required-color : $primary_color !default;
+$valid-color    : $primary_color !default;
+$invalid-color  : $warning_color !default;
+$page-placeholder-color : #f6f7f8 !default;
+
+$color-picker-gray-dark: lighten(#000, 20%) !default;
+
+$jb-ui-lib-colors: (
+  'primary'     : $primary_color,
+  'secondary'   : $secondary_color,
+  'tertiary'    : $tertiary_color,
+  'quaternary'  : $quaternary_color,
+  'warning'     : $warning_color,
+  'extra'       : $extra_color,
+  'white'       : $white,
+  'disabled'    : $disabled-color
+) !default;
+

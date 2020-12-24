@@ -1,0 +1,177 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<p>Use an instance of this class to generate al multi selector handler for lists.
+<br>It keeps track of the current selected items, exposing them on the <b>ids</b> object. It also
+provides the methods to interact with the selection, item by item or selecting one group/page at once.
+</p>
+
+<p>To simplify the usage of the selection in the view you can combine it with the <a href="/jb-list-checkbox"><b>{{compInst}}</b></a>
+</p>
+
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<hr>
+<h5 class="marB20">Example:</h5>
+<div class="marB10">
+  Selected IDs: {{ sel.getSelection() | json }}
+</div>
+
+<div class="row whiteBg padB10">
+  <jb-input class="col-4"
+            jbIcon="icon-search"
+            jbPlaceholder="view.common.search"
+            [jbAutoFocus]="true"
+            [(ngModel)]="myList.filterText"
+            (ngModelChange)="myList.filter($event)">
+  </jb-input>
+  <jb-switch class="col-2" [(ngModel)]="sel.resetOnFilter"
+             jbOnText="true" jbOffText="false"
+             jbLabel="resetOnFilter" jbLabelPos="left">
+  </jb-switch>
+
+  <div class="col-6 text-right">
+    <jb-btn jbType="secondary" jbIcon="icon-eye" jbText="Get Selection" (jbClick)="getSel()"></jb-btn>
+    <jb-btn jbType="save" jbText="Select All" (jbClick)="selectAll()"></jb-btn>
+    <jb-btn jbType="save" jbText="Reset All" (jbClick)="sel.resetSel()"></jb-btn>
+  </div>
+</div>
+
+<div class="row" [show]="myList.loadingStatus <= status.LOADING || myList.totalFiltered > 0">
+  <div class="col-12">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <jb-list-header-col class="mobile" colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></jb-list-header-col>
+
+        <!--<jb-checkbox class="col-1" [ngModel]="sel.isPageChecked" (ngModelChange)="sel.togglePage()"></jb-checkbox>-->
+        <jb-list-checkbox [selection]="sel"></jb-list-checkbox>
+
+        <jb-list-header-col class="col-3"  colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-1"  colTitle="Id"          fieldName="id"          [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-3"  colTitle="Email"       fieldName="email"       [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-2"  colTitle="First Name"  fieldName="first_name"  [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-3"  colTitle="Last Name"   fieldName="last_name"   [orderConf]="myList.orderConf"></jb-list-header-col>
+      </li>
+
+      <li class="list-row" *ngFor="let item of myList.renderList$ | async">
+
+        <!--<jb-checkbox class="col-1" [ngModel]="sel.ids[item.id]" (ngModelChange)="sel.toggleCheck(item.id)"></jb-checkbox>-->
+        <jb-list-checkbox [selection]="sel" [id]="item.id"></jb-list-checkbox>
+
+        <div class="col-3">{{item.username}}</div>
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-3">{{item.email}}</div>
+        <div class="col-2">{{item.first_name}}</div>
+        <div class="col-2">{{item.last_name}}</div>
+        <div class="col-1 text-right">
+          <jb-btn jbType="edit-icon"></jb-btn>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row whiteBg" [show]="myList.totalFiltered > 5">
+  <jb-list-paginator class="col-12 mobile-sm" [jbCtrl]="myList" jbShowSelector="true"></jb-list-paginator>
+</div>
+<div class="row whiteBg" [show]="myList.loadingStatus > status.LOADING && myList.totalFiltered === 0">
+  <jb-no-data class="col-12 size-md" [jbIsPlaceholder]="true" jbIcon="icon-blocked" jbTitle="No Results"></jb-no-data>
+</div>
+
+<hr>
+<div class="row marB30">
+  <div class="col-6">
+    <p>Usage in a common list:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre>{{example1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <p>Usage without jb-list-checkbox:</p>
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre>{{example2}}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<hr>
+<h5 class="marB20">Header selector with actions</h5>
+<p>In some cases we need to add a dropdown next to the header selector, to expand a list of possible actions to perform with the selected items.
+  <br>For this cases, the {{compInst}} provides an optional input <b>[actions]</b> that populates such ui.
+</p>
+<p>It is also important to apply the CSS class <b>pad-action</b> to the {{compInst}} in this case. It adds the extra padding
+to display the action header and align it on the list. If you need to populate content on the list to fulfill that
+empty space, you can nest it inside the list {{compInst}} (there's an ng-content).
+</p>
+
+<div class="row" [show]="myList.loadingStatus <= status.LOADING || myList.totalFiltered > 0">
+  <div class="col-12">
+    <ul class="list-unstyled table-list">
+      <li class="list-header">
+        <jb-list-header-col class="mobile" colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></jb-list-header-col>
+
+        <!--<jb-checkbox class="col-1" [ngModel]="sel.isPageChecked" (ngModelChange)="sel.togglePage()"></jb-checkbox>-->
+        <jb-list-checkbox class="actions-pad" [selection]="sel"
+                          [actions]="actions" (actionClick)="triggerAction($event)">
+        </jb-list-checkbox>
+
+        <jb-list-header-col class="col-3"  colTitle="Username"    fieldName="username"    [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-1"  colTitle="Id"          fieldName="id"          [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-3"  colTitle="Email"       fieldName="email"       [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-2"  colTitle="First Name"  fieldName="first_name"  [orderConf]="myList.orderConf"></jb-list-header-col>
+        <jb-list-header-col class="col-3"  colTitle="Last Name"   fieldName="last_name"   [orderConf]="myList.orderConf"></jb-list-header-col>
+      </li>
+
+      <li class="list-row" *ngFor="let item of myList.renderList$ | async">
+
+        <!--<jb-checkbox class="col-1" [ngModel]="sel.ids[item.id]" (ngModelChange)="sel.toggleCheck(item.id)"></jb-checkbox>-->
+        <jb-list-checkbox class="actions-pad" [selection]="sel" [id]="item.id">
+          <span class="marL25 list-icon icon-aid-kit"></span>
+          <span class="marL15 list-icon icon-warning2"></span>
+          <span class="marL15 list-icon icon-spam"></span>
+        </jb-list-checkbox>
+
+        <div class="col-3">{{item.username}}</div>
+        <div class="col-1">{{item.id}}</div>
+        <div class="col-3">{{item.email}}</div>
+        <div class="col-2">{{item.first_name}}</div>
+        <div class="col-2">{{item.last_name}}</div>
+        <div class="col-1 text-right">
+          <jb-btn jbType="edit-icon"></jb-btn>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row whiteBg" [show]="myList.totalFiltered > 5">
+  <jb-list-paginator class="col-12 mobile-sm" [jbCtrl]="myList" jbShowSelector="true"></jb-list-paginator>
+</div>
+<div class="row whiteBg" [show]="myList.loadingStatus > status.LOADING && myList.totalFiltered === 0">
+  <jb-no-data class="col-12 size-md" [jbIsPlaceholder]="true" jbIcon="icon-blocked" jbTitle="No Results"></jb-no-data>
+</div>
+<hr>
+
+<div class="row marB30">
+  <div class="col-6">
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre>{{example3}}</pre>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="examples-table">
+      <div class="code-box padV10 padH15">
+        <pre>{{example4}}</pre>
+      </div>
+    </div>
+  </div>
+</div>

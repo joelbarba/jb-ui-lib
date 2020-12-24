@@ -1,0 +1,57 @@
+jb-list-checkbox {
+  position: absolute;
+  padding-left: 5px;
+  padding-top: 1px;
+  display: flex;
+  align-items: center;
+
+  jb-checkbox { z-index: 10; }
+
+  // Actions header
+  .list-header-col-title.actions-header {
+    z-index: 20;
+    line-height: 20px !important;
+    &:not(.disabled) { cursor: pointer; }
+    &.disabled { opacity: 0.5; }
+    .actions-text { margin-left: 15px; }
+    .actions-arrow { margin-left: 5px; font-size: 10px; }
+  }
+
+  // Expandable list
+  .actions-list {
+    z-index: 30;
+    position: absolute;
+    left: -10px;
+    top: 36px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    background: $primary_color;
+    min-width: 195px;
+    opacity: 0.95;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,.3);
+    .action-row {
+      padding: 15px;
+      &:hover:not(.disabled) { background: lighten($primary_color, 5%); }
+      &.disabled { opacity: 0.5; cursor: default; }
+    }
+
+    transform-origin: top;
+    transform: scaleY(0);
+    &.expanded { transform: scaleY(1); }
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+    transition-property: transform;
+  }
+}
+
+// Push the next item to make room for the checkbox
+jb-list-checkbox + *,
+jb-list-checkbox + [class*="col-"] {
+  padding-left: 45px;
+}
+
+jb-list-checkbox.actions-pad + *,
+jb-list-checkbox.actions-pad + [class*="col-"] {
+  padding-left: 200px;
+}

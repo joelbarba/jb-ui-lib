@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-6">
+    <h2>jb-input - Manual Control</h2>
+  </div>
+  <div class="col-6 text-right">
+    <jb-btn jbText="jbInput" (jbClick)="router.navigate(['/jb-input'])"></jb-btn>
+    <jb-btn jbText="Validators"      (jbClick)="router.navigate(['/jb-input/validators'])"></jb-btn>
+    <jb-btn jbText="Async Validator" (jbClick)="router.navigate(['/jb-input/async-validator'])"></jb-btn>
+    <jb-btn jbText="Controls"        (jbClick)="router.navigate(['/jb-input/controls'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Autofill"        (jbClick)="router.navigate(['/jb-input/autofill'])"></jb-btn>
+  </div>
+</div>
+<hr>
+Example about how to externally control the jb-input. There are 2 ways to manage this:
+<ul class="marT5">
+  <li><b>(jbOnLoaded)</b>: Hooking the controller object</li>
+  <li><b>[extCtrl$]</b>: With an input observable</li>
+</ul>
+
+<div class="whiteBg row">
+  <div class="col-12"><h5 class="marB25">Controller Object:</h5></div>
+  <div class="col-12 marB15">
+    You can use the returned object in <b>(jbOnLoaded)</b> to trigger internal actions.
+    You should make sure though that the object has been initialized before using it.
+  </div>
+
+  <div class="col-7">
+    <jb-input style="max-width: 500px; display: block;" #jbInputRef="ngModel"
+              jbLabel="My Input"
+              [(ngModel)]="val1"
+              (jbOnLoaded)="ctrl = $event"
+              [jbRequired]="true">
+    </jb-input>
+    <div class="" *ngIf="!!jbInputRef">
+      <span class="marL10">valid: <b [style.color]="jbInputRef.valid ? '#28a745': '#dc3545'">{{jbInputRef.valid | json}}</b></span>
+      <span class="marL10">pristine: <b>{{jbInputRef.pristine | json}}</b></span>
+      <span class="marL10">errors: <b>{{jbInputRef.errors | json}}</b></span>
+    </div>
+
+    <div class="marT10">
+      <div class="code-box pad15">
+        <pre style="overflow-x: hidden;">{{extCtrlExample1}}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-5 padT20">
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setFocus()"    (jbClick)="ctrl.setFocus()" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setBlur()"     (jbClick)="ctrl.setBlur()" ></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setDirty()"    (jbClick)="ctrl.setDirty()" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setPristine()" (jbClick)="ctrl.setPristine()" ></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.removeError()" (jbClick)="ctrl.removeError()" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.addError()"    (jbClick)="ctrl.addError({ label: 'Oh no!' })" ></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.refresh()"     (jbClick)="ctrl.refresh()" ></jb-btn>
+
+
+  </div>
+</div>
+
+<div class="whiteBg row marT30">
+  <div class="col-12"><h5 class="marB25">Input observable [extCtrl$]</h5></div>
+  <div class="col-12 marB15">
+    You can pass an observable to <b>[extCtrl$]</b>. The component will automatically subscribe and listen to it, so actions
+    can be emitted through it. You can use a Subject if you need to trigger them manually. The .next() should send an object with an "action" and "value"
+  </div>
+
+  <div class="col-7">
+    <jb-input style="max-width: 500px; display: block;" #jbInputRef2="ngModel"
+              jbLabel="My Input"
+              [(ngModel)]="val1"
+              [extCtrl$]="extCtrl$"
+              [jbRequired]="true">
+    </jb-input>
+    <div class="" *ngIf="!!jbInputRef2">
+      <span class="marL10">valid: <b [style.color]="jbInputRef2.valid ? '#28a745': '#dc3545'">{{jbInputRef2.valid | json}}</b></span>
+      <span class="marL10">pristine: <b>{{jbInputRef2.pristine | json}}</b></span>
+      <span class="marL10">errors: <b>{{jbInputRef2.errors | json}}</b></span>
+    </div>
+
+
+    <div class="marT20">
+      <div class="code-box pad15">
+        <pre style="overflow-x: hidden;">{{extCtrlExample2}}</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-5 padT20">
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setFocus()"    (jbClick)="extCtrl$.next({ action: 'setFocus' })" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setBlur()"     (jbClick)="extCtrl$.next({ action: 'setBlur' })" ></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setDirty()"    (jbClick)="extCtrl$.next({ action: 'setDirty' })" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.setPristine()" (jbClick)="extCtrl$.next({ action: 'setPristine' })" ></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.removeError()" (jbClick)="extCtrl$.next({ action: 'removeError' })" ></jb-btn>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.addError()"    (jbClick)="extCtrl$.next({ action: 'addError', label: 'Oh oh!' })"></jb-btn>
+    <div class="marT5"></div>
+    <jb-btn style="width: 200px;" class="full-width" jbType="save" jbText="ctrl.refresh()"     (jbClick)="extCtrl$.next({ action: 'refresh' })" ></jb-btn>
+
+    <div class="padT15">
+      <code><ul class="padL15"><li *ngFor="let ctrlAction of ctrlActions">{{ctrlAction}}</li></ul></code>
+    </div>
+  </div>
+
+</div>
+
+

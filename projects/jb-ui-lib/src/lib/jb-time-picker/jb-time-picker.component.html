@@ -1,0 +1,78 @@
+<jb-label [jbText]="jbLabel"></jb-label>
+<div ngbDropdown autoClose="outside" [placement]="jbPlacement" #timePickerDropdown="ngbDropdown" (openChange)="onOpenChange($event)">
+  <div class="input-group" ngbDropdownAnchor (click)="toggleTimePicker(timePickerDropdown)">
+    <input type="text" class="form-control display-input" [ngModel]="getDisplayTime$() | async"disabled/>
+    <span class="input-group-append">
+      <button class="btn primary" [disabled]="isDisabled()">
+        <span class="icon-clock3"></span>
+      </button>
+    </span>
+  </div>
+
+  <div ngbDropdownMenu>
+    <div class="row uib-datepicker-popup">
+      <div class="card card-body card-sm pl-2">
+        <jb-date-picker
+          [ngModel]="getFormattedTimeString$() | async"
+          (ngModelChange)="onDateChanged($event)"
+          [jbIsInlineDatePicker]="true"
+          [jbMinDate]="formatDate(jbMinTime)"
+          [jbMaxDate]="formatDate(jbMaxTime)">
+        </jb-date-picker>
+      </div>
+    </div>
+
+    <div class="row temp-placeholder"></div>
+
+    <div class="card card-body card-sm time-wrapper">
+      <div class="px-2" *ngIf="jbSupportedTimezones">
+        <jb-dropdown class="full-width" [ngModel]="jbSelectedTimezone" [jbList]="jbSupportedTimezones" jbPlaceholder="Timezone" jbSelect="time_zone" jbRender="time_zone" (ngModelChange)="onTimezoneChanged($event)" jbRequired="true"></jb-dropdown>
+      </div>
+
+      <div class="text-center timepicker-row d-flex flex-row justify-content-around px-1" *ngIf="(getFollowingValues$() | async) as followingValues">
+
+        <div class="arrows">
+          <div class="d-flex flex-column arrows-right">
+            <jb-btn class="arrow-btn block" jbType="primary" jbIcon="icon-arrow-up3" (jbClick)="incrementHours()" [jbDisabled]="followingValues.after.hours === null"></jb-btn>
+            <jb-btn class="arrow-btn block" jbType="primary" jbIcon="icon-arrow-down3" (jbClick)="decrementHours()" [jbDisabled]="followingValues.before.hours === null"></jb-btn>
+          </div>
+        </div>
+
+        <div class="time-area d-flex flex-row justify-content-around">
+          <!-- Hours -->
+          <div class=" jb-scrollable" (wheel)="onMouseWheelHours($event)">
+            <h3 class="t-after">{{displayFollowingTimeValues(followingValues.after.hours)}}</h3>
+            <h2 *ngIf="(getCurrentHour$() | async) as currentHour">{{currentHour}}</h2>
+            <h3 class="t-before">{{displayFollowingTimeValues(followingValues.before.hours)}}</h3>
+          </div>
+
+          <div class="tmiddle">
+            <h2>:</h2>
+          </div>
+
+          <!-- Minutes -->
+          <div class="jb-scrollable" (wheel)="onMouseWheelMinutes($event)">
+            <h3 class="t-after">{{displayFollowingTimeValues(followingValues.after.minutes)}}</h3>
+            <h2>{{getCurrentMinutes$() | async}}</h2>
+            <h3 class="t-before">{{displayFollowingTimeValues(followingValues.before.minutes)}}</h3>
+          </div>
+
+        </div>
+
+        <div class="arrows">
+          <div class="d-flex flex-column arrows-left">
+            <jb-btn class="arrow-btn block" jbType="primary" jbIcon="icon-arrow-up3" (jbClick)="incrementMinutes()" [jbDisabled]="followingValues.after.minutes === null"></jb-btn>
+            <jb-btn class="arrow-btn block" jbType="primary" jbIcon="icon-arrow-down3" (jbClick)="decrementMinutes()" [jbDisabled]="followingValues.before.minutes === null"></jb-btn>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="d-flex flex-row justify-content-end mt-3">
+      <jb-btn class="block" jbType="cancel" (click)="onCancel(timePickerDropdown)"></jb-btn>
+      <jb-btn class="ml-2" jbType="save" (click)="closeTimePicker(timePickerDropdown)"></jb-btn>
+    </div>
+  </div>
+</div>
+

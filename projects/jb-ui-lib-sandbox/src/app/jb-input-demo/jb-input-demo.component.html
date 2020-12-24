@@ -1,0 +1,308 @@
+<div class="row">
+  <div class="col-3">
+    <h2>{{name}}</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbInput" (jbClick)="router.navigate(['/jb-input'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Validators"      (jbClick)="router.navigate(['/jb-input/validators'])"></jb-btn>
+    <jb-btn jbText="Async Validator" (jbClick)="router.navigate(['/jb-input/async-validator'])"></jb-btn>
+    <jb-btn jbText="Controls"        (jbClick)="router.navigate(['/jb-input/controls'])"></jb-btn>
+    <jb-btn jbText="Autofill"        (jbClick)="router.navigate(['/jb-input/autofill'])"></jb-btn>
+  </div>
+</div>
+
+<hr/>
+<p>{{desc}}</p>
+
+<div class="whiteBg" *ngIf="true">
+  <div class="collapse-btn" (click)="boxCo[0] = !boxCo[0]"></div>
+  <h5 style="margin-top: -10px;">Parameters:</h5>
+  <div class="col-12" [hidden]="boxCo[0]"><pre>{{api}}</pre></div>
+</div>
+
+
+
+<!--Input Customization-->
+<div class="whiteBg">
+  <div class="collapse-btn" (click)="boxCo[1] = !boxCo[1]"></div>
+  <h5 [hidden]="!boxCo[1]">jbInput Customization:</h5>
+  <div class="row" [hidden]="boxCo[1]">
+    <div class="col-5 marB15">
+      <h5 class="marB25">jbInput Customization:</h5>
+      <div class="row" *ngIf="isLinked">
+
+        <jb-input class="col-9"
+                  [(ngModel)]="myVariable"
+                  [class.flat]="compConf.hasFlat"
+                  [jbLabel]="(compConf.hasLabel ? compConf.labelText : '')"
+                  [jbPlaceholder]="(compConf.hasPlaceholder ? compConf.placeholderText : '')"
+                  [jbRequired]="compConf.isRequired"
+                  [jbDisabled]="compConf.isDisabled"
+
+                  [jbIcon]="(compConf.hasIcon ? compConf.inputIcon : '')"
+                  [jbType]="compConf.inputType"
+                  [jbTooltip]="(compConf.hasTooltip ? compConf.inputTooltip : null)"
+                  [jbTooltipPos]="(compConf.inputTooltipPos || 'top')"
+                  [jbTooltipBody]="compConf.inputTooltipBody"
+                  [jbDisabledTip]="compConf.disabledTip"
+                  [jbAutoFocus]="compConf.hasAutoFocus"
+                  [jbLeftBtnText]="(compConf.hasLeftBtnText ? compConf.leftBtnText : '')"
+                  [jbLeftBtnIcon]="(compConf.hasLeftBtn ? compConf.leftBtnIcon : '')"
+                  (jbLeftBtnClick)="compConf.hasBtnListener && growl.success('Left addon button click')"
+
+                  [jbRightBtnText]="(compConf.hasRightBtnText ? compConf.rightBtnText : '')"
+                  [jbRightBtnIcon]="(compConf.hasRightBtn ? compConf.rightBtnIcon : '')"
+                  (jbRightBtnClick)="compConf.hasBtnListener && growl.success('Right addon button click')"
+
+                  (jbOnKeyDown)="compConf.hasKeyDown && growl.success('Key Down -> ' + $event.key)"
+                  (jbOnEsc)="compConf.hasKeyEsc && growl.success('ESC key was pressed')"
+                  (jbOnEnter)="compConf.hasKeyEnter && growl.success('ENTER key was pressed')"
+                  (jbOnCtrlEnter)="compConf.hasKeyCtrlEnter && growl.success('Ctrl + ENTER key were pressed')"
+
+                  (jbOnLoaded)="compConf.hasOnLoad && growl.success('jbOnLoaded triggered')"
+                  (jbBeforeChange)="compConf.hasBeforeChange && growl.success('jbBeforeChange triggered')"
+        ></jb-input>
+        <div class="col-3 text-right" [class.pad20]="compConf.hasLabel"><jb-btn jbText="Relink" (jbClick)="reLink()"></jb-btn></div>
+      </div>
+
+      <div class="padT15">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7 padL50">
+
+      <!--Label-->
+      <div class="row padT15">
+        <jb-checkbox class="col-3 padT5" jbLabel="jbLabel" [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-6" style="margin-bottom: -5px;" [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!compConf.hasLabel"></jb-input>
+        <div class="col-3" style="margin-top: -25px;">
+          <jb-dropdown jbLabel="jbType" [(ngModel)]="compConf.inputType" (ngModelChange)="upComp()"
+                       [jbList]="compConf.inputTypes" jbRender="text" jbSelect="id" [jbRequired]="true">
+          </jb-dropdown>
+        </div>
+      </div>
+
+      <!--Placeholder-->
+      <div class="row">
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="compConf.hasPlaceholder" (ngModelChange)="upComp()" jbLabel="jbPlaceholder"></jb-checkbox> </div>
+        <div class="col-9" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="compConf.placeholderText" (ngModelChange)="upComp()" [jbDisabled]="!compConf.hasPlaceholder"></jb-input> </div>
+      </div>
+
+      <!--Required + Type + AutoFocus + Autocomplete-->
+      <div class="row padT10">
+        <jb-checkbox class="col-3 block" jbLabel="jbRequired" [(ngModel)]="compConf.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 block" jbLabel="jbAutofocus" [(ngModel)]="compConf.hasAutoFocus" (ngModelChange)="upComp()" jbTooltip="once input linked to the view is automatically focused"></jb-checkbox>
+        <jb-checkbox class="col-3 block" jbLabel="jbAutocomplete" [(ngModel)]="compConf.hasAutocomplete" (ngModelChange)="upComp()" jbTooltip="once the input is clicked, the previous value will be suggested"></jb-checkbox>
+      </div>
+
+      <!--Disabled-->
+      <div class="row marT15">
+        <jb-checkbox class="col-3 padT5" jbLabel="jbDisabled" [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" ></jb-checkbox>
+        <jb-input class="col-9 flat" [(ngModel)]="compConf.disabledTip" jbPlaceholder="Tooltip: This input is disabled because..." (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <!--Icon-->
+      <div class="row marT15">
+        <jb-checkbox class="col-3 padT5" jbLabel="jbIcon" [(ngModel)]="compConf.hasIcon" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-dropdown class="col-4 full-width"
+                     [jbDisabled]="!compConf.hasIcon"
+                     [(ngModel)]="compConf.inputIcon" (ngModelChange)="upComp()"
+                     [jbList]="btnIcons" jbRender="icon" jbSelect="icon" [jbRequired]="false">
+        </jb-dropdown>
+        <span class="col-3 padT5 text-info">jbIcon="loading" --> Spinner</span>
+      </div>
+
+      <div class="row marT5">
+        <div class="col-3">
+          <!--Tooltip-->
+          <jb-checkbox class="block padT5" jbLabel="jbTooltip" [(ngModel)]="compConf.hasTooltip" (ngModelChange)="upComp()"></jb-checkbox>
+          <div class="marT30"></div>
+
+          <!--Key Listeners-->
+          <jb-checkbox class="block marT10" jbLabel="(jbOnKeyDown)" [(ngModel)]="compConf.hasKeyDown" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-checkbox class="block marT10" jbLabel="(jbOnEsc)" [(ngModel)]="compConf.hasKeyEsc" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-checkbox class="block marT10" jbLabel="(jbOnEnter)" [(ngModel)]="compConf.hasKeyEnter" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-checkbox class="block marT10" jbLabel="(jbOnCtrlEnter)" [(ngModel)]="compConf.hasKeyCtrlEnter" (ngModelChange)="upComp()"></jb-checkbox>
+
+          <!--jbOnLoaded + jbBeforeChange-->
+          <jb-checkbox class="block marT10" jbLabel="(jbOnLoaded)" [(ngModel)]="compConf.hasOnLoad" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-checkbox class="block marT10" jbLabel="(jbBeforeChange)" [(ngModel)]="compConf.hasBeforeChange" (ngModelChange)="upComp()"></jb-checkbox>
+
+        </div>
+
+        <div class="col-9">
+          <div class="row">
+            <jb-input class="col-12" [jbDisabled]="!compConf.hasTooltip" [(ngModel)]="compConf.inputTooltip" (ngModelChange)="upComp()"></jb-input>
+            <jb-dropdown class="col-6" jbLabel="jbTooltipPos" [jbDisabled]="!compConf.hasTooltip"
+                         [(ngModel)]="compConf.inputTooltipPos" (ngModelChange)="upComp()" [jbList]="tooltipPosList" jbRender="text" jbSelect="id">
+            </jb-dropdown>
+            <jb-dropdown class="col-6" jbLabel="jbTooltipBody" [jbDisabled]="!compConf.hasTooltip"
+                         [(ngModel)]="compConf.inputTooltipBody" (ngModelChange)="upComp()" [jbList]="tooltipBodyList" jbRender="text" jbSelect="id">
+            </jb-dropdown>
+          </div>
+
+          <!--Addon Buttons-->
+          <div class="row marT10">
+            <jb-checkbox class="col-3 padT5" jbLabel="jbLeftBtnIcon" [(ngModel)]="compConf.hasLeftBtn" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-3" [jbDisabled]="!compConf.hasLeftBtn" [(ngModel)]="compConf.leftBtnIcon" (ngModelChange)="upComp()"></jb-input>
+
+            <jb-checkbox class="col-3 padT5" jbLabel="jbRightBtnIcon" [(ngModel)]="compConf.hasRightBtn" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-3" [jbDisabled]="!compConf.hasRightBtn" [(ngModel)]="compConf.rightBtnIcon" (ngModelChange)="upComp()"></jb-input>
+
+            <jb-checkbox class="col-3 padT5" jbLabel="jbLeftBtnIcon" [(ngModel)]="compConf.hasLeftBtnText" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-3" [jbDisabled]="!compConf.hasLeftBtnText" [(ngModel)]="compConf.leftBtnText" (ngModelChange)="upComp()"></jb-input>
+
+            <jb-checkbox class="col-3 padT5" jbLabel="jbRightBtnText" [(ngModel)]="compConf.hasRightBtnText" (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-3" [jbDisabled]="!compConf.hasRightBtnText" [(ngModel)]="compConf.rightBtnText" (ngModelChange)="upComp()"></jb-input>
+
+
+            <jb-checkbox class="col-12" jbLabel="(jbLeftBtnClick) | (jbRightBtnClick)" [(ngModel)]="compConf.hasBtnListener" (ngModelChange)="upComp()"
+                         [jbDisabled]="!compConf.hasLeftBtnText && !compConf.hasLeftBtn && !compConf.hasRightBtnText && !compConf.hasRightBtn">
+            </jb-checkbox>
+          </div>
+        </div>
+      </div>
+
+
+      <!--Classes-->
+      <div class="row marT15">
+        <div class="col-8 padT5">
+          <jb-label jbText="CSS Classes"></jb-label>
+          <jb-checkbox class="marL20" [(ngModel)]="compConf.hasFlat" (ngModelChange)="upComp()" jbLabel="flat"></jb-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="marT30" *ngIf="true">
+
+  <p>
+    This component has been implemented as a "custom controller", so it can be linked to a formControl to work in Reactive and Template forms.
+    <br>Check this page for more info: <a href="https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html">https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html</a>
+  </p>
+
+  <!--Inputs in a Form-->
+  <div class="whiteBg">
+    <div class="collapse-btn" (click)="boxCo[2] = !boxCo[2]"></div>
+    <h5 class="marB15">Inputs in a Form - Linking ngForm with jbInput - ngModel</h5>
+
+    <form #myForm="ngForm" [hidden]="boxCo[2]">
+      <div class="row">
+        <div class="col-2">
+          <pre>myForm.status = {{ myForm.status | json }} </pre>
+          <pre>myForm.value = {{ myForm.value | json }}</pre>
+          <pre class="marB0">
+myForm.valid    = {{ myForm.valid }}
+myForm.invalid  = {{ myForm.invalid }}
+myForm.pristine = {{ myForm.pristine }}
+myForm.touched  = {{ myForm.touched }}
+myForm.errors   = {{ myForm.errors | json }}
+          </pre>
+
+        </div>
+
+        <div class="col-2">
+          <jb-input jbLabel="first" name="first" [(ngModel)]="val1" [jbRequired]="true" #firstRef="ngModel" ></jb-input>
+          <pre>
+firstRef.value = {{firstRef.value}}
+firstRef.valid = {{firstRef.valid }}
+firstRef.errors = {{firstRef.errors | json }}
+          </pre>
+          <pre class="marB0">ngModel Value (val1) = {{val1}}
+ngModel Value (val2) = {{val2}}
+          </pre>
+        </div>
+
+        <div class="col-2">
+          <jb-input jbLabel="last" name="last" [(ngModel)]="val2" [jbRequired]="true" #lastRef="ngModel" ></jb-input>
+          <pre>lastRef.value = {{lastRef.value}}
+lastRef.valid = {{lastRef.valid }}
+lastRef.errors = {{lastRef.errors | json }}
+          </pre>
+          <jb-btn jbType="save" jbText="Save Form" [jbDisabled]="myForm.invalid"></jb-btn>
+        </div>
+
+        <div class="col-6 examples-table" style="margin-top: -40px;">
+          <h5>Code sample:</h5>
+          <div class="code-box pad10">
+            <pre style="font-size: 14px;">{{ formExampleInput100 }}</pre>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+  </div>
+
+
+
+
+  <!--Applicable classes -->
+  <div class="row">
+    <div class="col-12">
+      <h5 class="mt-4">Applicable classes:</h5>
+      <p>The input has a margin bottom 15px by default. To remove it, add the class "<span class="bold">flat</span>":</p>
+      <pre class="marT10">{{ flatExample }}</pre>
+    </div>
+    <div class="col-3">
+      <div style="border: 1px dashed red">
+        <jb-input class="" jbLabel="Without flat class" [ngModel]="jbModel"></jb-input>
+      </div>
+    </div>
+    <div class="col-3">
+      <div style="border: 1px dashed red">
+        <jb-input class="flat" jbLabel="With flat class" [ngModel]="jbModel"></jb-input>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <hr>
+      <p>To align the label and input horizontally, add the class "<b>input-col</b>"
+        <br>It applies a flex display on the label / input, aligning them to the center.
+        It is also possible to adjust the flex of the value, to give more room to the right side using "input-col-2", "input-col-3", "input-col-4" and so on:
+      </p>
+      <pre class="marT10">{{ inputColExample }}</pre>
+
+      <div style="border: 1px dashed red; max-width: 650px;">
+        <jb-input [(ngModel)]="myVariable3" class="input-col-1"
+                  jbRequired="true" jbErrorOnPristine="true"
+                  jbLabel="view.common.name">
+        </jb-input>
+        <jb-input [(ngModel)]="myVariable4" class="input-col-2"
+                  jbRequired="true" jbErrorOnPristine="true"
+                  jbLabel="view.common.name">
+        </jb-input>
+        <jb-input [(ngModel)]="myVariable5" class="input-col-5"
+                  jbRequired="true" jbErrorOnPristine="true"
+                  jbLabel="view.common.name">
+        </jb-input>
+        <!--jbErrorPos="bottom-left"-->
+        <!--jbErrorPos="bottom-right"-->
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!--CSS Styling-->
+  <div class="row marT40">
+    <div class="col-12">
+      <hr>
+      <h4>CSS Styling</h4>
+      <p>The following SASS variables can be overridden to provide customized coloring:</p>
+      <pre class="padL30">{{ cssReset }}</pre>
+    </div>
+  </div>
+
+
+
+
+</div>

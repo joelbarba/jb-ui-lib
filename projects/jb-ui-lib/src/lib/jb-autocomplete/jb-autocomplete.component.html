@@ -1,0 +1,59 @@
+<div class="form-group jb-autocomplete-form-group" #autocomplete
+     (keydown)="triggerKey($event)"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-focus]="isFocus"
+     [class.is-error]="isInvalid && (!ngControl.pristine || jbErrorOnPristine)">
+
+  <jb-label *ngIf="!!jbLabel"
+            [jbText]="jbLabel"
+            [jbRequired]="jbRequired"
+            [jbTooltip]="jbTooltip"
+            [jbTooltipPos]="jbTooltipPos"
+            [jbTooltipBody]="jbTooltipBody">
+  </jb-label>
+
+  <div class="jb-autocomplete"
+       [class.is-expanded]="isExpanded()">
+    <div class="input-group" #autocompleteInputGroup
+         [disableTooltip]="!jbDisabled || !jbDisabledTip"
+         [ngbTooltip]="jbDisabledTipTrans$ | async">
+
+      <input type="text" class="form-control" #autocompleteInput
+             [(ngModel)]="ngModel" (ngModelChange)="typing(ngModel)"
+             [placeholder]="jbPlaceholderTrans$ | async"
+             [disabled]="jbDisabled"
+             (focusin)="expand()"
+             (blur)="updateModel(ngModel)"
+             autocomplete="nofill">
+
+
+      <div class="input-group-append">
+        <button [hidden]="(!!ngModel && ngModel.length > 0) && isFocus"
+                class="btn btn-outline-secondary" tabIndex="-1"
+                [disabled]="jbDisabled"
+                (click)="!jbDisabled && toggle()">
+          <span class="icon-search"></span>
+        </button>
+        <button [hidden]="(!ngModel || ngModel.length === 0) || !isFocus"
+                class="btn btn-outline-secondary" tabIndex="-1"
+                (click)="reset()">
+          <span class="icon-cross3"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="list-container" #listContainer>
+      <div *ngFor="let item of list" class="option-row {{item}}"
+           [class.selected]="ngModel === item"
+           [class.candidate]="jbCandidate === item"
+           (mouseenter)="!ignoreHover && (jbCandidate = item)"
+           (mouseleave)="!ignoreHover && (jbCandidate = null)"
+           (mouseup)="select(item);">
+        <span>{{item}}</span>
+      </div>
+    </div>
+
+  </div>
+</div>

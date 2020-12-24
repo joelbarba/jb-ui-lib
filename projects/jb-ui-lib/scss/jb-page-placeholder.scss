@@ -1,0 +1,73 @@
+jb-page-placeholder {
+  .placeholder-text {
+    background: $page-placeholder-color;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+    height: 20px;
+    position: relative;
+
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    animation-name: placeHolderShimmer;
+
+    @keyframes placeHolderShimmer {
+      0% { background-position: -468px 0 }
+      100% { background-position: 468px 0 }
+    }
+  }
+  .placeholder-profile {
+    &_avatar {
+      display: flex;
+      flex-direction: column;
+      .placeholder-text {
+        align-self: center;
+        &.profile_button { width: 90%; height: 40px; }
+        &.profile_avatar { width: 100px; height: 100px; }
+        &.profile_title { width: 80%; height: 30px; }
+        &.profile_subtitle { width: 55%; }
+        &.profile_text1 { width: 30%; }
+        &.profile_text2 { width: 100%; }
+      }
+    }
+    &_data {
+      display: flex;
+      justify-content: space-around;
+      .data-col {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        &_num { align-self: center; width: 40px; height: 60px; }
+        &_text { align-self: center; width: 80%; }
+      }
+    }
+    &_info-center {
+      display: flex;
+      flex-direction: column;
+      .placeholder-text {
+        align-self: center;
+      }
+    }
+    .info-text1 { width: 20%; }
+    .info-text2 { width: 30%; }
+    .info-text3 { width: 50%; }
+    .info-text4 { width: 70%; }
+  }
+  .placeholder-details {
+    .placeholder-text {
+      &.details_title { width: 50%; height: 45px; }
+      &.details_description { width: 65%; margin-bottom: 30px; }
+      &.details_subtitle { width: 60%; height: 35px; }
+
+      &.details_label_1 { width: 30%; }
+      &.details_label_2 { width: 40%; }
+      &.details_label_3 { width: 50%; }
+      &.details_label_4 { width: 60%; }
+
+      &.details_input_1 { width: 95%; height: 25px; margin-bottom: 25px; }
+      &.details_input_2 { width: 20%; height: 25px; margin-bottom: 25px; }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<jb-modal-header [jbTitle]="conf.title" (jbClose)="activeModal.dismiss('close')"></jb-modal-header>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <p>{{trans.text$ | async}}</p>
+    </div>
+    <div class="col-12" *ngIf="!!customHtmlContent">
+      <div [innerHtml]="customHtmlContent"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-footer">
+  <jb-btn *ngIf="conf.showCancel" jbType="cancel"   jbIcon="icon-blocked"     [jbText]="trans.cancelButtonText$ | async" (jbClick)="activeModal.dismiss('cancel')"></jb-btn>
+  <jb-btn *ngIf="conf.showNo"     jbType="warning"  jbIcon="icon-cross"     [jbText]="trans.noButtonText$ | async"     (jbClick)="activeModal.close('no')"></jb-btn>
+  <jb-btn *ngIf="conf.showYes"    jbType="update"   jbIcon="icon-checkmark" [jbText]="trans.yesButtonText$ | async"    (jbClick)="activeModal.close('yes')"></jb-btn>
+</div>

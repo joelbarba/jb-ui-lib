@@ -1,0 +1,19 @@
+<div class="dual-checkbox">
+  <jb-label class="block" [jbText]="jbLabel"></jb-label>
+  <div class="dual-checkbox-container">
+    <jb-checkbox
+      class="jb-dc--yes block"
+      [jbLabel]="jbLabelOptionOne"
+      [(ngModel)]="checkboxes.yes"
+      (ngModelChange)="onChange('yes')"
+      [jbDisabled]="jbDisabled"
+    ></jb-checkbox>
+    <jb-checkbox
+      class="jb-dc--no block"
+      [jbLabel]="jbLabelOptionTwo"
+      [(ngModel)]="checkboxes.no"
+      (ngModelChange)="onChange('no')"
+      [jbDisabled]="jbDisabled"
+    ></jb-checkbox>
+  </div>
+</div>

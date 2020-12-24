@@ -1,0 +1,472 @@
+<div class="row">
+  <div class="col-3">
+    <h2>{{name}}</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbDnD" (jbClick)="router.navigate(['/jbDnD'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Ex.1" (jbClick)="router.navigate(['/jbDnD/example1'])"></jb-btn>
+    <jb-btn jbText="Ex.2" (jbClick)="router.navigate(['/jbDnD/example2'])"></jb-btn>
+    <jb-btn jbText="Ex.3" (jbClick)="router.navigate(['/jbDnD/example3'])"></jb-btn>
+    <jb-btn jbText="Ex.4" (jbClick)="router.navigate(['/jbDnD/example4'])"></jb-btn>
+    <jb-btn jbText="Ex.5" (jbClick)="router.navigate(['/jbDnD/example5'])"></jb-btn>
+    <jb-btn jbText="Ex.6" (jbClick)="router.navigate(['/jbDnD/example6'])"></jb-btn>
+  </div>
+</div>
+
+<hr/>
+<h5>{{desc}}</h5>
+<p>This module contains all the elements involved in a drag and drop operation.
+<br>It provides one singleton service <b>jbDnD</b> to control all instances + 3 directives
+  to be linked in the 3 different types of elements:
+</p>
+
+
+<div class="padL15">
+  <ul>
+    <li><h6><a href="jbDnD#jb_draggable_directive">[jbDraggable]</a> → To make an element draggable</h6></li>
+    <li><h6><a href="jbDnD#jb_drop_container_directive">[jbDropContainer]</a> → To define an area where draggables can be dropped</h6></li>
+    <li><h6><a href="jbDnD#jb_drop_placeholder_directive">[jbDropPlaceholder]</a> → To define dropping spots within a jbDropContainer</h6></li>
+    <li><h6 class="marT25"><a href="jbDnD#jb_dnd_service">jbDnD Service</a> → Main service to control interactions</h6></li>
+    <li><h6><a href="jbDnD#jb_dnd_css_styles">CSS Styling</a> → How to style the different elements/states</h6></li>
+  </ul>
+</div>
+
+<hr>
+<h5>Simple Example:</h5>
+<p>A draggable element (on the right) that can be dropped into a container (on the left):</p>
+<div class="row">
+  <div class="col-4">
+    <div class="board">
+      <h4 class="marB30">List 1</h4>
+      <div *ngFor="let item of list1">
+        <div [jbDraggable]="item" jbDragMode="copy">{{item.name}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div id="cont-1" [jbDropContainer]="container1">
+      <h5>Container 1</h5>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div id="cont-2" [jbDropContainer]="container1">
+      <h5 class="marB30">Container 2</h5>
+      <div [jbDropPlaceholder]="{ pos: 0 }" jbDropContainerId="cont-2">Placeholder 0</div>
+      <div [jbDropPlaceholder]="{ pos: 1 }" jbDropContainerId="cont-2">Placeholder 1</div>
+      <div [jbDropPlaceholder]="{ pos: 2 }" jbDropContainerId="cont-2">Placeholder 2</div>
+    </div>
+  </div>
+</div>
+
+
+<p class="padT30">Here some more examples about use cases of drag and drop common scenarios</p>
+<div class="padL30">
+  <h6><a [routerLink]="['/jbDnD/example1']">1. Simple dragging:  One simple div dragged to a unique container</a></h6>
+  <h6><a [routerLink]="['/jbDnD/example2']">2. Drop to a list to add: Dropping to a container to increase a list</a></h6>
+  <h6><a [routerLink]="['/jbDnD/example3']">3. Multiple drop containers: Dragging one element to multiple/nested containers</a></h6>
+  <h6><a [routerLink]="['/jbDnD/example4']">4. Drop Placeholders: Using different placeholders into the containers to drop in different positions</a></h6>
+  <h6><a [routerLink]="['/jbDnD/example5']">5. Reorderable List: Reorder list dragging elements up/down</a></h6>
+  <h6><a [routerLink]="['/jbDnD/example6']">6. Multiple Dragging Groups: Using different dragging groups</a></h6>
+</div>
+
+<!--[jbDraggable] directive-->
+<hr id="jb_draggable_directive">
+<h5>[jbDraggable]</h5>
+<div class="padL30">
+
+  <p>This directive can be added to any html element, to turn it into a draggable one.
+  It links an angular object so that we can pass data and know what we are dragging at any moment.
+  </p>
+
+  Parameters:
+  <pre class="params-box">
+[jbDraggable]   (optional) Angular object to reference
+[jbDragMode]    (optional) Free string with the dragging mode (disable, copy, move, …)
+[jbDragGroup]   (optional) In case of multiple drag & drop groups to match with other elements of the group</pre>
+
+  <p><b>[jbDragMode]</b> optional property is a free text that can be used once the drop is performed (copy, move, disabled).
+  <br>By passing “disabled” it turns off the draggable of the element. The “copy” or “move” logic is not implemented,
+    it should be the application who deals with it (jbDnD doesn't).
+  </p>
+
+  Example:
+  <div class="code-box pad15" style="width: 650px;"><pre>{{code1}}</pre></div>
+
+  <p class="marT20">When dragging, both the object and the mode are accessible through the service:
+    <b>jbDnD.jbDraggable / jbDnD.jbDragMode</b>.
+    <!--<br>The css class "<b>jb-draggable</b>" is automatically added to the host html element.-->
+  </p>
+
+
+  <h6 class="marT20">Under the hood</h6>
+  <p>The directive injects automatically the html attribute <b>dragabble="true"</b> (if jbDragMode !== ‘disabled’) on the html element.
+  That makes it draggable. Then it hooks the dragging events “<b>dragstart</b>” and “<b>dragend</b>”, to react on those.
+  </p>
+
+  <p>When the drag starts, the directive creates a new unique element</p>
+  <pre class="padL30" style="font-size: 16px;">{{code2}}</pre>
+  <p>
+    hanging directly from the {{'<'}}app-root>, and clones the draggable element inside it.
+    This is to provide the browser with a reference of what needs to be shown as a shadow following the dragging cursor.
+    It can of course be modified / restyled. This element is automatically hidden, but the styles will be replicated
+    to the virtual “shadow” on dragging.
+  </p>
+  <p>
+    Firefox and Safari need the element displayed one cycle more to clone it properly, so it is actually hidden after 20ms.
+    For Safari, we also append it later (otherwise it doesn't work), so no restyling can be applied for now.
+    <br>The static dragging element is also accessible through <b>jbDnD.jbDraggable</b>.
+  </p>
+
+  <p>In case you use relative sizes on your jbDraggable elements (% instead of px) you can turn on the
+    <b>jbDnD.setShadowSize = true</b> option. This will automatically resize the wrapper for the "jb-drag-ghost" with the same
+    size of the jbDraggable, taken at the moment of the dragstart with .getBoundingClientRect().
+    See an example here: <a [routerLink]="['/jbDnD/example2']">2. Drop to a list to add</a>
+    <br>Mind that this sets with/height styles, so no it overrides whatever css you are applying on the wrapper.
+  </p>
+</div>
+
+
+
+
+<!--[jbDropContainer] directive-->
+<hr class="marT30" id="jb_drop_container_directive">
+<h5>[jbDropContainer]</h5>
+<div class="padL30">
+  <p>It represents a defined area wherein the dropping of a draggable should trigger a particular action.</p>
+
+  Parameters:
+  <pre class="params-box">
+[jbDropContainer]  (optional) An object that can be used as a destination once the drop event is triggered. To push the draggable into, copy into an array, etc..
+[jbDragGroup]      (optional) In case of multiple drag & drop groups to match with other elements of the group
+[id]               If you want to use placeholders into the container, add a unique id to link them.
+(jbDrop)           Observable that emits on drop, passing all elements involved (jbDraggable + jbDropContainer + jbDropPlaceholder)</pre>
+
+  <p>
+    This directive can be added to any html element. It links an object that can be used (as a destination) once the drop event is triggered (jbDnD.dragEndOk$).
+    <br>The drop event can be directly hooked in the directive with <b>(jbDrop)</b>="doSomething($event)".
+  </p>
+
+  Example:
+  <div class="code-box pad15 marB30" style="width: 900px;"><pre>{{code3}}</pre></div>
+
+  An alternative to the (jbDrop) is using the main service to listen to any drop event (from any container):
+  <div class="code-box pad15 marB30" style="width: 600px;"><pre>{{code4}}</pre></div>
+
+  <!--<p>The css class "<b>jb-drop-container"</b> is automatically added to the html element.</p>-->
+
+  <h6>Register</h6>
+  <p>To keep everything accessible from the <b>jbDnD</b> service, once a <b>[jbDropContainer]</b> is created,
+    it is automatically registered on the <b>jbDnD.containers[]</b> array as an object with:
+  </p>
+  <ul>
+    <li><b>id</b> - ID attribute of the element. If not provided, a “jb-drop-container-[N]” is assigned by default.</li>
+    <li><b>element</b> - The native DOM element</li>
+    <li><b>model</b> - The object (jbDropContainer) linked to the directive</li>
+    <li><b>dragStatus</b> - Current dragging status from the container point of view (0=none, 1=over, 2=leaving)</li>
+    <li><b>jbDragGroup</b> - Reference to the jbDragGroup parameter</li>
+  </ul>
+  <p>
+    This way it is possible to keep track of all current containers and its data.
+    <br>The object is automatically unregistered (deleted from the array) when the directive is destroyed.
+  </p>
+
+
+  <h6>Events</h6>
+  <p>[jbDropContainer] automatically handles the event listners: “dragover”, “dragenter”, “dragleave” and “drop”.
+  </p>
+  <p>
+    When the drop takes place, the event “drop” is triggered on the container, and then the “dragend” on the dragging element.
+    <br><b>jbDnD</b> handles both and triggers the corresponding observable according to the case:
+  </p>
+  <ul>
+    <li><b>jbDnD.dragEndOk$</b> → If dropping into a container</li>
+    <li><b>jbDnD.dragEndKo$</b> → If dropping out of all containers</li>
+  </ul>
+  <p>In case of having nested containers, the dragover and drop is performed to the highest parent.
+    To revert this logic and apply to the lowest node, turn on jbDnD.<b>jbNestedContainers</b> = true.
+    This will stop the event propagation so only the last container node is considered.
+  </p>
+
+  <img style="max-width: 1000px;" src="jb-ui-lib-doc/assets/jbDnD1.png">
+
+
+</div>
+
+
+
+
+<!--[jbDropPlaceholder] directive-->
+<hr class="marT30" id="jb_drop_placeholder_directive">
+<h5>[jbDropPlaceholder]</h5>
+<div class="padL30">
+  <p>This is an optional directive that can be added to extend and improve the drag&drop.
+    <br>In some cases, there are only certain specific positions (or dropping spots) where things can be dropped into.
+    It can be useful to show placeholders while dragging to give a better UX about what is going to happen when dropping.
+    <br>A reordering list would be a good example of this use case.
+  </p>
+
+  Parameters:
+  <pre class="params-box">
+[jbDropPlaceholder]   (optional) An angular object to be linked and passed to the <b>jbDnD.dragEndOk$.</b>
+[jbDropContainerId]   (required) Reference to the [jbDropContainer] id html attribute, to link it to that container.
+[jbDragGroup]         (optional) This is actually not functional, just a reference (the container’s apply)</pre>
+
+  <p>The <b>[jbDropPlaceholder]</b> is used to define these drop spots within a [jbDropContainer].</p>
+  <p>
+    Every <b>[jbDropPlaceholder]</b> has to be linked to a <b>[jbDropContainer]</b> through "<b>jbDropContainerId</b>".
+    <br>The relationship is 0 to N, meaning that one container can have from 0 to N placeholders.
+    <br>[jbDropPlaceholder] directives can be anywhere in the view (no need to be nested into a [jbDropContainer]).
+  </p>
+
+  <p>The idea is that when you drag something over a container, there is <b>always 1 active placeholder in the container</b>,
+    indicating the position where the element to drop is going to be injected. The active placeholder is the closest
+    to the current dragging cursor.
+  </p>
+  <p>The directive also accepts an angular object to be linked, passed later to the drop observable event,
+    so we know what placeholder of which container we are dropping into.
+  </p>
+
+  Example:
+  <div class="code-box pad15 marB30" style="width: 900px;"><pre>{{code5}}</pre></div>
+
+
+  <h6>Register</h6>
+  <p>Placeholders, as well as jbDropContainers, are registered once created to the <b>jbDnD.placeholders[]</b> array.
+  <br>The are represented as objects with:
+  </p>
+  <ul>
+    <li><b>id</b> - Auto generated UUID to identify the element</li>
+    <li><b>element</b> - The DOM element pointer</li>
+    <li><b>model</b> - The ngModel linked to jbDropPlaceholder</li>
+    <li><b>containerId</b> - The container id of the container element the placeholder belongs to</li>
+  </ul>
+
+  <p>The object is automatically unregistered (deleted from the array) when the directive is destroyed (ngOnDestroy).
+    <br>This way we can always know the current placeholders (for all containers) and their properties via <b>jbDnD.placeholders[]</b>.
+  </p>
+
+  <p>It is recommended to keep the placeholders always in the view and hide it when not needed,
+    rather than linking (under ngIf) every time. The performance is better and the UX looks smother.
+  </p>
+
+  <p>The current active placeholder is also accessible through the service in <b>jbDnD.activePlaceholder</b>.</p>
+
+
+  <h6>Under the hood</h6>
+  <p>To calculate the closest placeholder of the container (aka active placeholder), there is a positional calculation on dragover.
+    <br>There are 2 options about how to calculate the closest placeholder of the dragging cursor:
+  </p>
+  <ul>
+    <li><b>Default</b>: By checking every distance from the center of the placeholder (as Pythagores taught us)</li>
+    <li><b>Accurate</b>: A more complex calculation in which the sizes draggable and the placeholders are taken into consideration</li>
+  </ul>
+
+  <p>This option can be switched via: jbDnD.<b>isAccurateMode</b> = false (default) / true (accurate).</p>
+
+  <p>All these calculations are made with the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect"><b>getBoundingClientRect()</b></a>
+    native function of the placeholder elements.
+  </p>
+
+  <p>Either way, the calculation of the placeholders positions is not done every single time the “dragover” event is triggered,
+  but debounced 500 milliseconds. That is to avoid bouncing effects when the placeholder position/dimensions change dynamically
+  with an animation, causing a different value and changing the active placeholder.
+  <br>This is done through an throttled observable (calcPositions$) that triggers calcPositions().
+  </p>
+  <p>The one calculation that determines the closest placeholder takes the positions from there, and updates the activePlaceholder in real time (without debouncing).
+  </p>
+
+  <p><b>Default Calculation</b></p>
+  <p>The position calculation sets the midX / midY positions for every placeholder (their centers).
+    <br>Then the drag over calculates a straight line from the cursor to every placeholder, and assignees that which its distance is the lowest:
+  </p>
+  <div class="code-box pad15 marB30" style="width: 900px;"><pre>{{code6}}</pre></div>
+
+  <p><b>Accurate Mode</b></p>
+  <p>
+    Sometimes, the default way of determining the active placeholder might not be the most accurate.
+    <br>When we overlap 2 placeholders with the shadow element, or when the sizes of the placeholders are different the feeling of “closest element” can differ.
+    <br>In the following example we would think that “Pos 1” should be the closest placeholder, but the shortest distance to the centers is actually to “Post 2”:
+  </p>
+
+  <table>
+    <tr style="text-align: center;"><th>isAccurateMode = false</th> <th>isAccurateMode = true</th></tr>
+    <tr>
+      <td><img src="jb-ui-lib-doc/assets/jbDnD2.png"></td>
+      <td><img src="jb-ui-lib-doc/assets/jbDnD3.png"></td>
+    </tr>
+  </table>
+
+  <p class="marT30">
+    With isAccurateMode = true, instead of the center distances we calculate the shortest distance from the borders of the rectangles.
+    <br>In the previous example we can see that indeed “Pos 1” has a shorter distance to the shadow than “Pos 2”.
+    <br>Also, in the case of hovering over a placeholder, the active one is calculated considering the biggest intersected area.
+    In some cases the distance to the center can be shorter, but it makes more sense to select that with the largest overlap:
+  </p>
+  <p>
+    Notice that this calculation is performed constantly while dragging (every 0.5sec), meaning that the higher complexity the heavier (and thus less smooth) the procces will be. This is why you can turn this on only on demand.
+  </p>
+  <p>
+    The logic of this calculation considers different casuistics:
+  </p>
+  <ul>
+    <li>If the draggable is intersecting with placeholders: The intersection with the biggest area is taken.</li>
+    <li>If no intersections, a gap distance between the border of the dragging element and placeholder is calculated depending on:</li>
+    <li class="marL40">If horizontally next to each other: gap between left/right borders</li>
+    <li class="marL40">If vertically above/below: gap between bottom/top borders</li>
+    <li class="marL40">If none of these: distance between the 2 closes corners</li>
+  </ul>
+
+</div>
+
+
+
+<!--jbDnD Service-->
+<hr class="marT30" id="jb_dnd_service">
+<h5>jbDnD Service</h5>
+<div class="padL30">
+  <p>In some cases the parameters on the directives should allow all the needed interaction.
+    <br>In case of complex drag & drop operations, the jbDnD service exposes some methods to control everything in one place.
+  </p>
+
+  The service exposes the following data:
+  <pre class="params-box">
+<b>isDragging</b>              boolean     Whether the user is dragging something (true) or not (false)
+<b>draggingGroup</b>           string      Reference to the dragging group (if any)
+<b>jbDraggable</b>             object      Model attached to the current dragging element ([jbDraggable]=“x”)
+<b>jbDragMode</b>              string      Mode of the dragging element attached to the [jbDragMode]=“copy”
+<b>jbNestedContainers</b>      boolean     If true, only the last nested container turns active on dragover
+<b>isAccurateMode</b>          boolean     Whether using accurate mode to calculate the active placeholder
+<b>setShadowSize</b>           boolean     It sets with/height to "jb-drag-ghost" wrapper on dragstart, so you can use relative sizing (width:100%)
+<b>activeContainer</b>         obj         Pointer to the active container (on the jbDnD.container[] list)
+<b>activePlaceholder</b>       obj         Pointer to the active placeholder (on the jbDnD.placeholders[] list)
+
+<b>containers</b>              Array[obj]  List of registered containers (all instances of [jbDropContainer]). Objects contain:
+                                              - id          : containerId,
+                                              - element     : native html node,
+                                              - model       : object from jbDropContainer
+                                              - dragStatus  : // 0=none, 1=over, 2=leaving
+                                              - jbDragGroup : group id if any
+
+<b>placeholders</b>            Array[obj]  List of registered placeholders (all instances of [jbDropPlaceholder]). Objects contain:
+                                              - id           : placeholder uuid
+                                              - element      : html node
+                                              - model        : object from jbDropPlaceholder
+                                              - containerId  : link to containerId
+                                              - wrapperClass : css class name applied to the wrapper</pre>
+
+  <p>All them are accessible on the service, though in most cases they should be read only.</p>
+  <p>
+    In case of need, there is a “debug” mode that can be turned on to display useful information on the page while using the module.
+    <br>That is the jbDnD.<b>isDebugMode</b> flag, and can be switched through setDebugMode().
+    <br>This is purely for development purposes and should never be used in production.
+  </p>
+
+  <h6 class="marT30">Observables</h6>
+  <p>Then the service exposes an observable to react on the start and end of the drag&drop process: jbDnD.<b>change$</b>
+    <br>There are also 3 shortcuts over this observable to subscribe to the 3 different events (at high level):
+  </p>
+
+  <pre class="params-box">
+<b>dragStart$</b> → When a drag operation starts (from a jbDraggable)
+<b>dragEndOk$</b> → When a drag operation finishes successfully (drop into valid container).
+<b>dragEndKo$</b> → When a drag operation finishes unsuccessfully (drop out of any container)</pre>
+
+  <p>There are also observables to react on specific events, like when the active container / placeholder changes:</p>
+
+  <pre class="params-box">
+<b>activeContainer$</b> → (jbDropContainer) Every time the active container changes (even when it turns null)
+<b>activePlaceholder$</b> → (jbDropPlaceholder) Every time the active placeholder changes (even when it turns null)
+<b>dragOver$</b> → (jbDropContainer) This is constantly triggered when dragging over a container (dragover event)</pre>
+
+
+  <h6 class="marT30">Grouping</h6>
+  <p>
+    In some cases we may need multiple instances of drag and drop groups running at the same time.
+    <br>Eg. a group of [jbDraggable]+[jbDropContainer] that can’t interact with another existing group of [jbDraggable]+[jbDropContainer].
+  </p>
+  <p>
+    To allow multiple groups the parameter [jbDragGroup] is set to every directive jbDraggable, jbDropContainer, jbDropPlaceholder so the events will only be triggered if they belong to the same group.
+  </p>
+  <p>
+    By default, all directives with no jbDragGroup set are considered in the same “no specified group”, and can perfectly interact with each other.
+  </p>
+
+
+
+  <h6 class="marT30">Touch Screen Workaround</h6>
+  <p>
+    Although drag & drop is utterly discouraged in touch screens, some users asked to have it enabled (to present the portal in a tablet)
+    We’ve added a workaround to get it working, although not perfect
+  </p>
+
+  <p>The [jbDraggable] directive has been added 4 listeners to react to touch events:</p>
+  <ul>
+    <li>touchstart</li>
+    <li>touchmove</li>
+    <li>touchend</li>
+    <li>touchcancel</li>
+  </ul>
+  <p>
+    These call the other native drag functions internally, mocking the same effect.
+    <br>As the dragging shadow is not native for touch screens, the “ghost” element is kept visible and moving along with the cursor
+    for touchmove events. That also mocks the dragging effect the same way.
+  </p>
+  <p>
+    For the [jbDropContainer], there is no equivalent of “dragover”, “dragenter” or “dragleave”, so instead we added a
+    global event listener “touchmove” on the document (handled in the jbDnD service) that tracks the dragging and determines
+    when the dragging is on a valid container, manually mocking the drag over, enter, leave.
+  </p>
+
+  <p class="padT10"><b>Scrolling problem</b></p>
+  <p>
+    Touch screens use dragging to scroll. Therefore, dragging an element over the page also triggers the scrolls moving.
+    <br>To avoid this problem and perform only the dragging, once the touchmove is detected we freeze all scrolls in the document. And once the drag is released (drop) we enable them back.
+  </p>
+
+</div>
+
+
+
+
+
+
+<!--CSS Styling-->
+<hr class="marT30" id="jb_dnd_css_styles">
+<h5>CSS Styling</h5>
+<div class="padL30">
+  <p>
+    Every directive automatically adds a css class to its host element so they can easily be targeted.
+    <br>Then, depending on the dragging situation, additional classes are added/removed
+  </p>
+
+  <pre class="params-box">
+- [jbDraggable]        class="<b>jb-draggable</b>"            + "<b>is-dragging</b>"        (when the element is being dragged)
+- [jbDropContainer]    class="<b>jb-drop-container</b>"       + "<b>dragging-over</b>"      (when dragging over the container)
+- [jbDropPlaceholder]  class="<b>jb-drop-placeholder</b>"     + "<b>active-placeholder</b>" (when being the closest candidate)</pre>
+
+
+  <p>
+  To style the shadow element that goes along with the cursor when dragging, you can target "<b>jb-drag-ghost</b>".
+  <br>This element however is appended to the root, so if the "<b>jb-draggable</b>" styles are encapsulated they will not apply.
+    Remember that the ghost element is a wrapper div with a copy of the original “jb-draggable” inside.
+  </p>
+  <p>
+    Once the drag starts, the css class "<b>is-dragging</b>" is automatically set to the <b>jb-draggable</b> element.
+    When the drag ends, the “is-dragging” class is removed. This way we can also apply styles to the original dragging element
+  </p>
+
+  <img style="width: 90%;" src="jb-ui-lib-doc/assets/jbDnD4.png">
+
+  <p class="marT30">Here’s an example on how to style the different elements on dragging:</p>
+  <img style="width: 90%;" src="jb-ui-lib-doc/assets/jbDnD5.png">
+
+  <p class="marT30">Containers and Placeholders can be easily styled using the "<b>dragging-over</b>" and "<b>active-container</b>" classes:</p>
+  <img style="width: 90%;" src="jb-ui-lib-doc/assets/jbDnD6.png">
+
+</div>
+
+
+<div class="padV30"></div>
+<hr>

@@ -1,0 +1,97 @@
+jb-color-picker {
+  display: flex;
+
+  // /!\ BAD CODE ALERT /!\
+  // A lot of !important hacks to be put in order to cancel out the default Spectrum CSS
+  // This plugin uses a lot of floats and absolute positioning, which it hard to make responsive
+
+  // Cancel out all the static positioning that Spectrum comes with
+  * {
+    box-sizing: border-box;
+    display: flex;
+    float: none !important;
+    position: static !important;
+  }
+
+  .sp-color {
+    flex: 1;
+  }
+
+  .sp-container {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    z-index: auto;
+  }
+
+  .sp-dragger {
+    position: absolute !important;
+  }
+
+  .sp-fill {
+    display: none;
+  }
+
+  .sp-hue {
+    flex: 0 auto;
+    position: relative !important;
+    margin-left: 6px;
+    width: 30px;
+    left: auto;
+  }
+
+  .sp-initial {
+    border: none;
+
+    .sp-thumb-el {
+      margin-right: .5em;
+      border: 1px solid $color-picker-gray-dark;
+    }
+
+    span {
+      border-radius: 50%;
+      height: 2.5em;
+      width: 2.5em;
+    }
+  }
+
+  .sp-input-container {
+    margin-bottom: 10px;
+  }
+
+  .sp-palette-container {
+    display: block;
+  }
+
+  .sp-picker-container {
+    flex: 1;
+    flex-direction: column;
+    width: auto;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .sp-sat {
+    flex: 1;
+  }
+
+  .sp-slider {
+    position: absolute !important;
+  }
+
+  .sp-top {
+    display: flex;
+    margin-bottom: 5px;
+
+    &-inner {
+      flex: 1;
+      height: 250px;
+    }
+  }
+
+  .sp-val {
+    flex: 1;
+    position: relative !important;
+  }
+}

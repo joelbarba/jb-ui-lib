@@ -1,0 +1,9 @@
+<div class="no-data-bg" *ngIf="!jbIsPlaceholder">
+  <div>{{jbMessage | getLabel$ | async}}</div>
+</div>
+
+<div class="empty-placeholder" *ngIf="jbIsPlaceholder">
+  <div *ngIf="!!jbIcon" [class]="jbIcon"></div>
+  <div class="empty-title"        *ngIf="!!jbTitle">{{jbTitle | getLabel$ | async}}</div>
+  <div class="empty-description"  *ngIf="!!jbDescription">{{jbDescription | getLabel$ | async}}</div>
+</div>

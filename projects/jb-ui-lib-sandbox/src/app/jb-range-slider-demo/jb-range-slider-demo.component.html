@@ -1,0 +1,143 @@
+<!-- jb-range-slider = 'jb-btn' -->
+
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>This component uses the external component<a href="https://www.npmjs.com/package/ng5-slider">@ng5-slider</a></p>
+<p>Which will be useful for dates or numbers ranges, or discounts shown in the portal. </p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--jb-range-slider Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">jb-range-slider Customization:</h5>
+      <div>
+        <jb-range-slider [(ngModel)]="valueSlider"
+                         (ngModelChange)="upSliders()"
+                         [jbOptions]="sliderOptions"
+                         [jbLabel]="compConf.hasLabel? compConf.labelText : ''"
+                         [jbLabelTooltip]="compConf.hasTooltip? compConf.tooltipText : ''"
+                         [jbLabelTooltipPos]="compConf.tooltipPos || 'top'"
+                         [jbDisabled]="compConf.isDisabled"
+                         [jbShowOuterSection]="compConf.showOuterSection">
+        </jb-range-slider>
+      </div>
+      <div class="padT20">
+        <div class="code-box pad15">
+          <pre>{{customCompCode}}</pre>
+        </div>
+      </div>
+      <div class="row pad15">
+        <div class="col-6">
+          <pre>{{sliderModelCode}}</pre>
+<!--          <pre>ngModel.min = {{valueSlider.min}}</pre>-->
+<!--          <pre>ngModel.max = {{valueSlider.max}}</pre>-->
+        </div>
+        <div class="col-6">
+          <pre>{{sliderOptionsCode}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+
+      <div class="row marT15">
+        <div class="col-12"><h5>Range Slider Option:</h5></div>
+
+        <div class="col-6">
+          <jb-input [(ngModel)]="valueSlider.min" jbLabel="Number Value" jbType="number"></jb-input>
+        </div>
+        <div class="col-6">
+          <jb-input [(ngModel)]="valueSlider.max" jbLabel="High Value" jbType="number"></jb-input>
+        </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-6"> <jb-checkbox [(ngModel)]="compConf.isDisabled" (ngModelChange)="upComp()" jbLabel="Is Disabled"></jb-checkbox> </div>
+        <div class="col-6"> <jb-checkbox [(ngModel)]="compConf.showOuterSection" (ngModelChange)="upComp()" jbLabel="Show outer Section"></jb-checkbox> </div>
+      </div>
+
+      <div class="row marT15">
+        <div class="col-12"><h5>Label Options:</h5></div>
+        <div class="col-4 padT5"> <jb-checkbox [(ngModel)]="compConf.hasLabel" (ngModelChange)="upComp()" jbLabel="Has Label"></jb-checkbox> </div>
+        <div class="col-8" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="compConf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!compConf.hasLabel"></jb-input> </div>
+      </div>
+
+      <div class="row marT10">
+        <div class="col-6 padT5"> <jb-checkbox [(ngModel)]="compConf.hasTooltip" [jbDisabled]="!compConf.hasLabel" (ngModelChange)="upComp()" jbLabel="Has Tooltip"></jb-checkbox> </div>
+        <div class="col-6" *ngIf="compConf.hasTooltip">
+          <jb-input [(ngModel)]="compConf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+        </div>
+        <div class="col-6" *ngIf="compConf.hasTooltip"></div>
+        <div class="col-6" *ngIf="compConf.hasTooltip">
+          jbLabelTooltipPos: <jb-dropdown [(ngModel)]="compConf.tooltipPos" (ngModelChange)="upComp()"
+                                          [jbList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                                          jbRender="text" jbSelect="id"> </jb-dropdown>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5">
+      <jb-range-slider [(ngModel)]="slider1" jbLabel="Test 1" [jbOptions]="slider1Options"></jb-range-slider>
+    </div>
+    <div class="col-5">
+      <pre>{{instance}}</pre>
+    </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance1Obj}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <jb-range-slider [(ngModel)]="slider2" [jbOptions]="slider2Options"></jb-range-slider>
+    </div>
+    <div class="col-5"> <pre>{{instance2}}</pre> </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance2Obj}}</pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <jb-range-slider [(ngModel)]="slider3" [jbOptions]="slider3Options" [jbCustomSliderLabel]="newTranslate"></jb-range-slider>
+    </div>
+    <div class="col-5"> <pre>{{instance3}}</pre> </div>
+    <div class="col-2">
+      <pre style="font-size: 12px;">{{instance3Obj}}</pre>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
+      <br/>
+      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
+  </div>
+</div>
+

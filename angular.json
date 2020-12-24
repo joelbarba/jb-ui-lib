@@ -1,0 +1,186 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "jb-ui-lib": {
+      "root": "projects/jb-ui-lib",
+      "sourceRoot": "projects/jb-ui-lib/src",
+      "projectType": "library",
+      "prefix": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/jb-ui-lib/tsconfig.lib.json",
+            "project": "projects/jb-ui-lib/ng-package.json"
+          },
+          "scripts": [
+            "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/spectrum-colorpicker/spectrum.js"
+          ]
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/jb-ui-lib/src/test.ts",
+            "tsConfig": "projects/jb-ui-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/jb-ui-lib/karma.conf.js",
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/spectrum-colorpicker/spectrum.js"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/jb-ui-lib/tsconfig.lib.json",
+              "projects/jb-ui-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "jb-ui-lib-sandbox": {
+      "root": "projects/jb-ui-lib-sandbox/",
+      "sourceRoot": "projects/jb-ui-lib-sandbox/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "sass"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/jb-ui-lib-sandbox",
+            "index": "projects/jb-ui-lib-sandbox/src/index.html",
+            "main": "projects/jb-ui-lib-sandbox/src/main.ts",
+            "polyfills": "projects/jb-ui-lib-sandbox/src/polyfills.ts",
+            "tsConfig": "projects/jb-ui-lib-sandbox/tsconfig.app.json",
+            "assets": [
+              "projects/jb-ui-lib-sandbox/src/favicon.ico",
+              "projects/jb-ui-lib-sandbox/src/assets"
+            ],
+            "styles": [
+              "projects/jb-ui-lib-sandbox/src/styles.scss",
+              "node_modules/spectrum-colorpicker/spectrum.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/jb-ui-lib-sandbox/src/scss"
+              ]
+            },
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/spectrum-colorpicker/spectrum.js"
+            ],
+            "aot": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/jb-ui-lib-sandbox/src/environments/environment.ts",
+                  "with": "projects/jb-ui-lib-sandbox/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "jb-ui-lib-sandbox:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "jb-ui-lib-sandbox:build:production"
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "jb-ui-lib-sandbox:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/jb-ui-lib-sandbox/tsconfig.app.json",
+              "projects/jb-ui-lib-sandbox/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "jb-ui-lib-sandbox-e2e": {
+      "root": "projects/jb-ui-lib-sandbox-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/jb-ui-lib-sandbox-e2e/protractor.conf.js"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "jb-ui-lib-sandbox:serve:ci",
+              "protractorConfig": "projects/jb-ui-lib-sandbox-e2e/protractor-ci.conf.js"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/jb-ui-lib-sandbox-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "jb-ui-lib",
+  "cli": {
+    "analytics": false
+  }
+}

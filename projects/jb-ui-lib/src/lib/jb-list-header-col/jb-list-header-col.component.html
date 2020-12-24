@@ -1,0 +1,27 @@
+<div *ngIf="!!orderConf" class="list-header-col-title col-with-order" (click)="clickOrder()">
+  <span
+    *ngIf="jbTooltip"
+    class="mr-1 info-badge"
+    [ngbTooltip]="jbTooltipTrans$ | async"
+    [placement]="jbTooltipPos"
+    triggers="hover">
+    <span class="icon-info"></span>
+  </span>
+  <span>{{colTitle$ | async}}</span>
+  <span [class.icon-sort]="orderConf.fields[0] !== fieldName"
+        [class.icon-arrow-down7]="orderConf.fields[0] === fieldName && !orderConf.reverse"
+        [class.icon-arrow-up7]="orderConf.fields[0] === fieldName && orderConf.reverse">
+  </span>
+</div>
+
+<div *ngIf="!orderConf" class="list-header-col-title">
+  <span
+    *ngIf="jbTooltip"
+    class="mr-1 info-badge"
+    [ngbTooltip]="jbTooltipTrans$ | async"
+    [placement]="jbTooltipPos"
+    triggers="hover">
+    <span class="icon-info"></span>
+  </span>
+  <span>{{colTitle$ | async}}</span>
+</div>

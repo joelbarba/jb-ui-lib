@@ -1,0 +1,23 @@
+<div class="jb-progress-bar">
+  <!-- text on top of the progress bar-->
+  <span>{{jbLabel | getLabel$ | async }}</span>
+
+  <!-- progress bar wrapper -->
+
+  <ngb-progressbar [ngClass]="{'percentage-outside' : percentageValue < 10}"
+                   showValue="true"
+                   [value]="percentageValue">
+  </ngb-progressbar>
+
+  <!-- texts below the progress bar -->
+  <div *ngIf="!!jbUsedLabel || !!jbLeftLabel" class="progress-sub-label">
+    <!-- text on the left that displays the value (used) -->
+    <span *ngIf="!!jbUsedLabel"  class="used-label">
+      <span>{{getUsedValue()}} {{jbUsedLabel | getLabel$ | async }}</span>
+    </span>
+    <!-- text on the right that displays the value missing to reach the total (left) -->
+    <span *ngIf="!!jbLeftLabel" class="left-label">
+      <span>{{getLeftValue()}} {{jbLeftLabel | getLabel$ | async }}</span>
+    </span>
+  </div>
+</div>

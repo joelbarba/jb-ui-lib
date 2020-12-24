@@ -1,0 +1,67 @@
+// Bootstrap Popovers
+$popover-bg: #17495B;
+
+// Bootstrap Tooltips (+ ngb Tooltips)
+
+// Animate ngb tooltips when they show up
+ngb-tooltip-window.tooltip, ngb-popover-window.popover {
+  animation: 0.4s ease-out jb-tooltip-show-up-ani;
+}
+@keyframes jb-tooltip-show-up-ani {
+  from { opacity: 0; }
+    to { opacity: $tooltip-opacity; }
+}
+
+
+//$popover-bg: #17495B;
+//
+//ngb-popover-window.popover {
+//  z-index: 9999;
+//  font-size: 12px;
+//  letter-spacing: 0.5px;
+//  text-align: center;
+//  background: $popover-bg;
+//  border-radius: 5px;
+//  border: 1px solid rgba(0, 0, 0, 0.2);
+//
+//  .popover-header {
+//    display: none;
+//  }
+//  .popover-body {
+//    color: white;
+//    padding: 4px 12px;
+//  }
+//
+//  $arrow-size: 6px;
+//
+//  &.bs-popover-top .arrow {
+//    bottom: calc(-#{$arrow-size} - 1px);
+//    width: calc(#{$arrow-size} * 2);
+//    height: #{$arrow-size};
+//    margin: 0 calc(#{$arrow-size} / 2) 0 -#{$arrow-size};
+//    &::before, &::after {
+//      border-top-color : $popover-bg;
+//      border-width: #{$arrow-size} #{$arrow-size} 0;
+//    }
+//  }
+//  &.bs-popover-right  .arrow::after { border-right-color  : $popover-bg; }
+//  &.bs-popover-left   .arrow::after { border-left-color   : $popover-bg; }
+//  &.bs-popover-bottom .arrow::after { border-bottom-color : $popover-bg; }
+//
+//  // There is a new version that will come with configurable delays (on open/close)
+//  // When that's ready we'll be able to add proper animations ( ng-bootstrap > 4.0.4)
+//
+//  animation-duration: .15s;
+//  animation-timing-function: ease-out;
+//  animation-name: fadeInPopover;
+//  @keyframes fadeInPopover {
+//    from { opacity: 0; }
+//      to { opacity: 1; }
+//  }
+//
+//  transition-property: opacity;
+//  .fade-in {
+//    transition: opacity 2s linear;
+//  }
+//
+//}

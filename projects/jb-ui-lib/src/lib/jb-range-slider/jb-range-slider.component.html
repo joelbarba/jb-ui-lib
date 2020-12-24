@@ -1,0 +1,12 @@
+<div *ngIf="!!jbLabel">
+  <jb-label [jbText]="jbLabel"
+            [jbTooltip]="jbLabelTooltip"
+            [jbTooltipPos]="jbLabelTooltipPos">
+  </jb-label>
+</div>
+<ng5-slider [class.showOuterSelection]="jbShowOuterSection"
+            [(value)]="ngModel.min"
+            [(highValue)]="ngModel.max"
+            [options]="sliderOptions"
+            (userChange)="slideChange($event)">
+</ng5-slider>

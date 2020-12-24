@@ -1,0 +1,93 @@
+$page_bg: $white !default;
+$page_color: darken($primary_color, 10%) !default;
+$page_border_color: #d7dade !default;
+$page_hover_bg: #eeeeee !default;
+
+
+jb-list-paginator {
+  .jb-list-paginator {
+    display: flex;
+    justify-content: space-between;
+
+    .page-buttons {
+      font-size: 16px;
+      .page-btn {
+        display: inline-block;
+        user-select: none;
+        min-width: 40px;
+        text-align: center;
+        //padding: 8px 10px;
+        padding: 4.5px 0;
+        &.prev-btn, &.next-btn {
+          min-width: 35px;
+        }
+
+        // Colors
+        border-color: $page_border_color;
+        color: $page_color;
+        background: $page_bg;
+        &:not(.disabled):hover { background: $page_hover_bg; }
+        &.current {
+          color: $page_bg;
+          background: $page_color;
+          &:hover { background: $page_color; }
+        }
+
+        $page-border-rads: 4px;
+        &:first-child {
+          border-top-left-radius: $page-border-rads;
+          border-bottom-left-radius: $page-border-rads;
+        }
+        &:last-child {
+          border-top-right-radius: $page-border-rads;
+          border-bottom-right-radius: $page-border-rads;
+        }
+
+        border-width: 1px;
+        border-style: solid;
+
+        &:not(.disabled) {
+          cursor: pointer;
+          &:active { box-shadow: inset 2px 2px 4px rgba(34, 36, 38, 0.4); }
+        }
+        &.disabled { cursor: not-allowed; }
+        &:not(:last-child) { border-right: none; }
+      }
+    }
+    .page-num-selector {
+      padding-left: 15px;
+    }
+  }
+
+  // Styles for full width (class "full-width" applied on the <jb-list-paginator>)
+  &.full-width .jb-list-paginator {
+    width: 100%;
+    .page-buttons {
+      width: 100%;
+      display: flex;
+      .page-btn {
+        flex: 1;
+      }
+    }
+  }
+
+  // Mobile style: Full with + 2 lines (buttons + selector)
+  &.mobile .jb-list-paginator {
+    width: 100%;
+    flex-wrap: wrap;
+    .page-buttons {
+      width: 100%;
+      display: flex;
+      .page-btn { flex: 1; }
+    }
+    .page-num-selector {
+      flex: 1 0 100%;
+      margin-top: 10px;
+      padding-left: 0;
+      jb-dropdown .jb-dropdown-form-group { width: 100%; }
+    }
+  }
+
+  &.align-right .jb-list-paginator { justify-content: flex-end; }
+  &.align-center .jb-list-paginator { justify-content: center; }
+}

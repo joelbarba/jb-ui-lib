@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <div class="modal-header--title">
+    <h4 class="modal-title">{{ jbTitle | getLabel$ | async }}</h4>
+    <button id="modal-close-button" type="button" class="close" attr.aria-label="{{ jbAriaLabel | getLabel$ | async }}" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <h6 class="modal-header--description" *ngIf="jbDescription">
+    <span class="spacer5"></span>
+    <span class="icon-info spacerR5"></span>
+    <span class="modal-description">{{ jbDescription | getLabel$ | async }}</span>
+  </h6>
+</div>

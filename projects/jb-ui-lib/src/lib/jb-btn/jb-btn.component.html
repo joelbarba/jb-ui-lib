@@ -1,0 +1,31 @@
+<div class="disabled-tooltip"
+     container="body"
+     [disableTooltip]="!jbDisabled"
+     [ngbTooltip]="jbDisabledTipTrans$ | async"
+     [placement]="jbTooltipPos">
+
+  <button class="jb-btn"
+          (click)="btnClick($event)"
+          [ngClass]="btnClass"
+          [class.small-btn]="!textLabel"
+          [disabled]="jbDisabled || isLoading"
+          [ngbTooltip]="jbTooltipTrans$ | async"
+          [placement]="jbTooltipPos"
+          [container]="(jbTooltipBody ? 'body' : '')">
+
+    <span *ngIf="!!btnIcon && jbIconPos === 'left'" class="btn-left-text-baseline">.</span>
+    <span *ngIf="!!btnIcon && jbIconPos === 'left'" class="btn-icon-section left" [class.full-icon]="!textLabel">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
+    </span>
+
+    <span [hidden]="!textLabel" class="btn-text-section">
+      {{ jbTextTrans$ | async }}
+    </span>
+
+    <span *ngIf="!!btnIcon && jbIconPos === 'right'"
+          class="btn-icon-section right" [class.full-icon]="!textLabel">
+      <span [class]="isLoading ? 'loading-spinner' : btnIcon"></span>
+    </span>
+
+  </button>
+</div>

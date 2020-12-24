@@ -1,0 +1,66 @@
+@import '../../scss/variables';
+
+.menu {
+  position: fixed;
+  overflow-y: auto;
+  left: 0;
+  top: 72px;
+  bottom: 0;
+  width: 350px;
+  padding: 15px 5px;
+  border-right: 1px solid gray;
+  background: rgba($primary-color, 0.2);
+  z-index: 1020;
+  li {
+    outline: none;
+    .menu-item {
+      font-size: 18px;
+      font-family: "Source Code Pro", monospace;
+      // font-family: 'Courier New', Courier, monospace;
+      padding: 3px 10px;
+      cursor: pointer;
+      &:hover {
+        background: rgba($primary-color, 0.3);
+      }
+      &.active {
+        font-weight: bold;
+        background: #607D8B;
+        color: white;
+      }
+    }
+  }
+
+  .menu-list {
+    list-style: none;
+    padding-left: 10px;
+
+    .menu-item {
+      font-size: 16px;
+      .element-type {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        display: inline-block;
+        text-align: center;
+        line-height: 22px;
+        color: white;
+        border-radius: 3px;
+        vertical-align: middle;
+        border: 1px solid white;
+        //margin-bottom: 2px;
+        &.component { background: #2196F3; }
+        &.service   { background: #FF9800; }
+        &.module    { background: #7c1fda; }
+        &.function  { background: #FF5722; }
+        &.class     { background: #9E9E9E; }
+        &.directive { background: #ca017f; }
+
+
+      }
+      .element-name {
+        vertical-align: top;
+      }
+
+    }
+  }
+}

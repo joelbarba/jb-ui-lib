@@ -1,0 +1,72 @@
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+<p>Collapsible wrapper for dynamic content. It applies a transitional animation.
+  Notice that this component is applied as an attribute: <b>[jb-collapse]</b>
+  <br>It exposes the status on the view template.
+</p>
+<p>
+  This component uses angular animations. In order to make it work you need
+  to import <b>BrowserAnimationsModule</b> into your module
+</p>
+
+<p>
+  The component is exported on the "jbCollapse" view element (#ref="jbCollapse), so
+  the internal methods can also be used manually
+</p>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-6 marB15">
+      <h5 class="marB25">Example 1:</h5>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{ex1}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 marB15">
+      <h5 class="marB25">Example 2:</h5>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{ex2}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <jb-btn class="toggle" [(jbToggle)]="isColl"></jb-btn>
+      <div class="marT15" [jb-collapse]="isColl" #myRef="jbCollapse">
+        <h3>My dynamic content - line 1</h3>
+        <h4>My dynamic content - line 2</h4>
+        <p>My dynamic content - line 3</p>
+        <p>My dynamic content - line 4</p>
+        <p>My dynamic content - line 5</p>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <jb-btn jbText="myBox.toggle()"  (jbClick)="myBox.toggle()"></jb-btn>
+      <jb-btn jbText="myBox.hide()"    (jbClick)="myBox.hide()"></jb-btn>
+      <jb-btn jbText="myBox.show()"    (jbClick)="myBox.show()"></jb-btn>
+      <jb-btn jbText="myBox.reset()"   (jbClick)="myBox.reset()"></jb-btn>
+      <div class="marT15" jb-collapse #myBox="jbCollapse">
+        <h3>My dynamic content - line 1</h3>
+        <h4>My dynamic content - line 2</h4>
+        <p>My dynamic content - line 3</p>
+        <p>My dynamic content - line 4</p>
+        <p>My dynamic content - line 5</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+
+

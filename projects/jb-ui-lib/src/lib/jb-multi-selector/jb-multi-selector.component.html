@@ -1,0 +1,90 @@
+<!-- For debugging -->
+<!-- <br>inputText={{inputText}} -->
+<!-- <br>inputPlaceholder={{inputPlaceholder}} -->
+<!-- <br><ng-container *ngIf="dropdownInput">value={{dropdownInput.value | json}}</ng-container> -->
+<!-- <br>pristine={{ngControl.pristine | json}} -->
+<!-- <br>jbModel={{jbModel.length}} -->
+<!-- <br>jbCandidate={{jbCandidate?.id + ' - ' +  jbCandidate?.email}} -->
+<!-- <br>errors={{errors | json}} -->
+
+<div class="form-group dropdown-form-group"
+     (keydown)="isExpanded && triggerKey($event)"
+     [class.is-required]="jbRequired"
+     [class.is-disabled]="jbDisabled"
+     [class.is-focus]="isFocus || isExpanded"
+     [class.is-error]="showError">
+
+  <label *ngIf="!!jbLabel" [class.is-required]="jbRequired">
+    <span class="info-badge" *ngIf="!!jbTooltip"
+         [ngbTooltip]="jbTooltipTrans$ | async" [placement]="jbTooltipPos" triggers="hover"
+         [container]="(jbTooltipBody ? 'body' : '')">
+      <span class="icon-info"></span>
+    </span>
+    <span>{{jbLabelTrans$ | async}}</span>:
+    <span *ngIf="jbRequired" class="asterisk">*</span>
+  </label>
+
+  <!--Error Message-->
+  <span *ngIf="showError && errorPosition !== 'none'"
+        class="dropdown-error-text"
+        [class.pull-up]="!jbLabel"
+        [class.default]="errorPosition === 'default'"
+        [class.top-right]="errorPosition === 'top-right'"
+        [class.bottom-left]="errorPosition === 'bottom-left'"
+        [class.bottom-right]="errorPosition === 'bottom-right'">
+    {{errorTextTrans$ | async}}
+  </span>
+
+
+  <div class="dropdown" [class.is-expanded]="isExpanded" [class.expand-upward]="expandUpward">
+    <div class="input-group"
+         [disableTooltip]="!jbDisabled || !jbDisabledTip"
+         [ngbTooltip]="jbDisabledTipTrans$ | async">
+
+      <ul class="form-control multiselect-input-list">
+        <!-- Selected values -->
+        <li *ngFor="let selectedObj of jbModel"
+          (click)="!jbDisabled && deselectItem(selectedObj)"
+          class="multi-tag-container row no-gutters">
+          <div class="col multi-tag-text">{{ selectedObj.$renderedText }}</div>
+          <div class="col-auto pl-1"><span class="icon-cross3"></span></div>
+        </li>
+        <!-- Text input for filtering and opening dropdown -->
+        <li class="li-input-container">
+          <input type="text" #dropdownInput
+                [(ngModel)]="inputText" (ngModelChange)="inputType($event)"
+                [placeholder]="inputPlaceholder"
+                [disabled]="jbDisabled"
+                (focusin)="expandList()"
+                (focusout)="collapseList()">
+        </li>
+      </ul>
+
+      <div class="input-group-append" (click)="!jbDisabled && onInputBtnClick()">
+        <button class="btn btn-outline-secondary" [disabled]="!!jbDisabled" tabIndex="-1">
+          <span *ngIf="!isLoading" class="icon-search"></span>
+          <span *ngIf="isLoading" class="loading"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="list-container" [class.list-upward]="expandUpward" *ngIf="isExpanded" #listContainer>
+      <ng-container *ngFor="let item of visibleExtList">
+        <div class="option-row" #optionRow
+            [class.candidate]="jbCandidate === item"
+            *ngIf="item.$isMatch"
+            (mouseenter)="!ignoreHover && (jbCandidate = item)"
+            (mouseleave)="!ignoreHover && (jbCandidate = null)"
+            (mousedown)="selectItem(item)">
+          <img *ngIf="!!item?.$img"  class="option-row-image" [src]="item?.$img" [alt]="item?.$img">
+          <span *ngIf="!!item?.$icon" class="option-row-icon" [ngClass]="item?.$icon"></span>
+          <span>{{item.$renderedText}}</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+
+</div>
+

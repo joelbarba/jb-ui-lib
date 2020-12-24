@@ -1,0 +1,55 @@
+@import '../scss/variables';
+
+.navbar {
+  background: $primary-color;
+  color: white;
+  h1 { cursor: pointer; }
+  .home-link {
+    color: white;
+    font-size: 30px;
+    &:hover { text-decoration: none; }
+  }
+
+  .nav-options {
+    display: flex; align-items: center;
+  }
+}
+
+
+.route-container {
+  position: fixed;
+  top: 72px;
+  right: 0;
+  left : 0;
+  bottom: 0;
+  padding: 30px 15px 80px 25px;
+  overflow: auto;
+  margin-left: 350px;
+  max-width: calc(100% - 350px);
+
+
+  &.font-01 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; }
+  &.font-02 { font-family: 'WF-Lato', sans-serif; }
+  &.font-03 { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+  &.font-11 { font-family: -apple-system, sans-serif; }
+  &.font-12 { font-family: BlinkMacSystemFont, sans-serif; }
+  &.font-13 { font-family: 'Segoe UI', sans-serif; }
+  &.font-14 { font-family: 'WF-Roboto', sans-serif; }
+  &.font-15 { font-family: 'WF-Oxygen', sans-serif; }
+  &.font-16 { font-family: 'WF-Ubuntu', sans-serif; }
+  &.font-17 { font-family: 'WF-FiraSans', sans-serif; }
+  &.font-18 { font-family: 'Droid Sans', sans-serif; }
+  &.font-19 { font-family: 'Helvetica Neue', sans-serif; }
+  &.font-20 { font-family: sans-serif; }
+
+  &.font-21 { font-family: 'WF-Lato', sans-serif; }
+  &.font-22 { font-family: 'WF-Mont', monospace; }
+  &.font-23 { font-family: 'WF-Sans-M', sans-serif; }
+  &.font-24 { font-family: 'WF-Sans-R', sans-serif; }
+
+  &.font-31 { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  &.font-32 { font-family: Helvetica, Arial, sans-serif; }
+  &.font-33 { font-family: Arial, sans-serif; }
+
+}

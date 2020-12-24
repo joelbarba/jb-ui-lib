@@ -1,0 +1,200 @@
+<div class="quantity-input-demo">
+  <h2>{{name}}</h2>
+  <hr/>
+  <p>{{desc}}</p>
+
+  <h5 class="mt-4">Parameters:</h5>
+  <br/>
+  <div class="col-12">
+    <pre>{{api}}</pre>
+  </div>
+
+  <!--<div style="max-width: 300px;">-->
+  <!--  <jb-quantity-input [(ngModel)]="myVar2" (ngModelChange)="myFunc($event)"-->
+  <!--                     [jbMinVal]="5" [jbMaxVal]="20">-->
+  <!--  </jb-quantity-input>-->
+  <!--</div>-->
+
+  <!--<hr>-->
+  <!--<jb-btn jbType="save" jbText="Take -1" (jbClick)="myVar2=myVar2-1"></jb-btn>-->
+  <!--  myVar={{myVar2}}-->
+  <!--<jb-btn jbType="save" jbText="Add +1" (jbClick)="myVar2=myVar2+1"></jb-btn>-->
+  <!--<jb-btn jbType="save" jbText="Set decimal 3.14159" (jbClick)="myVar2=3.14159"></jb-btn>-->
+
+
+  <div>
+    <form #myForm="ngForm">
+      <p>lastMod = {{lastMod}}</p>
+      <jb-input [(ngModel)]="myVar" name="322sd89d8s9" style="display: inline-block" class="marR15"></jb-input>
+      <jb-quantity-input [(ngModel)]="myVar" #jbQuantityRef="ngModel"
+                         (ngModelChange)="setLastMod()"
+                         style="display: inline-block"
+                         name="d8s87fsd89" jbMinVal="10">
+      </jb-quantity-input>
+
+      <jb-btn class="marL15" jbText="Set value = 2" (jbClick)="myVar = 2" jbType="save"></jb-btn>
+      <jb-btn jbText="Set string" (jbClick)="myVar = 'hey'" jbType="save"></jb-btn>
+      <jb-btn jbText="Set object" (jbClick)="myVar = { name: 'hey' }" jbType="save"></jb-btn>
+      <jb-btn jbType="save" jbText="Set decimal 3.14159" (jbClick)="myVar=3.14159"></jb-btn>
+      <jb-btn jbText="-1" (jbClick)="myVar=myVar-1"></jb-btn>
+      <jb-btn jbText="+1" (jbClick)="myVar=myVar+1"></jb-btn>
+      <span class="marL15">myVar={{myVar}}</span>
+
+      <div *ngIf="!!jbQuantityRef">
+        FromControl:
+        value={{jbQuantityRef.value}}
+        ,  valid={{jbQuantityRef.valid}}
+        ,  invalid={{jbQuantityRef.invalid}}
+        ,  errors={{jbQuantityRef.errors | json}}
+        ,  pristine={{jbQuantityRef.pristine}}
+      </div>
+
+      <div *ngIf="!!myForm">
+        ngForm:
+        valid={{myForm.valid}}
+        ,  pristine={{myForm.pristine}}
+        ,  dirty={{myForm.dirty}}
+        ,  value={{myForm.value | json}},
+        ,  errors={{jbQuantityRef.errors | json}}
+      </div>
+    </form>
+  </div>
+
+
+  <!-- jbQuantityInput Customization-->
+  <div class="whiteBg">
+    <div class="row">
+      <div class="col-4 marB15">
+        <h5 class="marB25">Customization:</h5>
+        <div class="padB30">
+          <jb-quantity-input name="text-component"
+                             [(ngModel)]="conf.value"
+                             [jbLabel]="conf.hasLabel ? conf.jbLabel : ''"
+                             [ngClass]="conf.hasMode && conf.mode ? conf.mode: ''"
+                             [jbDisabled]="conf.jbDisabled"
+                             [jbMinVal]="conf.hasMinValue ? conf.minValue : null"
+                             [jbMaxVal]="conf.hasMaxValue ? conf.maxValue : null"
+                             [jbTooltip]="(conf.hasTooltip ? conf.tooltipText : null)"
+                             [jbTooltipPos]="(conf.tooltipPos || 'top')"
+                             [jbTooltipBody]="conf.tooltipBody">
+          </jb-quantity-input>
+        </div>
+        <p>Value: {{conf.value}}</p>
+        <div class="code-box pad15">
+          <pre>{{code}}</pre>
+        </div>
+      </div>
+
+      <div class="col-8 padL30">
+        <div class="row padT20">
+          <jb-checkbox class="col-3 padT5" jbLabel="jbDisabled" [(ngModel)]="conf.jbDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-checkbox class="col-3 padT5" jbLabel="Specific fit css" [(ngModel)]="conf.hasMode" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-dropdown class="col-6"
+                       [(ngModel)]="conf.mode"
+                       (ngModelChange)="upComp()"
+                       [jbList]="conf.modeOptions"
+                       [jbDisabled]="!conf.hasMode"
+                       jbSelect="text"
+                       jbRender="text">
+          </jb-dropdown>
+        </div>
+
+        <!--Label-->
+        <div class="row">
+          <jb-checkbox class="col-3 padT5" jbLabel="jbLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-input class="col-9" style="margin-bottom: -5px;" [(ngModel)]="conf.jbLabel" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasLabel"></jb-input>
+        </div>
+
+        <!--Tooltip-->
+        <div class="row">
+          <jb-checkbox class="col-3 padT5" jbLabel="jbTooltip" [(ngModel)]="conf.hasTooltip" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-input class="col-9" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+          <div class="col-3"></div>
+          <jb-dropdown class="col-5" jbLabel="jbTooltipPos" [jbDisabled]="!conf.hasTooltip"
+                       [(ngModel)]="conf.tooltipPos" (ngModelChange)="upComp()"
+                       [jbList]="[{ id: 'top', text: 'top' }, { id: 'right', text: 'right' }, { id: 'bottom', text: 'bottom' }, { id: 'left', text: 'left' }]"
+                       jbRender="text" jbSelect="id">
+          </jb-dropdown>
+          <jb-dropdown class="col-4" jbLabel="jbTooltipBody" [jbDisabled]="!conf.hasTooltip"
+                       [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"
+                       [jbList]="[{ id: 'true', text: 'true' }, { id: 'false', text: 'false' }]" jbRender="text" jbSelect="id">
+          </jb-dropdown>
+        </div>
+
+        <!--Min / Max-->
+        <div class="row marT15">
+          <jb-checkbox class="col-3 padT5" jbLabel="jbMinVal" [(ngModel)]="conf.hasMinValue" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-input class="col-3" [(ngModel)]="conf.minValue" [jbDisabled]="!conf.hasMinValue" (ngModelChange)="upComp()"></jb-input>
+
+          <div class="col-12"></div>
+
+          <jb-checkbox class="col-3 padT5" jbLabel="jbMaxVal" [(ngModel)]="conf.hasMaxValue" (ngModelChange)="upComp()"></jb-checkbox>
+          <jb-input class="col-3" [(ngModel)]="conf.maxValue" [jbDisabled]="!conf.hasMaxValue" (ngModelChange)="upComp()"></jb-input>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <h5 class="mt-4">Examples:</h5>
+  <div class="col-12 examples-table">
+
+    <div class="row">
+      <div class="col-3">
+        <span class="bold"> Instance 1</span>
+        <br/>
+        <jb-quantity-input
+          [(ngModel)]="instance1.object.value"
+          [name]="instance1.object.name"
+          [jbDisabled]="instance1.object.disable"
+          [jbMinVal]="instance1.object.minValue"
+          [jbMaxVal]="instance1.object.maxValue"
+          [class]="instance1.object.mode">
+        </jb-quantity-input>
+        <br>
+        <div class="whiteBg pad15">
+          Value from ngModel : {{ instance1.object.value }}
+        </div>
+      </div>
+      <div class="col-9">
+        <pre>{{instance1.template}}</pre>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <span class="bold"> Instance 2</span>
+        <br/>
+        <jb-quantity-input
+          [(ngModel)]="instance2.object.value"
+          [name]="instance1.object.name"
+          [jbDisabled]="instance2.object.disable"
+          [jbMinVal]="instance2.object.minValue"
+          [jbMaxVal]="instance2.object.maxValue"
+          [class]="instance2.object.mode">
+        </jb-quantity-input>
+        <br>
+        <div class="whiteBg pad15">
+          Value from ngModel : {{ instance2.object.value }}
+        </div>
+      </div>
+      <div class="col-9">
+        <pre>{{instance2.template}}</pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!--CSS Styling-->
+  <div class="row marT40">
+    <div class="col-12">
+      <hr>
+      <h4>CSS Styling</h4>
+      <p>The following SASS variables can be overridden to provide customized coloring:</p>
+      <pre class="padL30">{{ cssReset }}</pre>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,236 @@
+
+<h2>{{name}}</h2>
+<hr/>
+<h5>{{desc}}</h5>
+
+<h5 class="mt-4">Parameters:</h5>
+<div class="col-12"><pre>{{api}}</pre></div>
+
+
+<!--jb-lazy-dropdown Customization-->
+<div class="whiteBg">
+  <div class="row">
+    <div class="col-5 marB15">
+      <h5 class="marB25">jb-lazy-dropdown Customization:</h5>
+      <div>
+        <div *ngIf="isLinked">
+          <div class="col-12 padL30 marB30" *ngIf="!!jbLazyDropdownRef" style="font-family: monospace;">
+            FromControl (ngModel):<br>
+            <div class="marL10">- jbLazyDropdownRef.value: <b>{{jbLazyDropdownRef.value | json}}</b></div>
+            <div class="marL10">- jbLazyDropdownRef.valid: <b [style.color]="jbLazyDropdownRef.valid ? '#28a745': '#dc3545'">{{jbLazyDropdownRef.valid | json}}</b></div>
+            <div class="marL10">- jbLazyDropdownRef.pristine: <b>{{jbLazyDropdownRef.pristine | json}}</b></div>
+            <div class="marL10">- jbLazyDropdownRef.errors: <b>{{jbLazyDropdownRef.errors | json}}</b></div>
+          </div>
+
+          <jb-lazy-dropdown [class.full-width]="conf.hasFullWidth" style="max-width: 450px;"
+                       [class.flat]="conf.hasFlat"
+                       [(ngModel)]="selObj" #jbLazyDropdownRef="ngModel"
+                       [jbLazyLoad]="fakeLoadData"
+                       [jbSelect]="(conf.hasSelect && !!conf.selectField) ? conf.selectField : null"
+                       [jbRender]="(conf.hasRender ? conf.renderExp : null)"
+                       [jbRenderFn]="(conf.hasRenderFn ? renderFn : null)"
+                       [jbMinSearchLength]="2"
+
+                       [jbPlaceholder]="conf.hasPlaceholder ? conf.jbPlaceholder : null"
+
+                       [jbRequired]="conf.isRequired"
+                       [jbDisabled]="conf.isDisabled"
+                       [jbDisabledTip]="conf.isDisabled ? conf.disabledTip: null"
+                       [jbErrorOnPristine]="conf.isErrorOnPristine"
+                       [jbLabel]="(conf.hasLabel ? conf.labelText : '')"
+                       [jbTooltip]="(conf.hasLabel && conf.hasTooltip ? conf.tooltipText : null)"
+                       [jbTooltipPos]="(conf.hasLabel && conf.tooltipPos || 'top')"
+                       [jbTooltipBody]="conf.hasLabel && conf.tooltipBody"
+                       [jbErrorText]="conf.hasErrorText ? conf.jbErrorText : ''"
+                       [jbErrorPos]="conf.errorPos"
+                       [jbCustomPlacementList]="conf.jbCustomPlacementList"
+                       (jbOnLoaded)="myCtrl = $event"
+          >
+          </jb-lazy-dropdown>
+        </div>
+        ngModel = {{selObj | json}}
+      </div>
+      <div>
+        <div class="code-box pad15">
+          <pre>{{code}}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-7">
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbRequired" [(ngModel)]="conf.isRequired" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 block padT5" jbLabel="jbErrorOnPristine" [(ngModel)]="conf.isErrorOnPristine" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbDisabled" [(ngModel)]="conf.isDisabled" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-5 flat" [(ngModel)]="conf.disabledTip" jbPlaceholder="[jbDisabledTip]: This is disabled because..." (ngModelChange)="upComp()"></jb-input>
+      </div>
+
+      <div class="row marT15">
+
+        <!--jbLabel-->
+        <jb-checkbox class="col-2 block padT5" jbLabel="jbLabel" [(ngModel)]="conf.hasLabel" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-4" style="margin-bottom: -5px;" [(ngModel)]="conf.labelText" (ngModelChange)="upComp()" [jbDisabled]="!conf.hasLabel"></jb-input>
+
+        <!--jbTooltip-->
+        <div class="offset-2 col-10">
+          <div class="row">
+            <jb-checkbox class="col-3 padT5" jbLabel="jbTooltip" [jbDisabled]="!conf.hasLabel" [(ngModel)]="conf.hasTooltip"  (ngModelChange)="upComp()"></jb-checkbox>
+            <jb-input class="col-9" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipText" (ngModelChange)="upComp()"></jb-input>
+            <jb-checkbox class="col-3" jbLabel="jbTooltipBody" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipBody" (ngModelChange)="upComp()"></jb-checkbox>
+            <div class="col-9">
+              <jb-label class="marR20" jbText="jbTooltipPos"></jb-label>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="top"     jbValue="top"    jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="left"    jbValue="left"   jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="right"   jbValue="right"  jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+              <jb-radio class="marR15" [jbDisabled]="!conf.hasTooltip" [(ngModel)]="conf.tooltipPos" jbLabel="bottom"  jbValue="bottom" jbRadioGroup="tooltipPos" (ngModelChange)="upComp()"></jb-radio>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--jbSelect-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbSelect" [(ngModel)]="conf.hasSelect" (ngModelChange)="upComp()" jbTooltipPos="left" jbTooltip="The field of the object to be set in the ngModel when selected. If empty, the whole object is set to ngModel."></jb-checkbox>
+        <div class="col-3 padT5 padB15">
+          <jb-dropdown [jbList]="jbSelectOptions" [(ngModel)]="conf.selectField" (ngModelChange)="upComp()" jbSelect="value" jbRender="value"></jb-dropdown>
+        </div>
+      </div>
+
+      <!--jbRender-->
+      <div class="row marT5">
+        <jb-checkbox class="col-2 padT5" jbLabel="jbRender" jbTooltipPos="left" jbTooltip="How to display every item on the list. It can be either a field of the object or a translation label"
+                     [(ngModel)]="conf.hasRender" (ngModelChange)="conf.hasRenderFn = false; upComp()">
+        </jb-checkbox>
+        <jb-input class="col-3 flat" [jbDisabled]="!conf.hasRender" [(ngModel)]="conf.renderExp"
+                  jbPlaceholder="field to display..." (ngModelChange)="upComp()">
+        </jb-input>
+
+        <div class="col-6 padT5" *ngIf="conf.hasRender && !conf.hasRenderFn">
+          <pre *ngIf="conf.renderExp === 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderInfo}}</pre>
+          <pre *ngIf="conf.renderExp !== 'views.item_number'" style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">jbRender="id", "username", "email", "first_name" ...</pre>
+        </div>
+        <jb-checkbox class="col-1 padT10" jbLabel="" [(ngModel)]="conf.renderLabel" jbTooltip="Render a translation label instead"
+                     (ngModelChange)="(conf.renderLabel ? conf.renderExp = 'views.item_number_lazy' : conf.renderExp = 'email'); upComp()">
+        </jb-checkbox>
+
+        <div class="col-12 padT10"></div>
+
+        <jb-checkbox class="col-2 padT5" jbLabel="jbRenderFn" jbTooltipPos="left" jbTooltip="If jbRender is not enough, use this function to determine how to render every item on the list"
+                     [(ngModel)]="conf.hasRenderFn" (ngModelChange)="conf.hasRender = false; upComp()">
+        </jb-checkbox>
+        <div class="col-10" *ngIf="conf.hasRenderFn && !conf.hasRender">
+          <pre style="background: aliceblue; padding: 5px 10px; margin-bottom: 0;">{{renderFnStr}}</pre>
+        </div>
+      </div>
+
+      <!--jbErrorText + jbError Pos-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="jbErrorText" [(ngModel)]="conf.hasErrorText" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-input class="col-4" jbPlaceholder="'none' = displays no text"
+                  [(ngModel)]="conf.jbErrorText" [jbDisabled]="!conf.hasErrorText" (ngModelChange)="upComp()">
+        </jb-input>
+
+        <div class="col-2">
+          <jb-label class="block" jbText="jbErrorPos"></jb-label>
+          <jb-radio [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="none" jbValue="none" jbTooltip="Error text always hidden" jbTooltipPos="left"></jb-radio>
+        </div>
+        <div class="col-4">
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="default" [jbValue]="null"></jb-radio>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="top-right" jbValue="top-right"></jb-radio>
+          <br>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="bottom-left" jbValue="bottom-left"></jb-radio>
+          <jb-radio style="display: inline-block; width: 120px;" [(ngModel)]="conf.errorPos" (ngModelChange)="upComp()" jbRadioGroup="errPos" jbLabel="bottom-right" jbValue="bottom-right"></jb-radio>
+        </div>
+      </div>
+
+      <!--jbErrorText + jbError Pos-->
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT10" jbLabel="Controls" [(ngModel)]="conf.hasControls" (ngModelChange)="upComp()"></jb-checkbox>
+        <div class="col-10 padR0">
+          <!--<jb-btn jbText="Expand"   (jbClick)="extCtrl$.next({ action: 'expand' })"></jb-btn>-->
+          <!--<jb-btn jbText="Collapse" (jbClick)="extCtrl$.next({ action: 'collapse' })"></jb-btn>-->
+          <!--<jb-btn jbText="Toggle"   (jbClick)="extCtrl$.next({ action: 'toggle' })"></jb-btn>-->
+          <!--<jb-btn jbText="Type"     (jbClick)="extCtrl$.next({ action: 'type', value: 'ax' })"></jb-btn>-->
+          <!--<jb-btn jbText="Pristine" (jbClick)="extCtrl$.next({ action: 'setPristine' })"></jb-btn>-->
+          <!--<jb-btn jbText="+ Error"  (jbClick)="extCtrl$.next({ action: 'addError', value: 'wrong' })"></jb-btn>-->
+          <!--<jb-btn jbText="- Error"  (jbClick)="extCtrl$.next({ action: 'removeError' })"></jb-btn>-->
+          <jb-btn jbText="Expand"   (jbClick)="myCtrl.expand()" jbTooltip="Only when jbMinLength is reached"></jb-btn>
+          <jb-btn jbText="Collapse" (jbClick)="myCtrl.collapse()"></jb-btn>
+          <jb-btn jbText="Toggle"   (jbClick)="myCtrl.toggle()" jbTooltip="Only when jbMinLength is reached"></jb-btn>
+          <jb-btn jbText="Type"     (jbClick)="myCtrl.type('ax')"></jb-btn>
+          <jb-btn jbText="Pristine" (jbClick)="myCtrl.setPristine()"></jb-btn>
+          <jb-btn jbText="+ Error"  (jbClick)="myCtrl.addError('wrong')"></jb-btn>
+          <jb-btn jbText="- Error"  (jbClick)="myCtrl.removeError()"></jb-btn>
+        </div>
+      </div>
+
+      <div class="row marT15 padT5">
+        <!--jbCustomPlacementList-->
+        <div class="col-12 padL25 padR5">
+          <div class="padR10">
+            <jb-dropdown [(ngModel)]="conf.jbCustomPlacementList"
+                         [jbList]="jbCustomPlacementList"
+                         jbLabel="jbCustomPlacementList"
+                         jbTooltip="By default the dropdown expands downwards unless its position on the screen is too low. With this option you can force the direction it will be always expanded towards"
+                         (ngModelChange)="upComp()"
+                         jbRender="value"
+                         jbSelect="value">
+            </jb-dropdown>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row marT15">
+        <jb-checkbox class="col-2 padT5" jbLabel="CSS 'flat'" [(ngModel)]="conf.hasFlat" (ngModelChange)="upComp()"></jb-checkbox>
+        <jb-checkbox class="col-3 padT5" jbLabel="CSS 'full-width'" [(ngModel)]="conf.hasFullWidth" (ngModelChange)="upComp()"></jb-checkbox>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<h5 class="mt-4">Examples:</h5>
+<div class="col-12 examples-table">
+
+  <div class="row">
+    <div class="col-5">
+      Lazy load item example
+      <div class="code-box pad15">
+        <pre>jbLazyLoadItem = {{lazyItemExample1 | json}}</pre>
+      </div>
+      <br/>
+      <jb-lazy-dropdown [(ngModel)]="selObjExample1"
+                        [jbLazyLoad]="fakeLoadData"
+                        [jbLazyLoadItem]="lazyItemExample1"
+                        jbRender="email"
+                        jbLabel="LazyLoadedItem"
+      ></jb-lazy-dropdown>
+    </div>
+    <div class="col-7 code-box">
+      <pre>{{instance}}</pre>
+      <br/>
+      <pre>ngModel = {{selObjExample1 | json}}</pre>
+    </div>
+  </div>
+
+</div>
+
+<!--CSS Styling-->
+<div class="row marT40">
+  <div class="col-12">
+    <hr>
+    <h4>CSS Styling</h4>
+    <p>The encapsulated styles of the button use a default color. However, we may want to apply different colors externally (depending on the theme)
+      <br/>
+      To provide a color restyiling based on a SCSS theme you can apply the following rules on a css global level :
+    </p>
+    <pre>{{ cssReset }}</pre>
+  </div>
+</div>
+

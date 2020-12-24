@@ -1,0 +1,11 @@
+<div *ngIf="!!jbLabel">
+  <jb-label [jbText]="jbLabel"
+            [jbTooltip]="jbLabelTooltip"
+            [jbTooltipPos]="jbLabelTooltipPos">
+  </jb-label>
+</div>
+<ng5-slider [(value)]="ngModel"
+            [options]="sliderOptions"
+            (valueChange)="onChange()">
+</ng5-slider>
+

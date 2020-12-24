@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-3">
+    <h2>jbDnD - Example 1</h2>
+  </div>
+  <div class="col-9 text-right">
+    <jb-btn jbText="jbDnD" (jbClick)="router.navigate(['/jbDnD'])"></jb-btn>
+    <jb-btn jbText="Ex.1" (jbClick)="router.navigate(['/jbDnD/example1'])" jbDisabled="true"></jb-btn>
+    <jb-btn jbText="Ex.2" (jbClick)="router.navigate(['/jbDnD/example2'])"></jb-btn>
+    <jb-btn jbText="Ex.3" (jbClick)="router.navigate(['/jbDnD/example3'])"></jb-btn>
+    <jb-btn jbText="Ex.4" (jbClick)="router.navigate(['/jbDnD/example4'])"></jb-btn>
+    <jb-btn jbText="Ex.5" (jbClick)="router.navigate(['/jbDnD/example5'])"></jb-btn>
+    <jb-btn jbText="Ex.6" (jbClick)="router.navigate(['/jbDnD/example6'])"></jb-btn>
+  </div>
+</div>
+<hr/>
+<h4>Simple dragging</h4>
+<p>Simple div that can be dragged to a unique container. Drag elements from the left to the right container</p>
+
+<div class="row">
+  <div class="col-3">
+    <div class="board">
+      <h4 class="padB30">Draggable elements</h4>
+      <div [jbDraggable]="obj1">{{obj1.name}}</div>
+      <div [jbDraggable]="obj2">{{obj2.name}}</div>
+      <div [jbDraggable]="obj3">{{obj3.name}}</div>
+    </div>
+    <div>Last Operation: <span class="last-op">{{lastOp}}</span></div>
+  </div>
+  <div class="col-3">
+    <div class="board">
+      <div jbDropContainer (jbDrop)="lastOp = $event.jbDraggable.name + ' dropped'; growl.success(lastOp)">
+        Drop here
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <h5>View:</h5>
+    <div class="code-box pad15">
+      <pre>{{viewCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-12"><hr></div>
+
+  <div class="col-6">
+    <h5>Ctrl:</h5>
+    <div class="code-box pad15">
+      <pre>{{ctrlCode}}</pre>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <h5>Scss:</h5>
+    <div class="code-box pad15">
+      <pre>{{scssCode}}</pre>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,172 @@
+// This is an example of how to override the library colors in order to customize it in the application
+// Every one of these variables has a default value, so they are all optional
+
+// ---------- Defaults ---------------
+$primary_color    : #18cacd !default;
+$secondary_color  : #57c16f !default
+$tertiary_color   : #F17B3F !default;
+$quaternary_color : #157d9e !default;
+$warning_color    : #e84e3a !default;
+$extra_color      : #a766b2 !default;
+
+$white          : #fff;
+$grey           : #929292;
+$text-color     : #525254;
+$optional-color : #ccc;       // (bootstrap default - $input-border)
+$disabled-color : #a0a0a0;
+$focused-color  : darken($primary_color, 20%);
+$required-color : $primary_color;
+$valid-color    : $primary_color;
+$invalid-color  : $warning_color;
+
+$jb-ui-lib-colors: (
+  'primary'     : $primary_color,
+  'secondary'   : $secondary_color,
+  'tertiary'    : $tertiary_color,
+  'quaternary'  : $quaternary_color,
+  'warning'     : $warning_color,
+  'extra'       : $extra_color,
+  'white'       : $white,
+  'disabled'    : $disabled-color
+);
+
+$jb_color3_shadow2 : #E99FB7;
+
+// ---------- jb-autocomplete ----------
+
+// ---------- jb-btn -------------------
+//$default-btn-text-color: #ff0000;
+//@import '../../../jb-ui-lib/scss/jb-btn';
+//jb-btn.yellow-btn { @include custom-btn-color(green, black); }
+
+// ---------- jb-checkbox --------------
+//$checkbox-uncheck-bg: yellow;
+//$checkbox-uncheck-border: purple;
+//$checkbox-check-bg: green;
+//$checkbox-check-border: black;
+//$checkbox-check-color: #fffff0;
+//$checkbox-disabled-bg: gray;
+//$checkbox-disabled-border: darken(gray, 30%);
+
+// ---------- jb-confirm ---------------
+// ---------- jb-date-picker -----------
+
+// ---------- jb-dropdown --------------
+//$dropdown-selection-bg: red;
+//$dropdown-selection-hover: rgba(yellow, 0.3);
+//$dropdown-valid-color: green;
+
+// ---------- jb-growl -----------------
+//$growl-border: red;
+//$growl-success: yellow;
+//$growl-success-bg: green;
+//$growl-error: yellow;
+//$growl-error-bg: red;
+
+// ---------- jb-input -----------------
+//$input-optional-color  : cyan;
+//$input-focused-color   : purple;
+//$input-disabled-color  : orange;
+//$input-required-color  : black;
+//$input-invalid-color   : red;
+//$input-valid-color     : green;
+
+// ---------- jb-label -----------------
+// ---------- jb-list-paginator --------
+//$page_bg: gray;
+//$page_color: green;
+//$page_border_color: red;
+//$page_hover_bg: yellow;
+
+// ---------- jb-loading ---------------
+//$locker-bg: rgba(yellow, 0.8);   // Background color when blocking
+//$bar-bg: black; // Header loading bar
+//$bar-color: red;
+//$spinner-color: orange; // Round spinner
+//$spinner-size: 120;
+//$menu-size: 35;
+//$ani-time: 4; // Animation time for jb loading spinner
+
+// ---------- jb-loading-spinner -------
+//$loading-spinner-color: $secondary_color;
+
+// ---------- jb-no-data ---------------
+//$no-data-bg: orange;
+//$no-data-color: red;
+
+// ---------- jb-progress-bar ----------
+//$progress-bar-bg: blue;
+//$progress-bar-color: yellow;
+//$progress-bar-used-label: purple;
+//$progress-bar-left-label: orange;
+//$progress-bar-per-outside: red;
+
+// ---------- jb-quantity-input --------
+//$quantity-input-bg: yellow;
+//$quantity-input-border: orange;
+//$quantity-input-left-btn: brown;
+//$quantity-input-right-btn: red;
+//$quantity-input-blocked-btn: gray;
+
+// ---------- jb-radio -----------------
+//$radio-color: green;
+//$radio-check-color: yellow;
+
+// ---------- jb-status-badge ----------
+//$jb-status-badge-text-color : yellow;
+//$jb-status-badge-border     : red;
+//$jb-status-font-size        : 8px;
+//$jb-status-font-weight      : 300;
+//$jb-status-active   : blue;
+//$jb-status-inactive : orange;
+//$jb-status-pending  : gray;
+//$jb-status-other    : green;
+//$jb-status-other2   : purple;
+//$jb-status-other3   : cyan;
+//$jb-status-other4   : brown;
+//$jb-status-submitted: pink;
+
+// ---------- jb-switch ----------------
+//$switch-bar-bg: yellow;
+//$switch-bar-color: blue;
+//$switch-lever-bg: purple;
+//$switch-color-on: green;
+//$switch-color-off: red;
+
+// ---------- jb-textarea --------------
+//$textarea-optional-color  : purple;
+//$textarea-focused-color   : blue;
+//$textarea-disabled-color  : black;
+//$textarea-required-color  : orange;
+//$textarea-invalid-color   : red;
+
+// ---------- jb-time-picker --------------
+
+
+// ---------- Others ---------------
+
+// Bootstrap Tooltips (+ ngb Tooltips)
+$zindex-tooltip: 5100;  // Show tooltips over navbar and menu
+$tooltip-bg: #17495B;
+$tooltip-opacity: 1;
+$tooltip-font-size: 12px;
+
+// Bootstrap Popovers
+$popover-bg: #17495B;
+$popover-body-color: #white;
+
+// Bootstrap Modals (NgbModal)
+$modal-header-padding: 25px;
+$modal-header-padding-y: 0;
+$modal-header-padding-x: 0px;
+
+// From: https://fonts.google.com/?sidebar.open
+@font-face { font-family: 'WF-Lato'; src: url('/assets/fonts/Lato-Regular.ttf'); }
+@font-face { font-family: 'WF-Mont'; src: url('/assets/fonts/Montserrat-Regular.ttf'); }
+@font-face { font-family: 'WF-Sans-M'; src: url('/assets/fonts/PublicSans-Medium.ttf'); }
+@font-face { font-family: 'WF-Sans-R'; src: url('/assets/fonts/PublicSans-Regular.ttf'); }
+
+@font-face { font-family: 'WF-Roboto'; src: url('/assets/fonts/Roboto-Regular.ttf'); }
+@font-face { font-family: 'WF-Oxygen'; src: url('/assets/fonts/Oxygen-Regular.ttf'); }
+@font-face { font-family: 'WF-Ubuntu'; src: url('/assets/fonts/Ubuntu-Regular.ttf'); }
+@font-face { font-family: 'WF-FiraSans'; src: url('/assets/fonts/FiraSans-Regular.ttf'); }
