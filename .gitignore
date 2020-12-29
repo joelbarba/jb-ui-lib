@@ -46,3 +46,5 @@ Thumbs.db
 
 # Tests
 test-results/
+
+.npm_credentials.txt

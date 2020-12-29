@@ -67,7 +67,7 @@ echo "(Enter=Use Joel's credentials, anything else=Your own NPM user)"
 if [[ "$allYes" != "y" ]]; then read x; else x=""; fi
 if [[ "$x" = "" ]]; then
     npmPass=`cat .npm_credentials.txt`
-    npm-cli-login -u joel.barba -p ${npmPass} -e joel.barba.vidal@gmail.com
+    npm-cli-login -u joel.barba -p ${npmPass} -e joel.barba.vidal@gmail.com  # You need:  npm install -g npm-cli-login
     npm whoami
 else
     npm login
