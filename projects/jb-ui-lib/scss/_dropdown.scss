@@ -76,7 +76,7 @@ jb-dropdown, jb-lazy-dropdown, jb-multi-selector {
         width: 18px;
         height: 18px;
         position: absolute;
-        z-index: 999;
+        z-index: 900;
         left: 10px;
         top: 7.5px;
 
@@ -88,7 +88,7 @@ jb-dropdown, jb-lazy-dropdown, jb-multi-selector {
       // Optional icon into the input (before the text)
       .input-icon {
         position: absolute;
-        z-index: 999;
+        z-index: 900;
         left: 12px;
         top: 10px;
 

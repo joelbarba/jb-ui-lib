@@ -62,7 +62,9 @@ jb-btn {
         font-size: 13px;
         font-weight: 500;
         letter-spacing: 1px;
-        padding: 0 15px;
+        //padding: 0 15px;
+        padding: 1.5px 15px 0; // Sans font looks better with this
+        @supports (-moz-appearance:none) { padding: 1px 15px 0; }
         max-height: $btn-height;
         text-align: center;
         white-space: nowrap;
@@ -70,7 +72,8 @@ jb-btn {
       .btn-icon-section {
         display: flex;
         width: $btn-section-width;
-        padding: 0;
+        padding: 1.5px 0 0 0; // Sans font looks better with this
+        @supports (-moz-appearance:none) { padding: 1px 0 0 0; }
         align-items: center;
         justify-content: center;
         font-size: 14px;

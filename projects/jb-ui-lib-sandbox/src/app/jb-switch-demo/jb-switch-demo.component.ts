@@ -15,6 +15,7 @@ export class JbSwitchDemoComponent implements OnInit {
   public api = jbSwitchDoc.api;
   public instance = jbSwitchDoc.instance;
   public myValue = true;
+  public myValue2 = 'hello world';
   public myVal = false;
 
   public instance2 =
@@ -62,15 +63,21 @@ $switch-color-off: $switch-lever-bg !default;`;
     hasLabel: false, labelText: 'view.common.field_name2', labelPosLeft: false,
     hasTooltip: false, btnTooltip: 'view.tooltip.message', btnTooltipPos: null, btnTooltipBody: false,
     isDisabled: false,
-    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no'
+    hasOnText: false, hasOffText: false, onText: 'view.common.yes', offText: 'view.common.no',
+    hasFormFit: false, hasFlat: false,
   };
 
   public updateCustomSw = () => {
     this.swCode = `<jb-switch [(ngModel)]="myValue"`;
 
-    if (this.swConf.hasLabel) {
-      this.swCode += this.bsStr + ` jbLabel="${this.swConf.labelText}"`;
+    let compClasses = '';
+    if (this.swConf.hasFormFit)  { compClasses += (!!compClasses.length ? ' ' : '') + 'form-fit'; }
+    if (this.swConf.hasFlat)     { compClasses += (!!compClasses.length ? ' ' : '') + 'flat'; }
+    if (!!compClasses) { this.swCode += `class="${compClasses}"` + this.bsStr; }
 
+
+    if (this.swConf.hasLabel) {
+      this.swCode += ` jbLabel="${this.swConf.labelText}"`;
       if (this.swConf.labelPosLeft) {
         this.swCode += this.bsStr + ` jbLabelPos="left"`;
       }
@@ -97,7 +104,9 @@ $switch-color-off: $switch-lever-bg !default;`;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.updateCustomSw();
+  }
 
 }
 

@@ -3,6 +3,50 @@ $page_color: darken($primary_color, 10%) !default;
 $page_border_color: #d7dade !default;
 $page_hover_bg: #eeeeee !default;
 
+@mixin mobile-paginator() {
+  //width: 100%;
+  //flex-wrap: wrap;
+  //.page-buttons {
+  //  width: 100%;
+  //  display: flex;
+  //  .page-btn { flex: 1; }
+  //}
+  //.page-num-selector {
+  //  flex: 1 0 100%;
+  //  margin-top: 10px;
+  //  padding-left: 0;
+  //  jb-dropdown .jb-dropdown-form-group { width: 100%; }
+  //}
+  width: 100%;
+  flex-wrap: wrap;
+  .page-buttons {
+    width: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    .page-btn {
+      flex: 1;
+      @media(max-width: 650px){
+        &:last-child {
+          position: absolute;
+          right: 0;
+        }
+        &:nth-last-child(2) {
+          position: absolute;
+          right: 35px;
+        }
+      }
+    }
+  }
+  .page-num-selector {
+    flex: 1 0 100%;
+    margin-top: 10px;
+    padding-left: 0;
+    jb-dropdown .jb-dropdown-form-group { width: 100%; }
+  }
+}
+
+
 
 jb-list-paginator {
   .jb-list-paginator {
@@ -72,22 +116,39 @@ jb-list-paginator {
   }
 
   // Mobile style: Full with + 2 lines (buttons + selector)
-  &.mobile .jb-list-paginator {
-    width: 100%;
-    flex-wrap: wrap;
-    .page-buttons {
-      width: 100%;
-      display: flex;
-      .page-btn { flex: 1; }
-    }
-    .page-num-selector {
-      flex: 1 0 100%;
-      margin-top: 10px;
-      padding-left: 0;
-      jb-dropdown .jb-dropdown-form-group { width: 100%; }
-    }
-  }
+  &.mobile .jb-list-paginator { @include mobile-paginator(); }
 
   &.align-right .jb-list-paginator { justify-content: flex-end; }
   &.align-center .jb-list-paginator { justify-content: center; }
+}
+
+
+
+
+
+// Make list paginators automatically mobile for XS + SM
+// This is equivalent than <jb-list-paginator [class.mobile]="!screen.isMD">
+//@media (max-width: 991px) {
+//  jb-list-paginator .jb-list-paginator {
+//    width: 100%;
+//    flex-wrap: wrap;
+//    .page-buttons {
+//      width: 100%;
+//      display: flex;
+//      .page-btn { flex: 1; }
+//    }
+//    .page-num-selector {
+//      flex: 1 0 100%;
+//      margin-top: 10px;
+//      padding-left: 0;
+//      jb-dropdown .jb-dropdown-form-group { width: 100%; }
+//    }
+//  }
+//}
+//
+//
+jb-list-paginator.mobile-sm .jb-list-paginator {
+  @media (max-width: 992px) {
+    @include mobile-paginator();
+  }
 }

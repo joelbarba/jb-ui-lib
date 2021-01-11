@@ -68,7 +68,7 @@ jb-checkbox {
           min-width: 20px;
           text-align: center;
           //line-height: 1;
-          line-height: 16px; // Mozilla aligns it different
+          line-height: 17px; // Mozilla aligns it different
           @supports (-moz-appearance:none) { line-height: 15px; }
           cursor: pointer;
           border-width: 1px;
@@ -114,6 +114,9 @@ jb-checkbox {
     }
   }
 
+
+  // Mark border of the box on error
+  &.is-error div.checkbox label input[type=checkbox] + span.check-box { border-color: $warning-color; }
 }
 
 

@@ -16,8 +16,13 @@
   <div class="row">
     <div class="col-5 marB15">
       <h5 class="marB25">Switch Customization:</h5>
-      <div>
-        <jb-switch [(ngModel)]="myValue"
+      <div class="row">
+        <jb-input class="col-4" [hidden]="!swConf.hasFormFit" [class.flat]="swConf.hasFlat"
+                  [jbLabel]="swConf.hasLabel ? 'Test' : undefined" [(ngModel)]="myValue2">
+        </jb-input>
+        <jb-switch [(ngModel)]="myValue" class="col-4"
+                   [class.form-fit]="swConf.hasFormFit"
+                   [class.flat]="swConf.hasFlat"
                    [jbLabel]="(swConf.hasLabel ? swConf.labelText : '')"
                    [jbLabelPos]="(swConf.labelPosLeft ? 'left' : 'top')"
                    [jbOnText]="(swConf.hasOnText ? swConf.onText : 'scripts.common.directives.on_label')"
@@ -44,11 +49,11 @@
       </div>
 
       <div class="row marT15">
-        <div class="col-2 padT5"> <jb-checkbox [(ngModel)]="swConf.hasLabel" (ngModelChange)="updateCustomSw()" jbLabel="Has Label"></jb-checkbox> </div>
-        <div class="col-7" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="swConf.labelText" (ngModelChange)="updateCustomSw()" [jbDisabled]="!swConf.hasLabel"></jb-input> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.hasLabel" (ngModelChange)="updateCustomSw()" jbLabel="Has Label"></jb-checkbox> </div>
+        <div class="col-6" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="swConf.labelText" (ngModelChange)="updateCustomSw()" [jbDisabled]="!swConf.hasLabel"></jb-input> </div>
         <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.labelPosLeft" [jbDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" jbLabel="Label On Left"></jb-checkbox> </div>
-        <div class="col-2"></div>
-        <div class="col-10">
+        <div class="col-3"></div>
+        <div class="col-9">
           <div class="row marT10">
             <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.hasTooltip" [jbDisabled]="!swConf.hasLabel" (ngModelChange)="updateCustomSw()" jbLabel="Has Tooltip"></jb-checkbox> </div>
             <div class="col-8" *ngIf="swConf.hasTooltip">
@@ -72,6 +77,11 @@
       <div class="row">
         <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.hasOffText" (ngModelChange)="updateCustomSw()" jbLabel="Custom 'OFF' Text"></jb-checkbox> </div>
         <div class="col-6" style="margin-bottom: -5px;"> <jb-input [(ngModel)]="swConf.offText" (ngModelChange)="updateCustomSw()" [jbDisabled]="!swConf.hasOffText"></jb-input> </div>
+      </div>
+      <div class="row">
+        <div class="col-3">CSS Classes:</div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.hasFormFit" (ngModelChange)="updateCustomSw()" jbLabel="form-fit" jbTooltip="Adds margin top and bottom to align it into a form line"></jb-checkbox> </div>
+        <div class="col-3 padT5"> <jb-checkbox [(ngModel)]="swConf.hasFlat" (ngModelChange)="updateCustomSw()" jbLabel="flat" [hidden]="!swConf.hasFormFit"></jb-checkbox> </div>
       </div>
 
 

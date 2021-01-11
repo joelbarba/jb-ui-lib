@@ -4,8 +4,9 @@ $quantity-input-left-btn: $valid-color !default;
 $quantity-input-right-btn: $valid-color !default;
 $quantity-input-blocked-btn: darken($primary_color, 8%) !default;
 
-
 jb-quantity-input {
+  .form-control:focus { box-shadow: none; }
+
   label {
     font-weight: 700;
     margin-bottom: 2px;

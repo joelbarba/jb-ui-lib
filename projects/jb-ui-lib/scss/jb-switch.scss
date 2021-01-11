@@ -4,6 +4,7 @@ $switch-lever-bg: #f3f3f3 !default;
 $switch-color-on: $valid-color !default;
 $switch-color-off: $switch-lever-bg !default;
 
+
 jb-switch .jb-switch {
   position: relative;
   cursor: pointer;
@@ -56,6 +57,7 @@ jb-switch .jb-switch {
     .switch-bar   { background: #d4d4d4; }
     .switch-lever { background: #f3f3f3; }
   }
+
 }
 
 
@@ -68,3 +70,10 @@ jb-switch .switch-label {
   }
 }
 
+
+jb-switch.form-fit {
+  display: inline-block;
+  margin-bottom: 17px;
+  &.flat { margin-bottom: 2px; }
+  .jb-switch { margin-top: 2px; }
+}

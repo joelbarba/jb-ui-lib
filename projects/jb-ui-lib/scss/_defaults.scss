@@ -23,6 +23,8 @@ $page-placeholder-color : #f6f7f8 !default;
 
 $color-picker-gray-dark: lighten(#000, 20%) !default;
 
+$font-size-base: 0.875rem !default; // 14px; (bootstrap default 1rem = 16px)
+
 $jb-ui-lib-colors: (
   'primary'     : $primary_color,
   'secondary'   : $secondary_color,

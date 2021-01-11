@@ -15,6 +15,8 @@ jb-label {
       margin-left: 3px;
     }
   }
+  &.is-error label { color: $warning-color; }
+
   .label-value {
     line-height: 1;
     word-break: break-word;
