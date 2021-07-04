@@ -20,8 +20,8 @@ JbNumber.isIn = function(list: Array<number>): boolean {
  * @param leftPad - Size of the output string counting the length of the original string + padding left
  * @param placeholder - Value to fulfill the padding (0 by default)
  * @param rightPad - Size of the output string counting the length of the original string + padding right
- * @description It coverts the number into a string and applies the pad
- *              Shortcut for .padStart() / .padEnd(). Ex: myValue.pad(4) -> 0003
+ * @description It converts the number into a string and applies the pad
+ *              Ex: myValue.pad(4) -> 0003
  */
 JbNumber.pad = function(leftPad: number, placeholder = '0', rightPad?: number): string {
   const value = this + '';
