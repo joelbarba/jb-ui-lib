@@ -1,6 +1,7 @@
 declare global {
   interface Number {
     isIn(list: Array<number>): number;
+    pad(leftPad: number, placeholder?: string, rightPad?: number): string;
   }
 }
 
