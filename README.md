@@ -1,7 +1,7 @@
 # Jb UI Library
 Angular based component library
 
-This library contains a set of Angular basic components to build applications, such as **buttons**, **inputs**, **dropdowns**, **checkboxes**, etc.<br/>
+This library contains a set of Angular basic components to build applications, such as **buttons**, **inputs**, **dropdowns**, **checkboxes**, **sliders**, **switches**, **date** and **time pickers**, **list elements**, etc.<br/>
 It also exports some other generic elements, such as list handlers, services, modules and directives.
 
 ![Screenshot of the library documentation](./sample.png)
